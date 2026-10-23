@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Financial Ledger - UMD Club Softball</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <style>
+        :root {
+            --sidebar-bg: #111111;
+            --main-bg: #fbf9f6;
+            --brand-red: #d91a3c;
+            --brand-yellow: #ffcc00;
+        }
+        body {
+            background-color: var(--main-bg);
+            font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+            margin: 0;
+            overflow-x: hidden;
+        }
+        /* Collapsible Sidebar */
+        .sidebar {
+            width: 260px;
+            background-color: var(--sidebar-bg);
+            color: #ffffff;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1030;
+            transition: all 0.3s ease;
+        }
+        .main-wrapper {
+            margin-left: 260px;
+            padding: 24px 36px 60px;
+            transition: margin-left 0.3s ease;
+        }
+        @media (max-width: 992px) {
+            .sidebar {
+                margin-left: -260px;
+            }
+            .sidebar.active {
+                margin-left: 0;
+            }
+            .main-wrapper {
+                margin-left: 0;
+                padding: 16px;
+            }
+        }
+        .brand-header {
+            padding: 20px 24px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            border-bottom: 1px solid #222222;
+        }
+        .brand-icon {
+            background: var(--brand-red);
+            color: var(--brand-yellow);
+            font-weight: 900;
+            font-size: 20px;
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .brand-title {
+            font-weight: 900;
+            font-size: 13px;
+            line-height: 1.1;
+            letter-spacing: 0.5px;
+        }
+        .brand-sub {
+            font-size: 10px;
+            color: #888888;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+        .nav-section-title {
+            font-size: 10px;
+            font-weight: 800;
+            letter-spacing: 1px;
+            color: #666666;
+            padding: 18px 24px 6px;
+            text-transform: uppercase;
+        }
+        .sidebar-nav a {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 24px;
+            color: #b0b0b0;
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 500;
+            transition: all 0.15s;
+        }
+        .sidebar-nav a:hover {
+            color: #ffffff;
+            background-color: #1a1a1a;
+        }
+        .sidebar-nav a.active-link {
+            background: var(--brand-red);
+            color: #ffffff;
+            font-weight: 700;
+            border-radius: 8px;
+            margin: 2px 14px;
+            padding: 10px 14px;
+        }
+        .user-chip {
+            padding: 16px 20px;
+            border-top: 1px solid #222222;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .user-badge {
+            background: #ffcc00;
+            color: #111111;
+            font-weight: 800;
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+        }
+        /* Top Navigation Header */
+        .portal-topbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 20px;
+        }
+        .pill-badge {
+            background: #f1ede7;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            color: #444444;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .category-lead {
+            color: #b51230;
+            font-weight: 800;
+            font-size: 11px;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+        }
+        .page-display-title {
+            font-size: 34px;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: -0.5px;
+            margin-bottom: 4px;
+        }
+        .page-meta {
+            color: #666666;
+            font-size: 13px;
+            margin-bottom: 24px;
+        }
+        .content-card {
+            background: #ffffff;
+            border-radius: 16px;
+            border: 1px solid #eae5de;
+            padding: 24px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.02);
+        }
+        .table thead th {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            color: #666666;
+            font-weight: 700;
+            border-bottom: 1px solid #e0ded9;
+            padding: 12px 14px;
+            white-space: nowrap;
+        }
+        .table tbody td {
+            font-size: 13px;
+            vertical-align: middle;
+            padding: 14px;
+            color: #222222;
+            border-bottom: 1px solid #f3f0ea;
+            white-space: nowrap;
+        }
+        .amount-pos {
+            color: #198754;
+            font-weight: 700;
+        }
+        .amount-neg {
+            color: #d91a3c;
+            font-weight: 700;
+        }
+        .btn-danger-red {
+            background: var(--brand-red);
+            color: #ffffff;
+            border: none;
+            font-weight: 700;
+            border-radius: 8px;
+            padding: 8px 16px;
+            text-decoration: none;
+        }
+        .btn-danger-red:hover {
+            background: #b51230;
+            color: #ffffff;
+        }
+        .floating-chat {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            background: #111111;
+            color: #ffffff;
+            border-radius: 30px;
+            padding: 10px 18px;
+            font-size: 13px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.25);
+            text-decoration: none;
+            z-index: 1050;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar" id="appSidebar">
+        <div>
+            <div class="brand-header">
+                <div class="brand-icon">M</div>
+                <div>
+                    <div class="brand-title">UMD SOFTBALL</div>
+                    <div class="brand-sub">Club Operations</div>
+                </div>
+            </div>
+
+            <nav class="sidebar-nav">
+                <div class="nav-section-title">Navigation</div>
+                <a href="#"><i class="bi bi-grid-fill"></i> Overview</a>
+
+                <div class="nav-section-title">Workspace</div>
+                <a href="#"><i class="bi bi-person"></i> My Information</a>
+                <a href="#"><i class="bi bi-credit-card"></i> Pay Dues</a>
+
+                <div class="nav-section-title">Member Management</div>
+                <a href="#"><i class="bi bi-receipt"></i> Reimbursement Request</a>
+                <a href="#"><i class="bi bi-check2-circle"></i> Reimbursement Review</a>
+                <a href="#"><i class="bi bi-people"></i> Team Roster</a>
+                <a href="#"><i class="bi bi-calendar3"></i> Game Schedule</a>
+
+                <div class="nav-section-title">Finance & Analytics</div>
+                <a href="{{ url_for('financial_ledger') }}" class="active-link"><i class="bi bi-book"></i> Financial Ledger</a>
+                <a href="#"><i class="bi bi-bank"></i> Bank Accounts</a>
+                <a href="#"><i class="bi bi-bar-chart"></i> Financial Reports</a>
+                <a href="#"><i class="bi bi-cash-stack"></i> Edit Team Dues</a>
+            </nav>
+        </div>
+
+        <!-- Current User Info Section -->
+        <div class="user-chip">
+            <div class="d-flex align-items-center gap-2">
+                <div class="user-badge">SG</div>
+                <div>
+                    <div style="font-size: 12px; font-weight: 700;">Sabrina Gong</div>
+                    <div style="font-size: 10px; color: #888888;">Treasurer</div>
+                </div>
+            </div>
+            <a href="{{ url_for('login') }}" style="color: #888888;" title="Log out"><i class="bi bi-box-arrow-right"></i></a>
+        </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="main-wrapper">
+        <!-- Top Status Bar (Persona selector removed) -->
+        <div class="portal-topbar">
+            <div class="d-flex align-items-center gap-3">
+                <button class="btn btn-outline-dark d-lg-none" type="button" id="sidebarToggle" aria-label="Toggle Navigation">
+                    <i class="bi bi-list fs-5"></i>
+                </button>
+                <div>
+                    <h6 class="mb-0 fw-bold">Treasurer Portal</h6>
+                    <small class="text-muted">University of Maryland Club Softball</small>
+                </div>
+            </div>
+
+            <div class="d-flex align-items-center gap-2">
+                <span class="pill-badge"><i class="bi bi-bell"></i></span>
+                <span class="pill-badge">Fall 2026</span>
+                <a href="{{ url_for('login') }}" class="btn btn-sm btn-outline-secondary d-flex align-items-center gap-1">
+                    <i class="bi bi-box-arrow-right"></i> Log out
+                </a>
+            </div>
+        </div>
+
+        <div class="mb-2">
+            <a href="#" class="text-decoration-none text-danger fw-semibold small">
+                <i class="bi bi-chevron-left"></i> Back to overview
+            </a>
+        </div>
+
+        <div class="category-lead">UMD Club Softball</div>
+        <h1 class="page-display-title">Financial Ledger</h1>
+        <div class="page-meta">Fall 2026 · Treasurer access</div>
+
+        <!-- Ledger Card -->
+        <div class="content-card">
+            <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-4">
+                <div>
+                    <h5 class="fw-bold mb-0">Financial ledger</h5>
+                    <small class="text-muted">Showing {{ transactions|length }} revenue and expense entries</small>
+                </div>
+                <div class="d-flex flex-wrap gap-2">
+                    <div class="dropdown">
+                        <button class="btn btn-outline-secondary dropdown-toggle btn-sm" type="button" data-bs-toggle="dropdown">
+                            Filter: {{ current_filter|capitalize }}
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="{{ url_for('financial_ledger', filter='all') }}">All Transactions</a></li>
+                            <li><a class="dropdown-item" href="{{ url_for('financial_ledger', filter='revenue') }}">All Revenues (Credits)</a></li>
+                            <li><a class="dropdown-item" href="{{ url_for('financial_ledger', filter='expense') }}">All Expenses (Debits)</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            {% for type_opt in transaction_types %}
+                                <li><a class="dropdown-item" href="{{ url_for('financial_ledger', filter=type_opt.lower()) }}">{{ type_opt }}</a></li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    <a href="#" class="btn btn-outline-secondary btn-sm">Financial reports</a>
+                    <a href="{{ url_for('upload_transactions') }}" class="btn btn-outline-secondary btn-sm">
+                        <i class="bi bi-upload"></i> Upload
+                    </a>
+                    <a href="{{ url_for('record_transaction') }}" class="btn btn-danger-red btn-sm">
+                        + Create transaction
+                    </a>
+                </div>
+            </div>
+
+            <!-- Ledger Table -->
+            <div class="table-responsive">
+                <table class="table align-middle">
+                    <thead>
+                        <tr>
+                            <th>Transaction ID</th>
+                            <th>Date</th>
+                            <th>Game ID</th>
+                            <th>Account</th>
+                            <th>Team Allocation</th>
+                            <th>Description</th>
+                            <th>Type</th>
+                            <th>Location</th>
+                            <th>Amount</th>
+                            <th>Receipt</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for t in transactions %}
+                        <tr>
+                            <td class="fw-bold">{{ t.id }}</td>
+                            <td>{{ t.display_date }}</td>
+                            <td>{{ t.game_id }}</td>
+                            <td>{{ t.account }}</td>
+                            <td>{{ t.team }}</td>
+                            <td>{{ t.description }}</td>
+                            <td><span class="badge bg-light text-dark border">{{ t.type }}</span></td>
+                            <td>{{ t.location }}</td>
+                            <td class="{{ 'amount-pos' if t.category == 'Revenue' else 'amount-neg' }}">
+                                {{ '+' if t.category == 'Revenue' else '-' }}${{ "%.2f"|format(t.amount) }}
+                            </td>
+                            <td>
+                                {% if t.receipt %}
+                                    <a href="#" class="text-danger text-decoration-none fw-semibold">View</a>
+                                {% else %}
+                                    —
+                                {% endif %}
+                            </td>
+                            <td>
+                                <a href="{{ url_for('record_transaction', id=t.id) }}" class="btn btn-outline-secondary btn-sm py-0 px-2">
+                                    Edit
+                                </a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+
+    <!-- Floating Chat Widget -->
+    <a href="#" class="floating-chat"><i class="bi bi-stars text-warning"></i> Ask TerpAI</a>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.getElementById('sidebarToggle').addEventListener('click', function() {
+            document.getElementById('appSidebar').classList.toggle('active');
+        });
+    </script>
+</body>
+</html>
