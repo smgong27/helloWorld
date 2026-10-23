@@ -7,276 +7,56 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <style>
-        :root {
-            --sidebar-bg: #111111;
-            --main-bg: #fbf9f6;
-            --brand-red: #d91a3c;
-            --brand-yellow: #ffcc00;
-        }
-        body {
-            background-color: var(--main-bg);
-            font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
-            margin: 0;
-        }
-        .sidebar {
-            width: 260px;
-            background-color: var(--sidebar-bg);
-            color: #ffffff;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            position: fixed;
-            top: 0;
-            left: 0;
-            z-index: 1030;
-            transition: all 0.3s ease;
-        }
-        .main-wrapper {
-            margin-left: 260px;
-            padding: 24px 36px 60px;
-            transition: margin-left 0.3s ease;
-        }
-        @media (max-width: 992px) {
-            .sidebar {
-                margin-left: -260px;
-            }
-            .sidebar.active {
-                margin-left: 0;
-            }
-            .main-wrapper {
-                margin-left: 0;
-                padding: 16px;
-            }
-        }
-        .brand-header {
-            padding: 20px 24px;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            border-bottom: 1px solid #222222;
-        }
-        .brand-icon {
-            background: var(--brand-red);
-            color: var(--brand-yellow);
-            font-weight: 900;
-            font-size: 20px;
-            width: 36px;
-            height: 36px;
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        .brand-title {
-            font-weight: 900;
-            font-size: 13px;
-            line-height: 1.1;
-        }
-        .brand-sub {
-            font-size: 10px;
-            color: #888888;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-        }
-        .nav-section-title {
-            font-size: 10px;
-            font-weight: 800;
-            letter-spacing: 1px;
-            color: #666666;
-            padding: 18px 24px 6px;
-            text-transform: uppercase;
-        }
-        .sidebar-nav a {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            padding: 10px 24px;
-            color: #b0b0b0;
-            text-decoration: none;
-            font-size: 13px;
-            font-weight: 500;
-        }
-        .sidebar-nav a.active-link {
-            background: var(--brand-red);
-            color: #ffffff;
-            font-weight: 700;
-            border-radius: 8px;
-            margin: 2px 14px;
-            padding: 10px 14px;
-        }
-        .user-chip {
-            padding: 16px 20px;
-            border-top: 1px solid #222222;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-        .user-badge {
-            background: #ffcc00;
-            color: #111111;
-            font-weight: 800;
-            width: 34px;
-            height: 34px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 12px;
-        }
-        .portal-topbar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding-bottom: 20px;
-        }
-        .pill-badge {
-            background: #f1ede7;
-            padding: 6px 14px;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: 600;
-            color: #444444;
-        }
-        .category-lead {
-            color: #b51230;
-            font-weight: 800;
-            font-size: 11px;
-            letter-spacing: 1.5px;
-            text-transform: uppercase;
-        }
-        .page-display-title {
-            font-size: 34px;
-            font-weight: 900;
-            text-transform: uppercase;
-            letter-spacing: -0.5px;
-            margin-bottom: 4px;
-        }
-        .page-meta {
-            color: #666666;
-            font-size: 13px;
-            margin-bottom: 24px;
-        }
-        .content-card {
-            background: #ffffff;
-            border-radius: 16px;
-            border: 1px solid #eae5de;
-            padding: 30px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.02);
-            height: 100%;
-        }
-        .info-card {
-            background: #18191b;
-            color: #ffffff;
-            border-radius: 16px;
-            padding: 32px;
-            height: 100%;
-        }
-        .upload-dropzone {
-            border: 2px dashed #d5d0c7;
-            border-radius: 14px;
-            padding: 60px 24px;
-            text-align: center;
-            cursor: pointer;
-            background: #faf8f5;
-            transition: all 0.2s ease;
-            position: relative;
-        }
-        .upload-dropzone:hover {
-            border-color: var(--brand-red);
-            background: #ffffff;
-        }
-        .upload-icon-circle {
-            width: 54px;
-            height: 54px;
-            background: var(--brand-red);
-            color: #ffffff;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 22px;
-            margin: 0 auto 16px;
-        }
-        .file-hidden-input {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            opacity: 0;
-            cursor: pointer;
-        }
-        .btn-danger-red {
-            background: var(--brand-red);
-            color: #ffffff;
-            border: none;
-            font-weight: 700;
-            border-radius: 8px;
-            padding: 10px 20px;
-            text-decoration: none;
-        }
-        .btn-danger-red:hover {
-            background: #b51230;
-            color: #ffffff;
-        }
-        .info-step-title {
-            font-weight: 800;
-            font-size: 13px;
-            margin-bottom: 3px;
-            color: #ffffff;
-        }
-        .info-step-desc {
-            font-size: 12px;
-            color: #aaaaaa;
-            line-height: 1.4;
-            margin-bottom: 16px;
-        }
-        .floating-chat {
-            position: fixed;
-            bottom: 24px;
-            right: 24px;
-            background: #111111;
-            color: #ffffff;
-            border-radius: 30px;
-            padding: 10px 18px;
-            font-size: 13px;
-            font-weight: 700;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            text-decoration: none;
-            z-index: 1050;
-        }
+        :root { --sidebar-bg: #111; --main-bg: #fbf9f6; --brand-red: #d91a3c; --brand-yellow: #ffcc00; }
+        body { background-color: var(--main-bg); font-family: system-ui, -apple-system, sans-serif; margin: 0; }
+        .sidebar { width: 260px; background-color: var(--sidebar-bg); color: #fff; min-height: 100vh; display: flex; flex-direction: column; justify-content: space-between; position: fixed; top: 0; left: 0; z-index: 1030; transition: all 0.3s; }
+        .main-wrapper { margin-left: 260px; padding: 24px 36px 60px; transition: margin-left 0.3s; }
+        @media (max-width: 992px) { .sidebar { margin-left: -260px; } .sidebar.active { margin-left: 0; } .main-wrapper { margin-left: 0; padding: 16px; } }
+        .brand-header { padding: 20px 24px; display: flex; align-items: center; gap: 12px; border-bottom: 1px solid #222; }
+        .brand-icon { background: var(--brand-red); color: var(--brand-yellow); font-weight: 900; font-size: 20px; width: 36px; height: 36px; border-radius: 8px; display: flex; align-items: center; justify-content: center; }
+        .brand-title { font-weight: 900; font-size: 13px; line-height: 1.1; letter-spacing: 0.5px; }
+        .nav-section-title { font-size: 10px; font-weight: 800; letter-spacing: 1px; color: #666; padding: 16px 24px 6px; text-transform: uppercase; }
+        .sidebar-nav a { display: flex; align-items: center; gap: 12px; padding: 10px 24px; color: #b0b0b0; text-decoration: none; font-size: 13px; font-weight: 500; }
+        .sidebar-nav a:hover { color: #fff; background-color: #1a1a1a; }
+        .sidebar-nav a.active-link { background: var(--brand-red); color: #fff; font-weight: 700; border-radius: 8px; margin: 2px 14px; padding: 10px 14px; }
+        .user-chip { padding: 16px 20px; border-top: 1px solid #222; display: flex; align-items: center; justify-content: space-between; }
+        .user-badge { background: #ffcc00; color: #111; font-weight: 800; width: 34px; height: 34px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; }
+        .portal-topbar { display: flex; justify-content: space-between; align-items: center; padding-bottom: 20px; }
+        .pill-badge { background: #f1ede7; padding: 6px 14px; border-radius: 20px; font-size: 12px; font-weight: 600; color: #444; }
+        .category-lead { color: #b51230; font-weight: 800; font-size: 11px; letter-spacing: 1.5px; text-transform: uppercase; }
+        .page-display-title { font-size: 34px; font-weight: 900; text-transform: uppercase; margin-bottom: 4px; }
+        .content-card { background: #fff; border-radius: 16px; border: 1px solid #eae5de; padding: 30px; height: 100%; box-shadow: 0 4px 12px rgba(0,0,0,0.02); }
+        .info-card { background: #18191b; color: #ffffff; border-radius: 16px; padding: 32px; height: 100%; }
+        .info-card * { color: #ffffff !important; }
+        .upload-dropzone { border: 2px dashed #d5d0c7; border-radius: 14px; padding: 60px 24px; text-align: center; cursor: pointer; background: #faf8f5; position: relative; transition: all 0.2s ease; }
+        .upload-dropzone:hover { border-color: var(--brand-red); background: #ffffff; }
+        .upload-icon-circle { width: 54px; height: 54px; background: var(--brand-red); color: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 22px; margin: 0 auto 16px; }
+        .file-hidden-input { position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0; cursor: pointer; }
+        .btn-portal-red { background: var(--brand-red); color: #fff; border: 1px solid var(--brand-red); font-weight: 700; border-radius: 10px; padding: 10px 22px; box-shadow: 0 4px 10px rgba(217, 26, 60, 0.2); transition: all 0.2s ease; }
+        .btn-portal-red:hover { background: #b51230; color: #fff; transform: translateY(-1px); box-shadow: 0 6px 14px rgba(217, 26, 60, 0.3); }
+        .btn-portal-outline { background: #fff; border: 1px solid #d5d0c7; color: #2b2b2b; font-weight: 600; border-radius: 10px; padding: 10px 18px; transition: all 0.2s ease; }
+        .btn-portal-outline:hover { background: #f7f5f2; border-color: #b8b3a8; color: #111; }
+        .floating-chat { position: fixed; bottom: 24px; right: 24px; background: #111; color: #fff; border-radius: 30px; padding: 10px 18px; font-size: 13px; font-weight: 700; display: flex; align-items: center; gap: 8px; text-decoration: none; z-index: 1050; }
     </style>
 </head>
 <body>
-
-    <!-- Sidebar Navigation -->
     <aside class="sidebar" id="appSidebar">
         <div>
             <div class="brand-header">
                 <div class="brand-icon">M</div>
-                <div>
-                    <div class="brand-title">UMD SOFTBALL</div>
-                    <div class="brand-sub">Club Operations</div>
-                </div>
+                <div><div class="brand-title">UMD SOFTBALL</div><div style="font-size:10px; color:#888;">Club Operations</div></div>
             </div>
-
             <nav class="sidebar-nav">
                 <div class="nav-section-title">Navigation</div>
                 <a href="#"><i class="bi bi-grid-fill"></i> Overview</a>
-
                 <div class="nav-section-title">Workspace</div>
                 <a href="#"><i class="bi bi-person"></i> My Information</a>
                 <a href="#"><i class="bi bi-credit-card"></i> Pay Dues</a>
-
                 <div class="nav-section-title">Member Management</div>
                 <a href="#"><i class="bi bi-receipt"></i> Reimbursement Request</a>
                 <a href="#"><i class="bi bi-check2-circle"></i> Reimbursement Review</a>
                 <a href="#"><i class="bi bi-people"></i> Team Roster</a>
                 <a href="#"><i class="bi bi-calendar3"></i> Game Schedule</a>
-
                 <div class="nav-section-title">Finance & Analytics</div>
                 <a href="{{ url_for('financial_ledger') }}" class="active-link"><i class="bi bi-book"></i> Financial Ledger</a>
                 <a href="#"><i class="bi bi-bank"></i> Bank Accounts</a>
@@ -284,59 +64,38 @@
                 <a href="#"><i class="bi bi-cash-stack"></i> Edit Team Dues</a>
             </nav>
         </div>
-
         <div class="user-chip">
             <div class="d-flex align-items-center gap-2">
                 <div class="user-badge">SG</div>
-                <div>
-                    <div style="font-size: 12px; font-weight: 700;">Sabrina Gong</div>
-                    <div style="font-size: 10px; color: #888888;">Treasurer</div>
-                </div>
+                <div><div style="font-size: 12px; font-weight: 700;">Sabrina Gong</div><div style="font-size: 10px; color: #888;">Treasurer</div></div>
             </div>
-            <a href="{{ url_for('login') }}" style="color: #888888;"><i class="bi bi-box-arrow-right"></i></a>
+            <a href="{{ url_for('login') }}" style="color: #888;"><i class="bi bi-box-arrow-right"></i></a>
         </div>
     </aside>
 
-    <!-- Main Content Area -->
     <main class="main-wrapper">
         <div class="portal-topbar">
             <div class="d-flex align-items-center gap-3">
-                <button class="btn btn-outline-dark d-lg-none" type="button" id="sidebarToggle" aria-label="Toggle Navigation">
-                    <i class="bi bi-list fs-5"></i>
-                </button>
-                <div>
-                    <h6 class="mb-0 fw-bold">Treasurer Portal</h6>
-                    <small class="text-muted">University of Maryland Club Softball</small>
-                </div>
+                <button class="btn btn-outline-dark d-lg-none" type="button" id="sidebarToggle"><i class="bi bi-list fs-5"></i></button>
+                <div><h6 class="mb-0 fw-bold">Treasurer Portal</h6><small class="text-muted">University of Maryland Club Softball</small></div>
             </div>
-
             <div class="d-flex align-items-center gap-2">
                 <span class="pill-badge"><i class="bi bi-bell"></i></span>
                 <span class="pill-badge">Fall 2026</span>
-                <a href="{{ url_for('login') }}" class="btn btn-sm btn-outline-secondary">
-                    <i class="bi bi-box-arrow-right"></i> Log out
-                </a>
+                <a href="{{ url_for('login') }}" class="btn btn-sm btn-outline-secondary"><i class="bi bi-box-arrow-right"></i> Log out</a>
             </div>
         </div>
 
-        <div class="mb-2">
-            <a href="{{ url_for('financial_ledger') }}" class="text-decoration-none text-danger fw-semibold small">
-                <i class="bi bi-chevron-left"></i> Back to financial ledger
-            </a>
-        </div>
-
+        <div class="mb-2"><a href="{{ url_for('financial_ledger') }}" class="text-decoration-none text-danger fw-semibold small"><i class="bi bi-chevron-left"></i> Back to financial ledger</a></div>
         <div class="category-lead">UMD Club Softball</div>
         <h1 class="page-display-title">Upload Transactions</h1>
-        <div class="page-meta">Fall 2026 · Treasurer access</div>
+        <div class="text-muted small mb-4">Fall 2026 · Treasurer access</div>
 
         <div class="row g-4">
-            <!-- Left Card: Upload Form -->
             <div class="col-lg-8">
                 <div class="content-card">
                     <div class="d-flex align-items-center gap-3 mb-4">
-                        <div class="p-3 bg-light rounded-3 text-danger fs-4">
-                            <i class="bi bi-upload"></i>
-                        </div>
+                        <div class="p-3 bg-light rounded-3 text-danger fs-4"><i class="bi bi-upload"></i></div>
                         <div>
                             <h5 class="fw-bold mb-1">UPLOAD A BANK TRANSACTION FILE</h5>
                             <p class="text-muted small mb-0">Select an exported bank statement to automatically identify credits and debits and route them to the REVENUE and EXPENSE tables.</p>
@@ -344,40 +103,44 @@
                     </div>
 
                     <form action="{{ url_for('upload_transactions') }}" method="POST" enctype="multipart/form-data">
-                        <div class="upload-dropzone mb-4">
-                            <input type="file" name="statement_file" class="file-hidden-input" accept=".csv, .xls, .xlsx, .ofx, .qfx" onchange="this.form.submit()">
-                            <div class="upload-icon-circle">
-                                <i class="bi bi-arrow-up"></i>
-                            </div>
-                            <div class="fw-bold mb-1">Choose a transaction file to auto upload</div>
-                            <small class="text-muted">CSV, XLS, XLSX, OFX, or QFX</small>
+                        <div class="upload-dropzone mb-4" id="dropArea">
+                            <input type="file" name="statement_file" id="statementFile" class="file-hidden-input" accept=".csv, .xls, .xlsx, .ofx, .qfx" onchange="updateFileName(this)">
+                            <div class="upload-icon-circle"><i class="bi bi-arrow-up"></i></div>
+                            <div class="fw-bold mb-1" id="dropzoneText">Choose a transaction file to auto upload</div>
+                            <small class="text-muted" id="dropzoneSub">CSV, XLS, XLSX, OFX, or QFX</small>
                         </div>
 
-                        <div class="d-flex justify-content-between align-items-center">
-                            <a href="#" class="btn btn-outline-secondary">Return to overview</a>
-                            <button type="submit" class="btn btn-danger-red">
-                                View financial ledger
-                            </button>
+                        <div class="d-flex flex-wrap justify-content-between align-items-center gap-2">
+                            <a href="{{ url_for('financial_ledger') }}" class="btn btn-portal-outline">
+                                <i class="bi bi-arrow-left me-1"></i> Return to overview
+                            </a>
+                            <div class="d-flex gap-2">
+                                <a href="{{ url_for('financial_ledger') }}" class="btn btn-portal-outline">
+                                    View financial ledger
+                                </a>
+                                <button type="submit" class="btn btn-portal-red">
+                                    <i class="bi bi-cloud-arrow-up-fill me-1"></i> Submit upload
+                                </button>
+                            </div>
                         </div>
                     </form>
                 </div>
             </div>
 
-            <!-- Right Card: Automatic Routing Guidance -->
             <div class="col-lg-4">
                 <div class="info-card">
                     <div class="brand-icon mb-3">M</div>
-                    <div class="subtitle-tag text-warning small fw-bold mb-1">AUTOMATIC ROUTING</div>
+                    <div class="small fw-bold mb-1 text-uppercase" style="letter-spacing: 1px;">AUTOMATIC ROUTING</div>
                     <h5 class="fw-bold text-uppercase mb-4">From Statement to Ledger</h5>
 
-                    <div class="info-step-title">1. Upload</div>
-                    <div class="info-step-desc">Choose a transaction export from an approved club bank account.</div>
+                    <div class="fw-bold mb-1">1. Upload</div>
+                    <div class="small mb-3" style="opacity: 0.95;">Choose a transaction export from an approved club bank account.</div>
 
-                    <div class="info-step-title">2. Scrape</div>
-                    <div class="info-step-desc">Transaction dates, descriptions, and amounts are read automatically.</div>
+                    <div class="fw-bold mb-1">2. Scrape</div>
+                    <div class="small mb-3" style="opacity: 0.95;">Transaction dates, descriptions, and amounts are read automatically.</div>
 
-                    <div class="info-step-title">3. Route</div>
-                    <div class="info-step-desc">Credits are sent to REVENUE and debits are sent to EXPENSE for review.</div>
+                    <div class="fw-bold mb-1">3. Route</div>
+                    <div class="small" style="opacity: 0.95;">Credits are sent to REVENUE and debits are sent to EXPENSE for review.</div>
                 </div>
             </div>
         </div>
@@ -390,6 +153,12 @@
         document.getElementById('sidebarToggle').addEventListener('click', function() {
             document.getElementById('appSidebar').classList.toggle('active');
         });
+        function updateFileName(input) {
+            if (input.files && input.files[0]) {
+                document.getElementById('dropzoneText').textContent = input.files[0].name;
+                document.getElementById('dropzoneSub').textContent = 'File selected - click "Submit upload" to process';
+            }
+        }
     </script>
 </body>
 </html>
