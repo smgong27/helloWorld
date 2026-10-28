@@ -1,244 +1,264 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Financial Ledger - UMD Club Softball</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-    <style>
-        :root { --sidebar-bg: #111; --main-bg: #fbf9f6; --brand-red: #d91a3c; --brand-yellow: #ffcc00; }
-        body { background-color: var(--main-bg); font-family: system-ui, -apple-system, sans-serif; margin: 0; }
-        .sidebar { width: 260px; background-color: var(--sidebar-bg); color: #fff; min-height: 100vh; display: flex; flex-direction: column; justify-content: space-between; position: fixed; top: 0; left: 0; z-index: 1030; transition: all 0.3s; }
-        .main-wrapper { margin-left: 260px; padding: 24px 36px 60px; transition: margin-left 0.3s; }
-        @media (max-width: 992px) { .sidebar { margin-left: -260px; } .sidebar.active { margin-left: 0; } .main-wrapper { margin-left: 0; padding: 16px; } }
-        .brand-header { padding: 20px 24px; display: flex; align-items: center; gap: 12px; border-bottom: 1px solid #222; }
-        .brand-icon { background: var(--brand-red); color: var(--brand-yellow); font-weight: 900; font-size: 20px; width: 36px; height: 36px; border-radius: 8px; display: flex; align-items: center; justify-content: center; }
-        .brand-title { font-weight: 900; font-size: 13px; line-height: 1.1; letter-spacing: 0.5px; }
-        .nav-section-title { font-size: 10px; font-weight: 800; letter-spacing: 1px; color: #666; padding: 16px 24px 6px; text-transform: uppercase; }
-        .sidebar-nav a { display: flex; align-items: center; gap: 12px; padding: 10px 24px; color: #b0b0b0; text-decoration: none; font-size: 13px; font-weight: 500; }
-        .sidebar-nav a:hover { color: #fff; background-color: #1a1a1a; }
-        .sidebar-nav a.active-link { background: var(--brand-red); color: #fff; font-weight: 700; border-radius: 8px; margin: 2px 14px; padding: 10px 14px; }
-        .user-chip { padding: 16px 20px; border-top: 1px solid #222; display: flex; align-items: center; justify-content: space-between; }
-        .user-badge { background: #ffcc00; color: #111; font-weight: 800; width: 34px; height: 34px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; }
-        .portal-topbar { display: flex; justify-content: space-between; align-items: center; padding-bottom: 20px; }
-        .pill-badge { background: #f1ede7; padding: 6px 14px; border-radius: 20px; font-size: 12px; font-weight: 600; color: #444; }
-        .category-lead { color: #b51230; font-weight: 800; font-size: 11px; letter-spacing: 1.5px; text-transform: uppercase; }
-        .page-display-title { font-size: 34px; font-weight: 900; text-transform: uppercase; margin-bottom: 4px; }
-        .content-card { background: #fff; border-radius: 16px; border: 1px solid #eae5de; padding: 26px; box-shadow: 0 4px 14px rgba(0,0,0,0.03); }
-        .table thead th { font-size: 11px; text-transform: uppercase; color: #666; font-weight: 700; border-bottom: 1px solid #e0ded9; padding: 12px 14px; white-space: nowrap; }
-        .table tbody td { font-size: 13px; vertical-align: middle; padding: 14px; color: #222; border-bottom: 1px solid #f3f0ea; white-space: nowrap; }
-        .amount-pos { color: #198754; font-weight: 700; }
-        .amount-neg { color: #d91a3c; font-weight: 700; }
+{% extends "base.html" %}
 
-        /* Enhanced Appeal Buttons */
-        .btn-action-reports {
-            background: #ffffff;
-            color: #8c1d40;
-            border: 1.5px solid #ecd8de;
-            font-weight: 700;
-            font-size: 13px;
-            border-radius: 10px;
-            padding: 8px 16px;
-            display: inline-flex;
-            align-items: center;
-            gap: 7px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.03);
-            transition: all 0.2s ease;
-            text-decoration: none;
-        }
-        .btn-action-reports:hover {
-            background: #fdf5f7;
-            border-color: #8c1d40;
-            color: #6d1531;
-            transform: translateY(-1px);
-            box-shadow: 0 4px 8px rgba(140, 29, 64, 0.12);
-        }
-        .btn-action-upload {
-            background: #ffffff;
-            color: #2b2f33;
-            border: 1.5px solid #dcd7ce;
-            font-weight: 700;
-            font-size: 13px;
-            border-radius: 10px;
-            padding: 8px 16px;
-            display: inline-flex;
-            align-items: center;
-            gap: 7px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.03);
-            transition: all 0.2s ease;
-            text-decoration: none;
-        }
-        .btn-action-upload:hover {
-            background: #f8f6f2;
-            border-color: #111111;
-            color: #000000;
-            transform: translateY(-1px);
-            box-shadow: 0 4px 8px rgba(0,0,0,0.08);
-        }
-        .btn-action-create {
-            background: linear-gradient(135deg, #e32646 0%, #d91a3c 100%);
-            color: #ffffff;
-            border: none;
-            font-weight: 700;
-            font-size: 13px;
-            border-radius: 10px;
-            padding: 9px 20px;
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            box-shadow: 0 4px 12px rgba(217, 26, 60, 0.28);
-            transition: all 0.2s ease;
-            text-decoration: none;
-        }
-        .btn-action-create:hover {
-            background: linear-gradient(135deg, #cf1637 0%, #b51230 100%);
-            color: #ffffff;
-            transform: translateY(-1px);
-            box-shadow: 0 6px 16px rgba(217, 26, 60, 0.38);
-        }
-        .btn-edit-cell {
-            border: 1px solid #d5d0c7;
-            background: #ffffff;
-            color: #333333;
-            font-size: 12px;
-            font-weight: 600;
-            border-radius: 7px;
-            padding: 4px 12px;
-            transition: all 0.15s ease;
-            text-decoration: none;
-        }
-        .btn-edit-cell:hover {
-            background: #111111;
-            border-color: #111111;
-            color: #ffffff;
-        }
-        .floating-chat { position: fixed; bottom: 24px; right: 24px; background: #111; color: #fff; border-radius: 30px; padding: 10px 18px; font-size: 13px; font-weight: 700; display: flex; align-items: center; gap: 8px; text-decoration: none; z-index: 1050; }
-    </style>
-</head>
-<body>
+{% block title %}Financial Ledger{% endblock %}
 
-    <aside class="sidebar" id="appSidebar">
-        <div>
-            <div class="brand-header">
-                <div class="brand-icon">M</div>
-                <div><div class="brand-title">UMD SOFTBALL</div><div style="font-size:10px; color:#888;">Club Operations</div></div>
-            </div>
-            <nav class="sidebar-nav">
-                <div class="nav-section-title">Navigation</div>
-                <a href="#"><i class="bi bi-grid-fill"></i> Overview</a>
-                <div class="nav-section-title">Workspace</div>
-                <a href="#"><i class="bi bi-person"></i> My Information</a>
-                <a href="#"><i class="bi bi-credit-card"></i> Pay Dues</a>
-                <div class="nav-section-title">Member Management</div>
-                <a href="#"><i class="bi bi-receipt"></i> Reimbursement Request</a>
-                <a href="#"><i class="bi bi-check2-circle"></i> Reimbursement Review</a>
-                <a href="#"><i class="bi bi-people"></i> Team Roster</a>
-                <a href="#"><i class="bi bi-calendar3"></i> Game Schedule</a>
-                <div class="nav-section-title">Finance & Analytics</div>
-                <a href="{{ url_for('financial_ledger') }}" class="active-link"><i class="bi bi-book"></i> Financial Ledger</a>
-                <a href="#"><i class="bi bi-bank"></i> Bank Accounts</a>
-                <a href="#"><i class="bi bi-bar-chart"></i> Financial Reports</a>
-                <a href="#"><i class="bi bi-cash-stack"></i> Edit Team Dues</a>
-            </nav>
-        </div>
-        <div class="user-chip">
-            <div class="d-flex align-items-center gap-2">
-                <div class="user-badge">SG</div>
-                <div><div style="font-size: 12px; font-weight: 700;">Sabrina Gong</div><div style="font-size: 10px; color: #888;">Treasurer</div></div>
-            </div>
-            <a href="{{ url_for('login') }}" style="color: #888;"><i class="bi bi-box-arrow-right"></i></a>
-        </div>
-    </aside>
-
-    <main class="main-wrapper">
-        <div class="portal-topbar">
-            <div class="d-flex align-items-center gap-3">
-                <button class="btn btn-outline-dark d-lg-none" type="button" id="sidebarToggle"><i class="bi bi-list fs-5"></i></button>
-                <div><h6 class="mb-0 fw-bold">Treasurer Portal</h6><small class="text-muted">University of Maryland Club Softball</small></div>
-            </div>
-            <div class="d-flex align-items-center gap-2">
-                <span class="pill-badge"><i class="bi bi-bell"></i></span>
-                <span class="pill-badge">Fall 2026</span>
-                <a href="{{ url_for('login') }}" class="btn btn-sm btn-outline-secondary"><i class="bi bi-box-arrow-right"></i> Log out</a>
-            </div>
+{% block content %}
+        <!-- Back button links by persona -->
+        <div class="mb-3">
+            {% if current_user and current_user.userPersona == 'Member' %}
+                <a href="/member-dashboard" class="text-decoration-none text-danger fw-semibold small">&lt;i class="bi bi-chevron-left"></i> &lt; Back to Member Dashboard</a>
+            {% elif current_user and current_user.userPersona == 'Executive Board' %}
+                <a href="/executive-board-dashboard" class="text-decoration-none text-danger fw-semibold small">&lt;i class="bi bi-chevron-left"></i> &lt; Back to Executive Board Dashboard</a>
+            {% elif current_user and current_user.userPersona == 'Advisor' %}
+                <a href="/advisor-dashboard" class="text-decoration-none text-danger fw-semibold small">&lt;i class="bi bi-chevron-left"></i> &lt; Back to Advisor Dashboard</a>
+            {% else %}
+                <a href="/treasurer-dashboard" class="text-decoration-none text-danger fw-semibold small">&lt;i class="bi bi-chevron-left"></i> &lt; Back to Treasurer Dashboard</a>
+            {% endif %}
         </div>
 
-        <div class="mb-2"><a href="#" class="text-decoration-none text-danger fw-semibold small"><i class="bi bi-chevron-left"></i> Back to overview</a></div>
-        <div class="category-lead">UMD Club Softball</div>
-        <h1 class="page-display-title">Financial Ledger</h1>
-        <div class="text-muted small mb-4">Fall 2026 · Treasurer access</div>
+        <div class="category-lead"><strong>UMD CLUB SOFTBALL</strong></div>
+        <h1 class="page-display-title">FINANCIAL LEDGER</h1>
+        <div class="text-muted small mb-4">Central revenue and expense transactions synced from new entries and uploads</div>
 
+        <!-- Ledger Table Container -->
         <div class="content-card">
-            <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-4">
+
+            <!-- Table / Ledger -->
+            <div class="d-flex justify-content-between align-items-center flex-wrap gap-3 mb-4">
                 <div>
-                    <h5 class="fw-bold mb-0">Financial ledger</h5>
-                    <small class="text-muted">Central revenue and expense transactions</small>
+                    <h2 class="ledger-title">Financial ledger</h2>
+                    <p class="text-muted small mb-0">Overview of all active accounts and allocations</p>
                 </div>
-                <div class="d-flex flex-wrap align-items-center gap-2">
-                    <a href="#" class="btn-action-reports">
-                        <i class="bi bi-pie-chart-fill"></i> Financial reports
-                    </a>
-                    <a href="{{ url_for('upload_transactions') }}" class="btn-action-upload">
-                        <i class="bi bi-cloud-arrow-up-fill"></i> Upload
-                    </a>
-                    <a href="{{ url_for('record_transaction') }}" class="btn-action-create">
-                        <i class="bi bi-plus-lg"></i> Create transaction
-                    </a>
+
+                <div class="d-flex align-items-center gap-2 flex-wrap">
+                    <label for="filter_transactions" class="filer-label mb-0">Filter:</label>
+                    <select id="filter_transactions" name="filter_transactions" class="filter-select">
+                        <option value="all" selected>All transactions</option>
+                        <option value="revenue">Revenue only</option>
+                        <option value="expense">Expense only</option>
+                        <option value="last_month">Last month</option>
+                        <option value="last_3_months">Last 3 months</option>
+                        <option value="last_year">Last Year</option>
+                    </select>
+
+                    <!-- Action Links / Buttons -->
+                    <a href="/financial-report" class="btn-action-reports">Financial Report</a>
+                    <a href="/upload-transactions" class="btn-action-uoload">Upload</a>
+                    <a href="/record-transaction" class="btn-action-create"><strong>+ Create Transaction</strong></a>
                 </div>
             </div>
 
+            <!-- Transactions Table -->
             <div class="table-responsive">
-                <table class="table align-middle" id="ledgerTable">
+                <table id="table">
                     <thead>
                         <tr>
-                            <th>Transaction ID</th><th>Date</th><th>Game ID</th><th>Account</th>
-                            <th>Team Allocation</th><th>Description</th><th>Type</th><th>Location</th>
-                            <th>Amount</th><th>Receipt</th><th>Action</th>
+                            <th>TRANSACTION ID</th>
+                            <th>DATE</th>
+                            <th>GAME ID</th>
+                            <th>ACCOUNT</th>
+                            <th>TEAM ALLOCATION</th>
+                            <th>DESCRIPTION</th>
+                            <th>TYPE</th>
+                            <th>LOCATION</th>
+                            <th>AMOUNT</th>
+                            <th>RECEIPT</th>
+                            <th>ACTION</th>
                         </tr>
                     </thead>
                     <tbody>
-                        {% if transactions %}
-                            {% for t in transactions %}
-                            <tr>
-                                <td class="fw-bold">{{ t.id }}</td>
-                                <td>{{ t.date }}</td>
-                                <td>{{ t.game_id or '—' }}</td>
-                                <td>{{ t.account }}</td>
-                                <td>{{ t.team }}</td>
-                                <td>{{ t.description }}</td>
-                                <td><span class="badge bg-light text-dark border">{{ t.type }}</span></td>
-                                <td>{{ t.location or '—' }}</td>
-                                <td class="{{ 'amount-pos' if t.category == 'Revenue' else 'amount-neg' }}">
-                                    {{ '+' if t.category == 'Revenue' else '-' }}${{ "%.2f"|format(t.amount|float) }}
-                                </td>
-                                <td>
-                                    {% if t.receipt %}<a href="#" class="text-danger text-decoration-none fw-semibold">View</a>{% else %}—{% endif %}
-                                </td>
-                                <td><a href="{{ url_for('record_transaction') }}" class="btn-edit-cell">Edit</a></td>
-                            </tr>
-                            {% endfor %}
-                        {% else %}
-                            <tr>
-                                <td colspan="11" class="text-center py-5 text-muted">
-                                    <i class="bi bi-inbox fs-2 d-block mb-2"></i>
-                                    No transactions recorded in the ledger yet. Click <strong>+ Create transaction</strong> or <strong>Upload</strong> to add entries.
-                                </td>
-                            </tr>
-                        {% endif %}
+                        <!-- FAKE DATA FOR SHOW -->
+                        <tr>
+                            <td><strong>E105</strong></td>
+                            <td>09/24/2026</td>
+                            <td>G-204</td>
+                            <td>SGA</td>
+                            <td>NCSA</td>
+                            <td>Tournament entry fee</td>
+                            <td>Expense</td>
+                            <td>College Park, MD</td>
+                            <td class="amount-neg">-$450.00</td>
+                            <td><a href="#" class="view-link">View</a></td>
+                            <td>
+                                <button type="button" class="btn-edit-cell" onclick="openEditModal('E105',
+                                '2026-09-24', 'SGA', 'NCSA', 'Game/Tournament Fees', '450.00', 'G-204',
+                                'Tournament entry fee', 'College Park, MD')">Edit</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><strong>R104</strong></td>
+                            <td>09/20/2026</td>
+                            <td>N/A</td>
+                            <td>SECU</td>
+                            <td>Active</td>
+                            <td>Member dues deposit</td>
+                            <td>Revenue</td>
+                            <td>Online</td>
+                            <td class="amount-pos">+$1,200.00</td>
+                            <td>N/A</td>
+                            <td>
+                                <button type="button" class="btn-edit-cell" onclick="openEditModal('E105',
+                                '2026-09-24', 'SGA', 'NCSA', 'Game/Tournament Fees', '450.00', 'G-204',
+                                'Tournament entry fee', 'College Park, MD')">Edit</button>
+                            </td>                            </tr>
+                        <tr>
+                            <td><strong>R103</strong></td>
+                            <td>09/15/2026</td>
+                            <td>G-201</td>
+                            <td>RecWell</td>
+                            <td>NCSA</td>
+                            <td>Concessions revenue</td>
+                            <td>Revenue</td>
+                            <td>College Park, MD</td>
+                            <td class="amount-pos">+$800.00</td>
+                            <td><a href="#" class="view-link">View</a></td>
+                            <td>
+                                <button type="button" class="btn-edit-cell" onclick="openEditModal('E105',
+                                '2026-09-24', 'SGA', 'NCSA', 'Game/Tournament Fees', '450.00', 'G-204',
+                                'Tournament entry fee', 'College Park, MD')">Edit</button>
+                            </td>                            </tr>
+                        <tr>
+                            <td><strong>E100</strong></td>
+                            <td>09/02/2026</td>
+                            <td>N/A</td>
+                            <td>SGA</td>
+                            <td>Active</td>
+                            <td>Team jerseys &amp; gear</td>
+                            <td>Expense</td>
+                            <td>Baltimore, MD</td>
+                            <td class="amount-neg">-$680.00</td>
+                            <td><a href="#" class="view-link">View</a></td>
+                            <td>
+                                <button type="button" class="btn-edit-cell" onclick="openEditModal('E105',
+                                '2026-09-24', 'SGA', 'NCSA', 'Game/Tournament Fees', '450.00', 'G-204',
+                                'Tournament entry fee', 'College Park, MD')">Edit</button>
+                            </td>
+                        </tr>
                     </tbody>
                 </table>
             </div>
         </div>
-    </main>
 
-    <a href="#" class="floating-chat"><i class="bi bi-stars text-warning"></i> Ask TerpAI</a>
+<!-- Modal Popup -->
+<div class="modal fade"
+     id="editTransactionModal"
+     tabindex="-1"
+     aria-labelledby="editTransactionTitle"
+     aria-hidden="true">
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-    <script>
-        document.getElementById('sidebarToggle').addEventListener('click', function() {
-            document.getElementById('appSidebar').classList.toggle('active');
-        });
-    </script>
-</body>
-</html>
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content dues-modal-content">
+
+            <div class="modal-header">
+                <div>
+                    <div class="subtitle-tag">EDIT TRANSACTION</div>
+                    <h2 class="modal-title fs-4 fw-bold" id="editTransactionTitle">
+                        Modify Transaction Record
+                    </h2>
+                </div>
+
+                <button type="button"
+                        class="btn-close"
+                        data-bs-dismiss="modal"
+                        aria-label="Close">
+                </button>
+            </div>
+
+            <!-- Edit Form -->
+            <form action="/edit-transaction" method="POST" enctype="multipart/form-data">
+                <div class="modal-body">
+
+                    <div class="mb-3">
+                        <label for="edit_transactionID" class="form-label">Transaction ID:</label>
+                        <input type="text" id="edit_transactionID" name="transactionID" class="form-control" readonly>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="edit_transactionDate" class="form-label">Transaction Date:</label>
+                        <input type="date" id="edit_transactionDate" name="transactionDate" class="form-control" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="edit_accountID" class="form-label">Bank Account:</label>
+                        <select id="edit_accountID" name="accountID" class="form-control" required>
+                            <option value="SGA">SGA</option>
+                            <option value="SECU">SECU</option>
+                            <option value="RecWell">RecWell</option>
+                            <option value="Foundation">Foundation</option>
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="edit_teamID" class="form-label">Team Allocation:</label>
+                        <select id="edit_teamID" name="teamID" class="form-control" required>
+                            <option value="NCSA">NCSA</option>
+                            <option value="Active">Active</option>
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="edit_transactionType" class="form-label">Transaction Type:</label>
+                        <select id="edit_transactionType" name="transactionType" class="form-control" required>
+                            <optgroup label="Expense">
+                                <option value="Travel">Travel</option>
+                                <option value="Hotel">Hotel</option>
+                                <option value="Food">Food</option>
+                                <option value="Game/Tournament Fees">Game/Tournament Fees</option>
+                                <option value="Gas">Gas</option>
+                                <option value="Equipment">Equipment</option>
+                                <option value="Other Expense">Other Expense</option>
+                            </optgroup>
+                            <optgroup label="Revenue">
+                                <option value="Fundraising">Fundraising</option>
+                                <option value="Dues">Dues</option>
+                                <option value="Donation">Donation</option>
+                                <option value="Other Revenue">Other Revenue</option>
+                            </optgroup>
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="edit_amount" class="form-label">Amount ($):</label>
+                        <input type="number" step="0.01" id="edit_amount" name="amount" class="form-control" placeholder="0.00" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="edit_gameID" class="form-label">Game ID (Optional):</label>
+                        <input type="text" id="edit_gameID" name="gameID" class="form-control" placeholder="e.g. G-201 or leave blank">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="edit_location" class="form-label">Location:</label>
+                        <input type="text" id="edit_location" name="location" class="form-control" placeholder="e.g. College Park, MD">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="edit_description" class="form-label">Description:</label>
+                        <textarea id="edit_description" name="description" rows="3" class="form-control form-textarea" placeholder="Describe the transaction" required></textarea>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="edit_expenseReceipt" class="form-label">Replace Receipt (Optional):</label>
+                        <input type="file" id="edit_expenseReceipt" name="expenseReceipt" class="form-control file-input" accept=".pdf, .png, .jpg, .jpeg">
+                    </div>
+
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button"
+                            class="btn btn-outline-secondary btn-sm px-3 cancel-dues-btn"
+                            data-bs-dismiss="modal">
+                        Cancel
+                    </button>
+
+                    <button type="submit"
+                            class="btn btn-danger btn-sm px-3 confirm-dues-btn">
+                        Save changes
+                    </button>
+                </div>
+            </form>
+
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Title Block -->
+    <title>{% block title %}Dashboard{% endblock %} - UMD Club Softball</title>
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+    <!-- Centralized CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+
+    <!-- SIDEBAR SKELETON -->
+    <aside class="sidebar" id="appSidebar">
+        <div>
+            <div class="brand-header">
+                <div class="brand-icon">M</div>
+                <div>
+                    <div class="brand-title">UMD SOFTBALL</div>
+                    <div style="font-size:10px; color:#888; text-transform: uppercase;">Club Operations</div>
+                </div>
+            </div>
+
+            <!-- Dynamic Navigation Links (based on persona) -->
+            <nav class="sidebar-nav mt-3">
+                <!-- Overview Button -->
+                <a href="#" class="active-link" style="background-color: #d91a3c; color: white; border-radius: 8px; margin: 0 16px; padding: 10px 16px; font-weight: 600;"><i class="bi bi-grid"></i> Overview</a>
+
+                <!-- WORKSPACE -->
+                <div class="nav-section-title mt-4">Workspace</div>
+                <a href="{{ url_for('my_information') }}"><i class="bi bi-person"></i> My Information</a>
+                <a href="{{ url_for('pay_dues') }}"><i class="bi bi-credit-card"></i> Pay Dues</a>
+
+                <!-- MEMBER MANAGEMENT -->
+                <div class="nav-section-title mt-4">Member Management</div>
+                <a href="#"><i class="bi bi-receipt"></i> Reimbursement Request</a>
+                <a href="#"><i class="bi bi-check2-circle"></i> Reimbursement Review</a>
+                <a href="#"><i class="bi bi-people"></i> Team Roster</a>
+                <a href="#"><i class="bi bi-calendar3"></i> Game Schedule</a>
+
+
+                <!-- FINANCE & ANALYTICS -->
+                <div class="nav-section-title mt-4">Finance & Analytics</div>
+                <a href="#"><i class="bi bi-journal-text"></i> Financial Ledger</a>
+                <a href="#"><i class="bi bi-bank"></i> Bank Accounts</a>
+                <a href="#"><i class="bi bi-bar-chart"></i> Financial Reports</a>
+                <a href="#"><i class="bi bi-cash-stack"></i> Edit Team Dues</a>
+            </nav>
+        </div>
+
+        <div class="user-chip">
+            <div class="d-flex align-items-center gap-2">
+                <div class="user-badge">TT</div>
+                <div>
+                    <div style="font-size: 12px; font-weight: 700; color: white;">Teddy Terrapin</div>
+                    <div style="font-size: 10px; color: #888;">{{ user_role }}</div>
+                </div>
+            </div>
+            <a href="#" style="color: #888;"><i class="bi bi-box-arrow-right"></i></a>
+        </div>
+    </aside>
+
+    <!-- MAIN CONTENT AREA -->
+    <main class="main-wrapper">
+
+        <!-- Standard Topbar -->
+        <div class="portal-topbar border-bottom pb-3 mb-4">
+            <div class="d-flex align-items-center gap-3">
+                <button class="btn btn-outline-dark d-lg-none" type="button" id="sidebarToggle"><i class="bi bi-list fs-5"></i></button>
+                <div>
+                    <h6 class="mb-0 fw-bold fs-6">{{ user_role }} Portal</h6>
+                    <small class="text-muted" style="font-size: 0.75rem;">University of Maryland Club Softball</small>
+                </div>
+            </div>
+
+            <div class="d-flex align-items-center gap-3">
+                <span class="border rounded px-3 py-1 bg-white text-muted small shadow-sm text-uppercase" style="letter-spacing: 0.5px;">
+                    Role: <strong class="text-dark">{{ user_role }}</strong>
+                </span>
+                <button class="btn btn-light rounded-circle border p-2 d-flex align-items-center justify-content-center" style="width:35px; height:35px;"><i class="bi bi-bell"></i></button>
+                <a href="#" class="btn btn-outline-secondary btn-sm px-3 fw-semibold"><i class="bi bi-box-arrow-right me-1"></i> Log out</a>
+                <span class="text-muted small"></span>
+            </div>
+        </div>
+
+        <!-- INJECTION POINT FOR CHILD TEMPLATES -->
+        {% block content %}
+        {% endblock %}
+
+    </main>
+
+    <!-- CHATBOT IMPLEMENTATION -->
+    {% if user_role in ['Treasurer', 'Executive Board', 'Faculty Advisor'] %}
+        <a href="#" class="floating-chat"><i class="bi bi-stars text-warning"></i> Ask TerpAI</a>
+    {% else %}
+        <a href="#" class="position-fixed bottom-0 end-0 m-4 btn btn-light rounded-circle shadow d-flex align-items-center justify-content-center" style="width: 45px; height: 45px; font-size: 1.2rem; border: 1px solid #ddd; z-index: 1050; color: #666; text-decoration: none;">?</a>
+    {% endif %}
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.getElementById('sidebarToggle').addEventListener('click', function() {
+            document.getElementById('appSidebar').classList.toggle('active');
+        });
+    </script>
+</body>
+</html>
