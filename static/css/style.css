@@ -1,0 +1,1357 @@
+/* --- 1. CSS Variables (Color Palette) --- */
+:root {
+--sidebar-bg: #111111;
+--main-bg: #fbf9f6;
+--brand-red: #d91a3c;
+--brand-red-hover: #b51230;
+--brand-yellow: #ffcc00;
+--text-dark: #1a1a1a;
+--text-muted: #6c757d;
+--border-light: #eae5de;
+}
+
+
+
+
+/* --- 2. Base & Typography --- */
+body {
+background-color: var(--main-bg);
+font-family: system-ui, -apple-system, sans-serif;
+margin: 0;
+}
+
+
+/* --- NAV BAR STYLES --- */
+
+/* --- 3. Layout: Sidebar & Main Wrapper --- */
+.sidebar {
+width: 260px;
+background-color: var(--sidebar-bg);
+color: #fff;
+min-height: 100vh;
+display: flex;
+flex-direction: column;
+justify-content: space-between;
+position: fixed;
+top: 0;
+left: 0;
+z-index: 1030;
+transition: all 0.3s;
+}
+
+.main-wrapper {
+margin-left: 260px;
+padding: 24px 36px 60px;
+transition: margin-left 0.3s;
+}
+
+/* Sidebar Branding */
+.brand-header {
+padding: 20px 24px;
+display: flex;
+align-items: center;
+gap: 12px;
+border-bottom: 1px solid #222;
+}
+
+.brand-icon {
+background: var(--brand-red);
+color: var(--brand-yellow);
+font-weight: 900;
+font-size: 20px;
+width: 36px;
+height: 36px;
+border-radius: 8px;
+display: flex;
+align-items: center;
+justify-content: center;
+}
+
+.brand-title {
+font-weight: 900;
+font-size: 13px;
+line-height: 1.1;
+letter-spacing: 0.5px;
+}
+
+/* Sidebar Navigation */
+.nav-section-title {
+font-size: 10px;
+font-weight: 800;
+letter-spacing: 1px;
+color: #666;
+padding: 16px 24px 6px;
+text-transform: uppercase;
+}
+
+.sidebar-nav a {
+display: flex;
+align-items: center;
+gap: 12px;
+padding: 10px 24px;
+color: #b0b0b0;
+text-decoration: none;
+font-size: 13px;
+font-weight: 500;
+}
+
+.sidebar-nav a:hover {
+color: #fff;
+background-color: #1a1a1a;
+}
+
+.sidebar-nav a.active-link {
+background: var(--brand-red);
+color: #fff;
+font-weight: 700;
+border-radius: 8px;
+margin: 2px 14px;
+padding: 10px 14px;
+}
+
+/* User Profile Chip (Bottom of Sidebar) */
+.user-chip {
+padding: 16px 20px;
+border-top: 1px solid #222;
+display: flex;
+align-items: center;
+justify-content: space-between;
+}
+
+.user-badge {
+background: var(--brand-yellow);
+color: #111;
+font-weight: 800;
+width: 34px;
+height: 34px;
+border-radius: 50%;
+display: flex;
+align-items: center;
+justify-content: center;
+font-size: 12px;
+}
+
+/* Top Bar (Above Content) */
+.portal-topbar {
+display: flex;
+justify-content: space-between;
+align-items: center;
+padding-bottom: 20px;
+}
+
+/* --- 4. Cards & Badges --- */
+.content-card {
+background: #fff;
+border-radius: 16px;
+border: 1px solid var(--border-light);
+padding: 26px;
+box-shadow: 0 4px 14px rgba(0,0,0,0.03);
+}
+
+.pill-badge {
+background: #f1ede7;
+padding: 6px 14px;
+border-radius: 20px;
+font-size: 12px;
+font-weight: 600;
+color: #444;
+}
+
+/* Badges for Login Page */
+.brand-badge {
+background: var(--brand-red);
+color: var(--brand-yellow);
+font-weight: 900;
+font-size: 24px;
+width: 46px;
+height: 46px;
+border-radius: 12px;
+display: flex;
+align-items: center;
+justify-content: center;
+margin-bottom: 24px;
+}
+
+.subtitle-tag {
+color: #e5a823;
+letter-spacing: 1.5px;
+font-size: 11px;
+font-weight: 800;
+text-transform: uppercase;
+}
+
+/* --- 5. Forms --- */
+.form-label {
+font-size: 13px;
+font-weight: 700;
+color: #212529;
+}
+
+/* --- 6. Tables --- */
+.table thead th {
+font-size: 11px;
+text-transform: uppercase;
+color: #666;
+font-weight: 700;
+border-bottom: 1px solid #e0ded9;
+padding: 12px 14px;
+white-space: nowrap;
+}
+
+.table tbody td {
+font-size: 13px;
+vertical-align: middle;
+padding: 14px;
+color: #222;
+border-bottom: 1px solid #f3f0ea;
+white-space: nowrap;
+}
+
+.amount-pos { color: #198754; font-weight: 700; }
+.amount-neg { color: var(--brand-red); font-weight: 700; }
+
+/* --- 7. Buttons --- */
+.close-btn {
+position: absolute;
+top: 20px;
+right: 20px;
+width: 36px;
+height: 36px;
+border-radius: 50%;
+background: #333;
+color: #fff;
+display: flex;
+align-items: center;
+justify-content: center;
+text-decoration: none;
+font-size: 14px;
+}
+
+.btn-portal-red {
+background: var(--brand-red);
+color: #fff;
+border: none;
+border-radius: 10px;
+padding: 12px;
+font-weight: 700;
+width: 100%;
+margin-top: 10px;
+}
+
+.btn-portal-red:hover {
+background: var(--brand-red-hover);
+color: #fff;
+}
+
+.btn-action-reports, .btn-action-upload {
+background: #ffffff;
+font-weight: 700;
+font-size: 13px;
+border-radius: 10px;
+padding: 8px 16px;
+display: inline-flex;
+align-items: center;
+gap: 7px;
+box-shadow: 0 2px 4px rgba(0,0,0,0.03);
+transition: all 0.2s ease;
+text-decoration: none;
+}
+
+.btn-action-reports {
+color: #8c1d40;
+border: 1.5px solid #ecd8de;
+}
+
+.btn-action-reports:hover {
+background: #fdf5f7;
+border-color: #8c1d40;
+color: #6d1531;
+transform: translateY(-1px);
+box-shadow: 0 4px 8px rgba(140, 29, 64, 0.12);
+}
+
+.btn-action-upload {
+color: #2b2f33;
+border: 1.5px solid #dcd7ce;
+}
+
+.btn-action-upload:hover {
+background: #f8f6f2;
+border-color: #111111;
+color: #000000;
+transform: translateY(-1px);
+box-shadow: 0 4px 8px rgba(0,0,0,0.08);
+}
+
+.btn-action-create {
+background: linear-gradient(135deg, #e32646 0%, #d91a3c 100%);
+color: #ffffff;
+border: none;
+font-weight: 700;
+font-size: 13px;
+border-radius: 10px;
+padding: 9px 20px;
+display: inline-flex;
+align-items: center;
+gap: 6px;
+box-shadow: 0 4px 12px rgba(217, 26, 60, 0.28);
+transition: all 0.2s ease;
+text-decoration: none;
+}
+
+.btn-action-create:hover {
+background: linear-gradient(135deg, #cf1637 0%, #b51230 100%);
+color: #ffffff;
+transform: translateY(-1px);
+box-shadow: 0 6px 16px rgba(217, 26, 60, 0.38);
+}
+
+.btn-edit-cell {
+border: 1px solid #d5d0c7;
+background: #ffffff;
+color: #333333;
+font-size: 12px;
+font-weight: 600;
+border-radius: 7px;
+padding: 4px 12px;
+transition: all 0.15s ease;
+text-decoration: none;
+}
+
+.btn-edit-cell:hover {
+background: #111111;
+border-color: #111111;
+color: #ffffff;
+}
+
+/* --- 8. Miscellaneous Components --- */
+.floating-chat {
+position: fixed;
+bottom: 24px;
+right: 24px;
+background: var(--sidebar-bg);
+color: #fff;
+border-radius: 30px;
+padding: 10px 18px;
+font-size: 13px;
+font-weight: 700;
+display: flex;
+align-items: center;
+gap: 8px;
+text-decoration: none;
+z-index: 1050;
+}
+
+/* --- END NAV BAR STYLES --- */
+
+
+/* --- LOG-IN PAGE STYLES --- */
+
+.login-page-bg {
+min-height: 100vh;
+background: linear-gradient(rgba(17, 17, 17, 0.82), rgba(17, 17, 17, 0.88)),
+url('https://umdclubsoftball.weebly.com/uploads/1/6/3/3/16334970/screenshot-2026-08-09-at-7-48-59-pm.png') center/cover no-repeat;
+display: flex;
+align-items: center;
+justify-content: center;
+padding: 20px;
+box-sizing: border-box;}
+
+.login-card {
+background: #faf8f5;
+border-radius: 28px;
+width: 100%;
+max-width: 440px;
+box-shadow: 0 25px 60px -10px rgba(0, 0, 0, 0.7);
+overflow: hidden;
+position: relative;}
+
+.card-top .page-display-title {
+color: #ffffff;
+font-size: 26px;
+font-weight: 900;
+letter-spacing: 0.5px;
+margin: 0 0 6px 0;}
+
+.card-top .text-muted {
+color: #8c8c8c !important;
+font-size: 13px;
+margin: 0;}
+
+.card-bottom {
+background-color: #faf8f5;
+padding: 30px 36px 36px 36px;}
+
+.form-group {
+margin-bottom: 18px;}
+
+.form-label {
+display: block;
+font-size: 13px;
+font-weight: 700;
+color: #1a1a1a;
+margin-bottom: 6px;}
+
+.form-control {
+width: 100%;
+padding: 12px 16px;
+font-size: 14px;
+border: 1px solid #e0ded9;
+border-radius: 12px;
+background-color: #ffffff;
+box-sizing: border-box;
+outline: none;
+transition: border-color 0.2s ease, box-shadow 0.2s ease;}
+
+.form-control::placeholder {
+color: #999999;}
+
+.form-control:focus {
+border-color: var(--brand-red, #d91a3c);
+box-shadow: 0 0 0 3px rgba(217, 26, 60, 0.15);}
+
+.btn-portal-red {
+width: 100%;
+background-color: var(--brand-red, #d91a3c);
+color: #ffffff;
+border: none;
+border-radius: 12px;
+padding: 14px;
+font-size: 14px;
+font-weight: 700;
+cursor: pointer;
+margin-top: 8px;
+transition: background-color 0.15s ease, transform 0.1s ease;}
+
+.btn-portal-red:hover {
+background-color: var(--brand-red-hover, #b51230);
+color: #ffffff;}
+
+.btn-portal-red:active {
+transform: translateY(1px);}
+
+
+/* --- END LOG-IN PAGE STYLES --- */
+
+
+/*----- annemarie ----*/
+/* REIMBURSEMENT REQUEST PAGE */
+
+.reimbursement-page {
+    background-color: #f7f5f2;
+    min-height: 100vh;
+    padding: 30px;
+}
+
+/* Page Heading */
+
+.reimbursement-header {
+    margin-bottom: 30px;
+}
+
+.reimbursement-label {
+    color: #b20d24;
+    font-size: 12px;
+    font-weight: bold;
+    letter-spacing: 2px;
+}
+
+.reimbursement-header h1 {
+    color: #242122;
+    font-size: 42px;
+    font-weight: 800;
+    margin-bottom: 10px;
+}
+
+.reimbursement-header p {
+    color: #777777;
+}
+
+.reimbursement-header .reimbursement-label {
+    color: #b20d24;
+}
+
+/* Form Card */
+
+.reimbursement-form {
+    background-color: white;
+    padding: 25px;
+    border: 1px solid #e5e0dc;
+    border-radius: 15px;
+}
+
+/* Form Labels */
+
+.reimbursement-form label {
+    font-size: 13px;
+    font-weight: bold;
+    color: #333333;
+}
+
+/* Input Fields */
+
+.reimbursement-form .form-control {
+    background-color: #faf9f7;
+    border: 1px solid #e5e0dc;
+    border-radius: 7px;
+    padding: 12px;
+    font-size: 14px;
+}
+
+.reimbursement-form .form-control::placeholder {
+    color: #999999;
+}
+
+/* Receipt Upload */
+
+.receipt-upload {
+    border: 2px dashed #ded8d2;
+    border-radius: 10px;
+    padding: 15px;
+    background-color: #faf9f7;
+}
+
+.receipt-upload .form-control {
+    border: none;
+    background-color: transparent;
+}
+
+/* Submit Button */
+
+.reimbursement-form .btn-danger {
+    background-color: #d72e40;
+    border-color: #d72e40;
+    padding: 13px;
+    border-radius: 7px;
+    font-size: 15px;
+}
+
+.reimbursement-form .btn-danger:hover {
+    background-color: #b20d24;
+    border-color: #b20d24;
+}
+/* =========================================
+   REIMBURSEMENT REVIEW PAGE
+   ========================================= */
+
+.reimbursement-review-page {
+    background-color: #f7f5f2;
+    min-height: 100vh;
+    padding: 30px;
+}
+
+/* Page Heading */
+
+.review-header {
+    margin-bottom: 30px;
+}
+
+.review-label {
+    color: #b20d24;
+    font-size: 12px;
+    font-weight: bold;
+    letter-spacing: 2px;
+}
+
+.review-header h1 {
+    color: #242122;
+    font-size: 42px;
+    font-weight: 800;
+    margin-bottom: 10px;
+}
+
+.review-header p {
+    color: #777777;
+}
+
+.review-header .review-label {
+    color: #b20d24;
+}
+
+/* White Card */
+
+.review-card {
+    background-color: white;
+    padding: 25px;
+    border: 1px solid #e5e0dc;
+    border-radius: 15px;
+}
+
+.review-card h2 {
+    color: #242122;
+    font-size: 19px;
+    font-weight: bold;
+}
+
+.review-card p {
+    color: #777777;
+    font-size: 13px;
+}
+
+/* Save Changes Button */
+
+.review-save-button {
+    background-color: #d72e40;
+    border-color: #d72e40;
+    padding: 12px 24px;
+    border-radius: 7px;
+    font-size: 14px;
+}
+
+.review-save-button:hover {
+    background-color: #b20d24;
+    border-color: #b20d24;
+}
+
+/* Reimbursement Table */
+
+.review-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.review-table th {
+    background-color: #f7f5f2;
+    color: #777777;
+    font-size: 11px;
+    font-weight: bold;
+    text-transform: uppercase;
+    padding: 15px;
+    white-space: nowrap;
+}
+
+.review-table td {
+    padding: 18px 15px;
+    vertical-align: middle;
+    font-size: 13px;
+    color: #333333;
+}
+
+.review-table tbody tr:hover td {
+    background-color: #faf9f7;
+}
+
+/* Receipt Text */
+
+.receipt-preview {
+    color: #b20d24;
+    font-weight: bold;
+    font-size: 12px;
+}
+
+/* Status and Repaid Dropdowns */
+
+.review-table .form-select {
+    background-color: #faf9f7;
+    border: 1px solid #e5e0dc;
+    border-radius: 7px;
+    padding: 8px 30px 8px 10px;
+    font-size: 12px;
+    min-width: 105px;
+}
+
+/* View Buttons */
+
+.review-table .btn-outline-secondary {
+    background-color: white;
+    color: #333333;
+    border: 1px solid #ded8d2;
+    border-radius: 7px;
+    padding: 8px 15px;
+    font-size: 12px;
+}
+
+.review-table .btn-outline-secondary:hover {
+    background-color: #f7f5f2;
+    color: #242122;
+    border-color: #ded8d2;
+}
+
+/* Sample Data Note */
+
+.review-note {
+    margin-top: 20px;
+    font-size: 12px;
+    color: #999999;
+}/* =========================================
+   FINANCIAL REPORTS PAGE
+   ========================================= */
+
+.financial-report-page {
+    background-color: #f7f5f2;
+    min-height: 100vh;
+    padding: 30px;
+}
+
+/* Page Heading */
+
+.financial-header {
+    margin-bottom: 30px;
+}
+
+.financial-label {
+    color: #b20d24;
+    font-size: 12px;
+    font-weight: bold;
+    letter-spacing: 2px;
+}
+
+.financial-header h1 {
+    color: #242122;
+    font-size: 42px;
+    font-weight: 800;
+    margin-bottom: 10px;
+}
+
+.financial-header p {
+    color: #777777;
+}
+
+.financial-header .financial-label {
+    color: #b20d24;
+}
+
+/* White Dashboard Cards */
+
+.financial-card {
+    background-color: white;
+    padding: 25px;
+    border: 1px solid #e5e0dc;
+    border-radius: 15px;
+    height: 100%;
+}
+
+.financial-card h2 {
+    color: #242122;
+    font-size: 19px;
+    font-weight: bold;
+}
+
+.financial-card > p {
+    color: #777777;
+    font-size: 13px;
+}
+
+/* Monthly Revenue and Expenses Chart */
+
+.financial-chart {
+    display: flex;
+    justify-content: space-around;
+    align-items: flex-end;
+    height: 230px;
+    padding-top: 20px;
+    border-bottom: 1px solid #e5e0dc;
+}
+
+.chart-month {
+    text-align: center;
+    font-size: 12px;
+    color: #777777;
+}
+
+.chart-bars {
+    display: flex;
+    align-items: flex-end;
+    gap: 6px;
+    height: 190px;
+    margin-bottom: 10px;
+}
+
+.revenue-bar {
+    width: 22px;
+    background-color: #d72e40;
+    border-radius: 5px 5px 0 0;
+}
+
+.expense-bar {
+    width: 22px;
+    background-color: #f0bb55;
+    border-radius: 5px 5px 0 0;
+}
+
+/* Sample Bar Heights */
+
+.revenue-aug { height: 100px; }
+.expense-aug { height: 75px; }
+
+.revenue-sep { height: 145px; }
+.expense-sep { height: 95px; }
+
+.revenue-oct { height: 175px; }
+.expense-oct { height: 115px; }
+
+.revenue-nov { height: 135px; }
+.expense-nov { height: 90px; }
+
+.revenue-dec { height: 160px; }
+.expense-dec { height: 105px; }
+
+/* Chart Legend */
+
+.chart-legend {
+    display: flex;
+    justify-content: center;
+    gap: 25px;
+    margin-top: 20px;
+    font-size: 12px;
+}
+
+.legend-revenue {
+    color: #d72e40;
+}
+
+.legend-expense {
+    color: #d69a30;
+}
+
+/* Expenditure Donut Chart */
+
+.expense-chart {
+    display: flex;
+    justify-content: center;
+    margin: 25px 0;
+}
+
+.expense-donut {
+    width: 180px;
+    height: 180px;
+    border-radius: 50%;
+
+    background: conic-gradient(
+        #d72e40 0% 40%,
+        #f0bb55 40% 65%,
+        #333333 65% 85%,
+        #ded8d2 85% 100%
+    );
+
+    position: relative;
+}
+
+.expense-donut::after {
+    content: "";
+    position: absolute;
+    width: 95px;
+    height: 95px;
+    background-color: white;
+    border-radius: 50%;
+    top: 42px;
+    left: 42px;
+}
+
+/* Expenditure Legend */
+
+.expense-legend {
+    margin-top: 20px;
+}
+
+.expense-legend p {
+    font-size: 13px;
+    color: #555555;
+    margin-bottom: 8px;
+}
+
+.expense-dot {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    margin-right: 8px;
+}
+
+.travel-dot { background-color: #d72e40; }
+.equipment-dot { background-color: #f0bb55; }
+.tournament-dot { background-color: #333333; }
+.other-dot { background-color: #ded8d2; }
+
+/* Revenue Projection Card */
+
+.projection-card {
+    background-color: #242122;
+    color: white;
+    padding: 30px;
+    border-radius: 15px;
+    height: 100%;
+}
+
+.projection-label {
+    font-size: 12px;
+    font-weight: bold;
+    letter-spacing: 2px;
+    color: #f0bb55;
+}
+
+.projection-card h2 {
+    font-size: 44px;
+    font-weight: bold;
+    margin: 20px 0;
+}
+
+.projection-card > p {
+    color: #dddddd;
+    font-size: 13px;
+}
+
+.projection-divider {
+    border-top: 1px solid #555555;
+    margin: 25px 0;
+}
+
+.projection-detail {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+    font-size: 13px;
+}
+
+.projection-detail strong {
+    color: white;
+}
+
+/* Account Balances */
+
+.account-item {
+    margin-top: 22px;
+}
+
+.account-heading {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 8px;
+    font-size: 13px;
+}
+
+.account-heading strong {
+    color: #242122;
+}
+
+.account-item .progress {
+    height: 9px;
+    background-color: #f0ece8;
+    border-radius: 10px;
+}
+
+.account-item .progress-bar {
+    background-color: #d72e40;
+    border-radius: 10px;
+}
+
+/* Sample Account Balance Bar Widths */
+
+.checking-bar { width: 85%; }
+.savings-bar { width: 60%; }
+.fundraising-bar { width: 40%; }
+.tournament-bar { width: 25%; }
+
+/* Sample Data Note */
+
+.financial-note {
+    color: #999999;
+    font-size: 12px;
+    margin-top: 15px;
+}
+
+
+
+/* ==========================================================
+   RECORD TRANSACTION PAGE SPECIFIC STYLES
+   ========================================================== */
+
+.form-control:focus,
+.form-select:focus {
+    border-color: var(--brand-red);
+    box-shadow: 0 0 0 3px rgba(217, 26, 60, 0.15);
+    outline: none;
+}
+
+.form-textarea {
+    resize: vertical;
+    min-height: 90px;
+}
+
+select.form-control optgroup {
+    font-weight: 700;
+    color: var(--text-dark);
+    padding-top: 6px;
+}
+
+select.form-control option {
+    font-weight: 400;
+    padding: 4px 8px;
+    color: var(--text-dark);
+}
+
+.file-input {
+    padding: 8px 12px;
+    background-color: #faf9f7;
+    cursor: pointer;
+}
+/* HOME PAGE */
+/*Homepage*/
+.homepage{
+     display: flex;
+    flex-direction: column;
+    font-family: Arial, sans-serif;
+}
+.custom-navbar {
+    background-color: #c8102e;
+    font-family: Arial, sans-serif;
+}
+.home-about {
+    background-color: #F6F4F0;
+    border: 1px solid #cbd5e1;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    min-height: 450px;
+}
+.home-about h2{
+    margin-left: 20px;
+    font-family: Arial, sans-serif;
+    font-weight: 900;
+    letter-spacing: -2px;
+    font-size: 45px;
+}
+
+.home-history {
+    background-color: #F6F4F0;
+    color: black;
+    padding: 20px;
+    margin: 20px 0;
+    flex: 0 0 100%;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+.home-history h3{
+    color: #e81735;
+    font-weight: bold;
+}
+
+.home-purpose{
+    background-color: #242021;
+    min-height: 500px;
+}
+.home-purpose h2 {
+    color: #F6F4F0;
+    margin-top: 60px;
+    margin-left: 35px;
+    font-size: 45px;
+    font-weight: 900;
+    letter-spacing: -2px;
+
+}
+.home-purpose h3{
+    margin: 15px;
+}
+.home-purpose p {font-size: small;}
+
+.home-container-text-center {
+    background-color: #2B2829;
+    color: floralwhite;
+    border-radius: 12px;
+    padding: 20px;
+    margin: 100px;
+    min-height: 250px;
+    align-content: center;
+}
+
+.teamphoto {
+    background-image: url("../images/running_softball.jpg");
+    background-size: cover;
+    background-position: center 40%;
+    background-repeat: no-repeat;
+    color: white;
+    text-align: left;
+    min-height: 550px;
+    position: relative;
+    padding: 50px 4.5%;
+    box-sizing: border-box;
+}
+
+/* Dark overlay over the background image */
+.teamphoto::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(20, 15, 15, 0.65);
+    z-index: 1;
+}
+
+/* Keep the text above the overlay */
+.home-overlay {
+    position: relative;
+    z-index: 2;
+    max-width: 850px;
+    margin-top: 80px;
+}
+
+.teamphoto h1 {
+    font-size: 75px;
+    font-weight: bold;
+    line-height: 0.95;
+    margin: 0;
+}
+
+.teamphoto p {
+    font-size: 21px;
+    line-height: 1.6;
+    margin-top: 35px;
+    max-width: 850px;
+    text-wrap: balance;
+}
+
+
+/* Overall schedule section */
+.schedule-section {
+    color: #252122;
+    font-family: Arial, sans-serif;
+    width: 100%;
+    padding: 40px;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+/* Heading and description side by side */
+.schedule-heading {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 40px;
+    margin: 0 60px 55px;
+}
+
+.season-label {
+    color: #c8102e;
+    font-size: 16px;
+    font-weight: bold;
+    letter-spacing: 4px;
+    margin-bottom: 22px;
+}
+
+.schedule-heading h1 {
+    font-size: clamp(36px, 4.5vw, 72px);
+    font-weight: 900;
+    letter-spacing: -2px;
+    margin: 0;
+}
+
+.schedule-description {
+    max-width: 560px;
+    font-size: 20px;
+    line-height: 1.8;
+    color: #514b4d;
+    margin: 0;
+}
+
+/* Table container */
+.schedule-table-wrapper {
+    width: 100%;
+     border: 1px solid #e2dcd8;
+    border-radius: 30px;
+}
+
+/* Table layout */
+.schedule-table {
+    width: 100%;
+    margin: 0 auto;
+    overflow-x: auto;
+    text-align: center;
+}
+
+/* Dark table header */
+.schedule-table thead {
+    background-color: #252122;
+    color: #b9b5b5;
+}
+
+.schedule-table th {
+    background-color: #252122;
+    padding: 20px 24px;
+    font-size: 13px;
+    font-weight: bold;
+    letter-spacing: 1.5px;
+    text-align: center;
+    white-space: nowrap;
+}
+
+.schedule-table th:first-child {
+    border-top-left-radius: 22px;
+}
+
+.schedule-table th:last-child {
+    border-top-right-radius: 22px;
+}
+
+/* Table rows */
+.schedule-table td {
+    padding: 28px 24px;
+    border-bottom: 1px solid #e9e4e0;
+    font-size: 17px;
+    color: #514b4d;
+    white-space: nowrap;
+}
+
+.schedule-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+/* Opponent names */
+.schedule-table .opponent {
+    color: #171515;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+/* Home and away labels */
+.schedule-table .location {
+    color: #171515;
+    font-weight: bold;
+}
+
+/* Pink team badges */
+.team-badge {
+    display: inline-block;
+    background-color: #fce7eb;
+    color: #242021;
+    border-radius: 24px;
+    padding: 9px 16px;
+    font-size: 14px;
+    font-weight: bold;
+}
+.join-section {
+    width: 100%;
+    background-color: #e81735;
+    color: white;
+    padding: 90px 4.35%;
+    box-sizing: border-box;
+    min-height: 300px;
+}
+
+.join-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 35px;
+    max-width: 1600px;
+    margin: 0 auto;
+}
+
+.join-text {
+    flex: 1;
+    min-width: 0;
+}
+
+.join-heading {
+    color: #ffb5c0;
+    font-size: 15px;
+    font-weight: 800;
+    letter-spacing: 3px;
+    margin-bottom: 18px;
+}
+
+.join-text h2 {
+    color: white;
+    font-family: Impact, "Arial Narrow", sans-serif;
+    font-size: clamp(32px, 4vw, 64px);
+    line-height: 1.1;
+    margin: 0;
+}
+
+.site-footer {
+    width: 100%;
+    background-color: #1d191a;
+    color: white;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+
+    padding: 40px 4.35%;
+    box-sizing: border-box;
+}
+
+.footer-brand {
+    color: #898183;
+    font-size: 15px;
+    font-weight: 800;
+    letter-spacing: 2px;
+    margin: 0;
+}
+
+.footer-tagline {
+    color: #898183;
+    font-size: 14px;
+    margin: 0;
+}
+
+/* TEAM PHOTOS */
+.team-gallery-section {
+    background-color: #242021;
+    padding: 65px 0 75px;
+    width: 100%;
+}
+
+/* Gallery heading */
+
+.gallery-heading {
+    max-width: 850px;
+    margin: 0 auto 32px;
+    text-align: center;
+}
+
+.gallery-eyebrow {
+    color: #c8102e;
+    font-size: 0.78rem;
+    font-weight: 800;
+    letter-spacing: 3px;
+    margin-bottom: 10px;
+}
+
+.gallery-heading h2 {
+    color: #F6F4F0;
+    font-size: clamp(1.8rem, 3vw, 2.6rem);
+    font-weight: 800;
+    margin-bottom: 12px;
+}
+
+.gallery-description {
+    color: #F6F4F0;
+    font-size: 1rem;
+    line-height: 1.6;
+    margin-bottom: 0;
+}
+
+/* Photo layout */
+
+.team-gallery {
+    align-items: stretch;
+}
+
+.gallery-photo {
+    width: 100%;
+    height: 280px;
+    overflow: hidden;
+    border-radius: 12px;
+    background-color: #F6F4F0;
+}
+
+/* Images */
+
+.gallery-photo img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    transition: transform 0.35s ease;
+}
+
+/* Subtle hover effect */
+
+.gallery-photo:hover img {
+    transform: scale(1.05);
+}
