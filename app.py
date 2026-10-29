@@ -10,7 +10,7 @@ def home():
 def login():
     if request.method == 'POST':
         return redirect(url_for('financial_ledger'))
-    return render_template('login.html')
+    return render_template('log-in.html')
 
 @app.route('/financial-ledger', methods=['GET'])
 def financial_ledger():

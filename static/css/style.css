@@ -366,6 +366,54 @@ box-shadow: 0 25px 60px -10px rgba(0, 0, 0, 0.7);
 overflow: hidden;
 position: relative;}
 
+.card-top {
+background-color: #212121;
+padding: 36px 36px 28px 36px;
+position: relative;}
+
+.close-btn {
+position: absolute;
+top: 24px;
+right: 24px;
+width: 36px;
+height: 36px;
+border-radius: 50%;
+background-color: #383838;
+color: #ffffff;
+display: flex;
+align-items: center;
+justify-content: center;
+text-decoration: none;
+font-size: 18px;
+font-weight: 700;
+line-height: 1;
+transition: background-color 0.15s ease;}
+
+.close-btn:hover {
+background-color: #4a4a4a;
+color: #ffffff;}
+
+.brand-badge {
+background-color: var(--brand-red, #d91a3c);
+color: var(--brand-yellow, #ffcc00);
+font-weight: 900;
+font-size: 24px;
+width: 48px;
+height: 48px;
+border-radius: 14px;
+display: flex;
+align-items: center;
+justify-content: center;
+margin-bottom: 20px;}
+
+.subtitle-tag {
+color: var(--brand-yellow, #ffcc00);
+font-size: 11px;
+font-weight: 800;
+letter-spacing: 1.5px;
+text-transform: uppercase;
+margin-bottom: 6px;}
+
 .card-top .page-display-title {
 color: #ffffff;
 font-size: 26px;
@@ -430,9 +478,44 @@ color: #ffffff;}
 .btn-portal-red:active {
 transform: translateY(1px);}
 
-
 /* --- END LOG-IN PAGE STYLES --- */
 
+
+/* LOG-IN PAGE: EMAIL & PASSWORD VALIDATION STYLES */
+
+/* Base helper text beneath the password field */
+.password-feedback {
+    font-size: 12px;
+    margin-top: 6px;
+    color: var(--text-muted, #8c8c8c);
+    line-height: 1.4;
+    transition: color 0.2s ease, font-weight 0.2s ease;
+}
+
+/* Valid password match state (Green indicator) */
+.pwd-feedback-valid {
+    color: #198754 !important;
+    font-weight: 600;
+}
+
+/* Invalid / In-progress criteria state (UMD Red indicator) */
+.pwd-feedback-invalid {
+    color: var(--brand-red, #d91a3c) !important;
+    font-weight: 500;
+}
+
+/* Native input boundary highlight on validation focus */
+.card-bottom input[type="email"]:focus:invalid,
+.card-bottom input[type="password"]:focus:invalid {
+    border-color: var(--brand-red, #d91a3c);
+    box-shadow: 0 0 0 3px rgba(217, 26, 60, 0.15);
+}
+
+.card-bottom input[type="password"]:focus:valid {
+    border-color: #198754;
+    box-shadow: 0 0 0 3px rgba(25, 135, 84, 0.15);
+}
+/* END LOG-IN PAGE: EMAIL & PASSWORD VALIDATION STYLES */
 
 /*----- annemarie ----*/
 /* REIMBURSEMENT REQUEST PAGE */
