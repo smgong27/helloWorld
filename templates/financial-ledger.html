@@ -59,73 +59,35 @@
             </tr>
         </thead>
         <tbody>
-            <!-- FAKE DATA FOR SHOW -->
+            {% for trans in transactions %}
             <tr>
-                <td><strong>E105</strong></td>
-                <td>09/24/2026</td>
-                <td>G204</td>
-                <td>SGA</td>
-                <td>NCSA</td>
-                <td>Tournament entry fee</td>
-                <td>Expense</td>
-                <td>College Park, MD</td>
-                <td class="amount-neg">-$450.00</td>
-                <td>
-                    <button type="button" class="btn-view-receipt">View</button>
+                <td><strong>{{ trans.transaction_id }}</strong></td>
+                <td>{{ trans.transaction_date.strftime('%m/%d/%Y') }}</td>
+                <td>{{ trans.game_id if trans.game_id else 'N/A' }}</td>
+                <td>{{ trans.account_id }}</td>
+                <td>{{ trans.team_id }}</td>
+                <td>{{ trans.description }}</td>
+                <td>{{ trans.transaction_type }}</td>
+                <td>{{ trans.location if trans.location else 'N/A' }}</td>
+                <td class="{% if trans.transaction_type == 'Expense' %}amount-neg{% else %}amount-pos{% endif %}">
+                    {% if trans.transaction_type == 'Expense' %}-{% else %}+{% endif %}${{ "%.2f"|format(trans.amount) }}
                 </td>
                 <td>
-                    <a href="/financial-ledger-update/E105" class="btn-edit-cell">Edit</a>
+                    {% if trans.receipt_filename %}
+                        <a href="{{ url_for('static', filename='uploads/' + trans.receipt_filename) }}" target="_blank" class="btn-view-receipt">View</a>
+                    {% else %}
+                        N/A
+                    {% endif %}
+                </td>
+                <td>
+                    <a href="/financial-ledger-update/{{ trans.transaction_id }}" class="btn-edit-cell">Edit</a>
                 </td>
             </tr>
+            {% else %}
             <tr>
-                <td><strong>R104</strong></td>
-                <td>09/20/2026</td>
-                <td>N/A</td>
-                <td>SECU</td>
-                <td>Active</td>
-                <td>Member dues deposit</td>
-                <td>Revenue</td>
-                <td>Online</td>
-                <td class="amount-pos">+$1,200.00</td>
-                <td>N/A</td>
-                <td>
-                    <a href="/financial-ledger-update/R104" class="btn-edit-cell">Edit</a>
-                </td>
+                <td colspan="11" class="text-center py-4 text-muted">No transactions recorded yet.</td>
             </tr>
-            <tr>
-                <td><strong>R103</strong></td>
-                <td>09/15/2026</td>
-                <td>G201</td>
-                <td>RecWell</td>
-                <td>NCSA</td>
-                <td>Concessions revenue</td>
-                <td>Revenue</td>
-                <td>College Park, MD</td>
-                <td class="amount-pos">+$800.00</td>
-                <td>
-                    <button type="button" class="btn-view-receipt">View</button>
-                </td>
-                <td>
-                    <a href="/financial-ledger-update/R103" class="btn-edit-cell">Edit</a>
-                </td>
-            </tr>
-            <tr>
-                <td><strong>E100</strong></td>
-                <td>09/02/2026</td>
-                <td>N/A</td>
-                <td>SGA</td>
-                <td>Active</td>
-                <td>Team jerseys &amp; gear</td>
-                <td>Expense</td>
-                <td>Baltimore, MD</td>
-                <td class="amount-neg">-$680.00</td>
-                <td>
-                    <button type="button" class="btn-view-receipt">View</button>
-                </td>
-                <td>
-                    <a href="/financial-ledger-update/E100" class="btn-edit-cell">Edit</a>
-                </td>
-            </tr>
+            {% endfor %}
         </tbody>
     </table>
 </div>

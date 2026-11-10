@@ -3,15 +3,12 @@
 {% block title %}Create Transaction{% endblock %}
 
 {% block content %}
-<!-- Centered form container card -->
 <div class="record-transaction-page">
 
-    <!-- Back link navigation -->
     <div class="mb-3">
         <a href="/financial-ledger" class="back-link">&lsaquo; Back to Financial Ledger</a>
     </div>
 
-    <!-- Page headings -->
     <section class="record-header">
         <div class="record-label">UMD CLUB SOFTBALL</div>
         <h1>CREATE TRANSACTION</h1>
@@ -19,9 +16,8 @@
 
     <div class="content-card record-card">
         <h2 class="fs-5 fw-bold mb-2">Transaction Details</h2>
-        <p class="text-muted small mb-4">Record revenue or an expense in the club's central financial ledger.</p>
+        <p class="text-muted small mb-4">Record revenue or an expense in the club's central financial ledger. A Transaction ID will be automatically generated.</p>
 
-        <!-- Form for creating a transaction -->
         <form action="/record-transaction" method="POST" enctype="multipart/form-data" class="portal-form">
 
             <div class="form-grid">
@@ -87,6 +83,11 @@
                     <input type="text" id="gameID" name="gameID" class="form-control" placeholder="Optional (e.g., G201)">
                 </div>
 
+                <div class="col-md-6">
+                    <label for="location" class="form-label">Location:</label>
+                    <input type="text" id="location" name="location" class="form-control" placeholder="e.g., College Park, MD">
+                </div>
+
                 <div class="col-12">
                     <label for="description" class="form-label">Description:</label>
                     <textarea id="description" name="description" rows="3" class="form-control form-textarea" placeholder="Describe the transaction" required></textarea>
@@ -98,7 +99,6 @@
                 </div>
             </div>
 
-            <!-- Form Action Buttons -->
             <div class="form-actions-toolbar">
                 <a href="/financial-ledger" class="btn-return-overview">Cancel</a>
                 <button type="submit" class="btn-submit-upload">Submit Transaction</button>
