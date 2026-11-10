@@ -11,7 +11,7 @@
 
         <div class="card-top">
             <a href="/" class="close-btn">&times;</a>
-            <div class="brand-badge">M</div>
+            <img src="{{ url_for('static', filename='images/umdclubsoftballlogo.png') }}" alt="UMD Softball Logo" style="width: 60px; height: auto; margin-bottom: 15px;">
             <div class="subtitle-tag">WELCOME BACK</div>
             <h1 class="page-display-title">LOG IN TO YOUR PORTAL</h1>
             <p class="text-muted small mb-4">Use your team account to continue.</p>
@@ -47,7 +47,7 @@
         </div>
     </div>
 </div>
-<script>
+    <script>
         const pwdInput = document.getElementById('password');
         const feedback = document.getElementById('password-feedback');
 
@@ -58,16 +58,10 @@
             const hasNum = /\d/.test(val);
             const hasLength = val.length >= 12;
 
-            if (hasUpper && hasLower && hasNum && hasLength) {
-                feedback.textContent = 'Strong password!';
-                feedback.className = 'password-feedback pwd-feedback-valid';
-            } else {
-                feedback.textContent = 'Must contain: 8+ characters, uppercase, lowercase, number.';
+                feedback.textContent = 'Must contain: 12+ characters, uppercase, lowercase, number.';
                 feedback.className = 'password-feedback pwd-feedback-invalid';
             }
         });
     </script>
-</body>
-</html>
 </body>
 </html>

@@ -3,99 +3,107 @@
 {% block title %}Create Transaction{% endblock %}
 
 {% block content %}
-<!-- Back link navigation -->
+<!-- Centered form container card -->
+<div class="record-transaction-page">
+
+    <!-- Back link navigation -->
     <div class="mb-3">
-        <a href="/financial-ledger" class="text-decoration-none text-danger fw-semibold small">&lt; Back to Financial Ledger</a>
+        <a href="/financial-ledger" class="back-link">&lsaquo; Back to Financial Ledger</a>
     </div>
 
-    <div class="category-lead">UMD CLUB SOFTBALL</div>
-    <h1 class="page-display-title">CREATE TRANSACTION</h1>
-    <p class="text-muted small mb-4">Record revenue or an expense in the club's central financial ledger.</p>
+    <!-- Page headings -->
+    <section class="record-header">
+        <div class="record-label">UMD CLUB SOFTBALL</div>
+        <h1>CREATE TRANSACTION</h1>
+    </section>
 
-    <!-- Form Container Card -->
-    <div class="content-card" style="max-width: 720px;">
-        <h5 class="fw-bold mb-3">Transaction Details</h5>
+    <div class="content-card record-card">
+        <h2 class="fs-5 fw-bold mb-2">Transaction Details</h2>
+        <p class="text-muted small mb-4">Record revenue or an expense in the club's central financial ledger.</p>
+
+        <!-- Form for creating a transaction -->
         <form action="/record-transaction" method="POST" enctype="multipart/form-data" class="portal-form">
 
-            <!-- Transaction date (maps to expenseDate / revenueDate) -->
-            <div class="form-group mb-3">
-                <label for="transactionDate" class="form-label">Transaction Date:</label>
-                <input type="date" id="transactionDate" name="transactionDate" class="form-control" required>
-            </div>
-            <!-- Bank Account Field (maps to accountID FK) -->
-            <div class="form-group mb-3">
-                <label for="accountID" class="form-label">Bank Account:</label>
-                <select id="accountID" name="accountID" class="form-control" required>
-                    <option value="" disabled selected>Select a bank account</option>
-                    <option value="SGA">SGA</option>
-                    <option value="SECU">SECU</option>
-                    <option value="RecWell">RecWell</option>
-                    <option value="Foundation">Foundation</option>
-                </select>
-            </div>
+            <div class="form-grid">
+                <div class="col-md-6">
+                    <label for="transactionDate" class="form-label">Transaction Date:</label>
+                    <input type="date" id="transactionDate" name="transactionDate" class="form-control" required>
+                </div>
 
-            <!-- Team Allocation Field (maps to teamID FK) -->
-            <div class="form-group mb-3">
-                <label for="teamID" class="form-label">Team Allocation:</label>
-                <select id="teamID" name="teamID" class="form-control" required>
-                    <option value="" disabled selected>Select a team</option>
-                    <option value="NCSA">NCSA</option>
-                    <option value="Active">Active</option>
-                    <option value="All">All</option>
-                </select>
-            </div>
+                <div class="col-md-6">
+                    <label for="accountID" class="form-label">Bank Account:</label>
+                    <select id="accountID" name="accountID" class="form-control form-select" required>
+                        <option value="" disabled selected>Select a bank account</option>
+                        <option value="SGA">SGA</option>
+                        <option value="SECU">SECU</option>
+                        <option value="RecWell">RecWell</option>
+                        <option value="Foundation">Foundation</option>
+                    </select>
+                </div>
 
-            <!-- Transaction type (maps to expenseType / revenueType) -->
-            <div class="form-group mb-3">
-                <label for="transactionType" class="form-label">Transaction Type:</label>
-                <select id="transactionType" name="transactionType" class="form-control" required>
-                    <option value="" disabled selected>Select transaction type</option>
-                    <optgroup label="Expense">
-                        <option value="Travel">Travel</option>
-                        <option value="Hotel">Hotel</option>
-                        <option value="Food">Food</option>
-                        <option value="Game/Tournament Fees">Game/Tournament Fees</option>
-                        <option value="Gas">Gas</option>
-                        <option value="Equipment">Equipment</option>
-                        <option value="Other Expense">Other Expense</option>
-                    </optgroup>
-                    <optgroup label="Revenue">
-                        <option value="Fundraising">Fundraising</option>
-                        <option value="Dues">Dues</option>
-                        <option value="Donation">Donation</option>
-                        <option value="Other Revenue">Other Revenue</option>
-                    </optgroup>
-                </select>
-            </div>
+                <div class="col-md-6">
+                    <label class="form-label">Team Allocation</label>
+                    <div class="team-multiselect-group" role="group" aria-label="Team allocation selection">
+                        <label class="team-pill-option">
+                            <input type="checkbox" id="team_ncsa" name="teamID" value="NCSA" class="team-checkbox" checked>
+                            <span class="team-pill-label">NCSA</span>
+                        </label>
+                        <label class="team-pill-option">
+                            <input type="checkbox" id="team_active" name="teamID" value="Active" class="team-checkbox">
+                            <span class="team-pill-label">Active</span>
+                        </label>
+                    </div>
+                </div>
 
-            <div class="form-group mb-3">
-                <label for="amount" class="form-label">Amount ($):</label>
-                <input type="number" step="0.01" id="amount" name="amount" class="form-control" placeholder="0.00" required>
-            </div>
+                <div class="col-md-6">
+                    <label for="transactionType" class="form-label">Transaction Type:</label>
+                    <select id="transactionType" name="transactionType" class="form-control form-select" required>
+                        <option value="" disabled selected>Select transaction type</option>
+                        <optgroup label="Expense">
+                            <option value="Travel">Travel</option>
+                            <option value="Hotel">Hotel</option>
+                            <option value="Food">Food</option>
+                            <option value="Game/Tournament Fees">Game/Tournament Fees</option>
+                            <option value="Gas">Gas</option>
+                            <option value="Equipment">Equipment</option>
+                            <option value="Other Expense">Other Expense</option>
+                        </optgroup>
+                        <optgroup label="Revenue">
+                            <option value="Fundraising">Fundraising</option>
+                            <option value="Dues">Dues</option>
+                            <option value="Donation">Donation</option>
+                            <option value="Other Revenue">Other Revenue</option>
+                        </optgroup>
+                    </select>
+                </div>
 
-            <!-- Game ID (maps to gameID FK) -->
-            <div class="form-group mb-3">
-                <label for="gameID" class="form-label">Game ID:</label>
-                <input type="text" id="gameID" name="gameID" class="form-control" placeholder="Optional Game ID (e.g., G201)">
-            </div>
+                <div class="col-md-6">
+                    <label for="amount" class="form-label">Amount ($):</label>
+                    <input type="number" step="0.01" id="amount" name="amount" class="form-control" placeholder="0.00" required>
+                </div>
 
-            <!-- Description (maps to expenseDescription / revenueDescription) -->
-            <div class="form-group mb-3">
-                <label for="description" class="form-label">Description:</label>
-                <textarea id="description" name="description" rows="4" class="form-control form-textarea" placeholder="Describe the transaction" required></textarea>
-            </div>
+                <div class="col-md-6">
+                    <label for="gameID" class="form-label">Game ID:</label>
+                    <input type="text" id="gameID" name="gameID" class="form-control" placeholder="Optional (e.g., G201)">
+                </div>
 
-            <!-- Expense Receipt Upload (maps to expenseReceipt) -->
-            <div class="form-group mb-4">
-                <label for="expenseReceipt" class="form-label">Upload Transaction Receipt:</label>
-                <input type="file" id="expenseReceipt" name="expenseReceipt" class="form-control file-input" accept=".pdf, .png, .jpg, .jpeg">
+                <div class="col-12">
+                    <label for="description" class="form-label">Description:</label>
+                    <textarea id="description" name="description" rows="3" class="form-control form-textarea" placeholder="Describe the transaction" required></textarea>
+                </div>
+
+                <div class="col-12">
+                    <label for="expenseReceipt" class="form-label">Upload Receipt:</label>
+                    <input type="file" id="expenseReceipt" name="expenseReceipt" class="form-control file-input" accept=".pdf, .png, .jpg, .jpeg">
+                </div>
             </div>
 
             <!-- Form Action Buttons -->
-            <div class="d-flex align-items-center gap-2">
-                <button type="submit" class="btn btn-danger fw-bold px-4 py-2" style="background-color: var(--brand-red); border-color: var(--brand-red);">Submit Transaction</button>
-                <a href="/financial-ledger" class="btn btn-outline-secondary px-3 py-2">Cancel Entry</a>
+            <div class="form-actions-toolbar">
+                <a href="/financial-ledger" class="btn-return-overview">Cancel</a>
+                <button type="submit" class="btn-submit-upload">Submit Transaction</button>
             </div>
         </form>
     </div>
+</div>
 {% endblock %}

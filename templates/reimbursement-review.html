@@ -1,0 +1,122 @@
+{% extends "base.html" %}
+
+{% block title %}Reimbursement Review{% endblock %}
+
+{% block content %}
+
+<div class="reimbursement-review-page">
+
+    <div class="container-fluid mt-5 mb-5">
+
+        <!-- Page Heading -->
+        <section class="review-header">
+
+            <p class="review-label">UMD CLUB SOFTBALL</p>
+            <h1>REIMBURSEMENT REVIEW</h1>
+        </section>
+
+        <!-- Reimbursement Table -->
+        <section class="review-content">
+
+            <div class="review-card">
+
+                <!-- Table Heading and Save Button -->
+                <div class="row align-items-center mb-4">
+
+                    <div class="col-md-8">
+                        <h2>Submitted reimbursement requests</h2>
+                        <p>Review reimbursement requests and approval status. </p>
+                    </div>
+
+                    <div class="col-md-4 text-md-end">
+                        <a href="/reimbursement-review-update"
+                                class="btn btn-danger review-save-button">
+                            Edit
+                        </a>
+                    </div>
+
+                </div>
+
+                <!-- Reimbursement Table -->
+                    <div class="table-responsive">
+
+                        <table class="table review-table">
+
+                            <!-- Table Headings -->
+                            <thead>
+                            <tr>
+                                <th>Expense ID</th>
+                                <th>Game ID</th>
+                                <th>Name</th>
+                                <th>Venmo</th>
+                                <th>Description</th>
+                                <th>Receipt</th>
+                                <th>Amount</th>
+                                <th>Status</th>
+                                <th>Repaid</th>
+                                <th>Treasure Comments</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+
+                             <tr>
+        <td>E104</td>
+        <td>G-204</td>
+        <td>Hokie Bird</td>
+        <td>@hokiebird</td>
+        <td>NCSA tournament registration</td>
+        <td><span class="text-danger">View receipt</span></td>
+        <td><strong>$250.00</strong></td>
+        <td>
+            <span class="badge bg-warning text-dark">Pending</span>
+        </td>
+        <td>No</td>
+        <td>—</td>
+    </tr>
+
+    <tr>
+        <td>E103</td>
+        <td>G-204</td>
+        <td>Chucky Cheese</td>
+        <td>@chuckycheese</td>
+        <td>Umpire fees · Delaware</td>
+        <td><span class="text-danger">View receipt</span></td>
+        <td><strong>$500.00</strong></td>
+        <td>
+            <span class="badge bg-success">Approved</span>
+        </td>
+        <td>Yes</td>
+        <td>—</td>
+    </tr>
+
+    <tr>
+        <td>E102</td>
+        <td>G-204</td>
+        <td>Chucky Cheese</td>
+        <td>@chuckycheese</td>
+        <td>Travel fuel expense</td>
+        <td><span class="text-danger">View receipt</span></td>
+        <td><strong>$50.00</strong></td>
+        <td>
+            <span class="badge bg-danger">Denied</span>
+        </td>
+        <td>No</td>
+        <td>Receipt does not show the purchase date.</td>
+    </tr>
+
+</tbody>
+
+
+                        </table>
+
+                    </div>
+
+            </div>
+
+        </section>
+
+    </div>
+
+</div>
+
+{% endblock %}

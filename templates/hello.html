@@ -2,9 +2,297 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Hello World</title>
+    <title>Welcome Club Softball</title>
+    <link href="/static/css/style.css" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+<link rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
 </head>
+
 <body>
-Hello World from Sabrina Gong! This is my first HTML page.
+<main class="homepage">
+    <div class="nav">
+<nav class="navbar navbar-expand-lg custom-navbar w-100 " data-bs-theme="dark">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#about">UMD CLUB SOFTBALL</a> <!--can this be the little icon?-->
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+      <div class="navbar-nav ms-auto">
+        <a class="nav-link active" aria-current="page" href="/create-account">Create Account</a>
+        <a class="nav-link" href=/log-in>Log In</a>
+          <a class="nav-link" href="#schedule">Game Schedule</a>
+        <a class="nav-link" href="#about">About</a>
+
+      </div>
+    </div>
+  </div>
+</nav>
+</div>
+
+<section class="teamphoto">
+    <div class="home-overlay">
+        <h1>PLAY HARD.</h1>
+        <h1>RUN TOGETHER.</h1>
+        <p>Home base for Maryland Club Softball--where our players connect,
+            manage team business, and keep every season moving forward.</p>
+     </div>
+</section>
+<section class="home-purpose">
+    <h2 class="white">EVERYTHING THE CLUB NEEDS</h2>
+
+    <div class="home-container-text-center">
+        <div class="row g-4">
+
+            <!-- Stay Connected -->
+            <div class="col-md-4">
+                <div class="purpose-card">
+                    <i class="bi bi-person icon-red"
+                       aria-hidden="true"></i>
+                    <h3 class="white">Stay Connected</h3>
+                    <p>Access your member profile, team assignment, and the latest roster information.</p>
+                </div>
+            </div>
+
+            <!-- Handle Dues -->
+            <div class="col-md-4">
+                <div class="purpose-card">
+                    <i class="bi bi-credit-card icon-red"
+                       aria-hidden="true"></i>
+                    <h3 class="white">Handle Dues</h3>
+                    <p>View assigned dues and complete payments through one, clear, secure workflow.</p>
+                </div>
+            </div>
+
+            <!-- Keep Finances Moving -->
+            <div class="col-md-4">
+                <div class="purpose-card">
+                    <i class="bi bi-graph-up-arrow icon-red"
+                       aria-hidden="true"></i>
+                    <h3 class="white">Keep Finances Moving</h3>
+                    <p>Submit reimbursements and give team leaders the tools to review club finances.</p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+<section class="home-about" id="about">
+    <div class="container-fluid">
+        <div class="row align-items-start">
+
+            <!-- Left column: Heading -->
+            <div class="col-md-5">
+                <h2 class="leftside">
+                    A TEAM BUILT ON COMPETITION AND COMMUNITY.
+                </h2>
+            </div>
+
+            <div class="col-md-7">
+                <p class="rightside">
+                    Maryland Club Softball brings together students who want
+                    to compete, grow, and represent the University of Maryland.
+                    From practices at the Engineering Fields to weekend
+                    tournaments, we make room for serious play and lasting
+                    friendships.
+                </p>
+
+                <div class="home-history">
+                    <div class="row">
+                        <div class="col-4">
+                            <h3>2</h3>
+                            <p>TEAM LEVELS</p>
+                        </div>
+
+                        <div class="col-4">
+                            <h3>26</h3>
+                            <p>ACTIVE PLAYERS</p>
+                        </div>
+
+                        <div class="col-4">
+                            <h3>1</h3>
+                            <p>TERP FAMILY</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<section class="schedule-section" id="schedule">
+
+    <!-- Heading and description -->
+    <div class="schedule-heading">
+        <div>
+            <h1>GAME SCHEDULE</h1>
+        </div>
+
+        <p class="schedule-description">
+            Follow the Terps at home and away across both club teams.
+            Game times are subject to change.
+        </p>
+    </div>
+
+    <!-- Game schedule table -->
+    <div class="schedule-table-wrapper">
+        <table class="schedule-table">
+
+            <thead>
+                <tr>
+                    <th>TEAM ID</th>
+                    <th>OPPONENT</th>
+                    <th>DATE</th>
+                    <th>TIMES</th>
+                    <th>LOCATION</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <tr>
+                    <td><span class="team-badge">NCSA</span></td>
+                    <td class="opponent">University of Delaware</td>
+                    <td>10/08/2026</td>
+                    <td>10am, 12pm</td>
+                    <td class="location">Home</td>
+                </tr>
+
+                <tr>
+                    <td><span class="team-badge">Active</span></td>
+                    <td class="opponent">Towson University</td>
+                    <td>10/15/2026</td>
+                    <td>12pm, 2pm</td>
+                    <td class="location">Away</td>
+                </tr>
+
+                <tr>
+                    <td><span class="team-badge">NCSA</span></td>
+                    <td class="opponent">George Washington University</td>
+                    <td>10/22/2026</td>
+                    <td>10am, 12pm, 2pm</td>
+                    <td class="location">Away</td>
+                </tr>
+
+                <tr>
+                    <td><span class="team-badge">Active</span></td>
+                    <td class="opponent">UMBC</td>
+                    <td>11/05/2026</td>
+                    <td>12pm</td>
+                    <td class="location">Home</td>
+                </tr>
+            </tbody>
+
+        </table>
+    </div>
+
+</section>
+<!-- Photo Gallery Section -->
+<section class="team-gallery-section" id="team-gallery">
+    <div class="container-fluid px-4 px-lg-5">
+
+        <!-- Gallery Heading -->
+        <div class="gallery-heading">
+            <p class="gallery-eyebrow">MORE THAN A GAME</p>
+            <h2>Life at Maryland Club Softball</h2>
+            <p class="gallery-description">
+                The moments, teammates, and memories that make our team special.
+            </p>
+        </div>
+
+        <!-- Gallery Photos -->
+        <div class="row g-3 g-lg-4 team-gallery">
+
+            <div class="col-12 col-sm-6 col-lg">
+                <div class="gallery-photo">
+                    <img src="{{ url_for('static', filename='images/team1.png') }}"
+                         alt="Maryland Club Softball team celebrating together"
+                         loading="lazy">
+                </div>
+            </div>
+
+            <div class="col-12 col-sm-6 col-lg">
+                <div class="gallery-photo">
+                    <img src="{{ url_for('static', filename='images/team2.png') }}"
+                         alt="Maryland softball players warming up"
+                         loading="lazy">
+                </div>
+            </div>
+
+            <div class="col-12 col-sm-6 col-lg">
+                <div class="gallery-photo">
+                    <img src="{{ url_for('static', filename='images/team3.png') }}"
+                         alt="Maryland Club Softball during a game"
+                         loading="lazy">
+                </div>
+            </div>
+
+            <div class="col-12 col-sm-6 col-lg">
+                <div class="gallery-photo">
+                    <img src="{{ url_for('static', filename='images/club_softball.png') }}"
+                         alt="Teammates together at a softball event"
+                         loading="lazy">
+                </div>
+            </div>
+
+            <div class="col-12 col-sm-6 col-lg">
+                <div class="gallery-photo">
+                    <img src="{{ url_for('static', filename='images/team5.png') }}"
+                         alt="Maryland Club Softball team photo"
+                         loading="lazy">
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<!-- Call-to-action section -->
+<section class="join-section">
+    <div class="join-content">
+
+        <div class="join-text">
+            <p class="join-heading">READY FOR THE SEASON?</p>
+            <h2>JOIN YOUR TEAM WORKSPACE.</h2>
+        </div>
+
+        <!--added buttons-->
+
+<div class="join-buttons">
+    <a href="/create-account" class="btn btn-warning">
+        Create an account
+    </a>
+
+    <a href="/log-in" class="btn btn-outline-light">
+        Log in
+    </a>
+</div>
+
+
+
+    </div>
+</section>
+    <!-- Website footer -->
+<footer class="site-footer">
+    <p class="footer-brand">UNIVERSITY OF MARYLAND CLUB SOFTBALL</p>
+
+    <p class="footer-tagline">
+        Built for players, leaders, and advisors.
+    </p>
+     <a href="https://www.instagram.com/umdclubsoftball/"
+       target="_blank"
+       rel="noopener noreferrer"
+       class="footer-instagram"
+       aria-label="Visit our Instagram account">
+
+        <i class="bi bi-instagram" aria-hidden="true"></i>
+
+    </a>
+</footer>
+
+</main>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
 </body>
 </html>

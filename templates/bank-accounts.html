@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+
+{% block title %}Bank Accounts{% endblock %}
+
+{% block content %}
+<!-- Page content -->
+<section class="page-content">
+
+    <!-- PAGE HEADER -->
+    <section class="financial-ledger-header">
+        <p class="ledger-label">UMD CLUB SOFTBALL</p>
+        <h2>BANK ACCOUNTS</h2>
+    </section>
+
+    <div class="page-layout">
+        <div class="container-fluid bank-container">
+            <div class="row g-3">
+
+            <!-- SGA Account -->
+            <div class="col-12 col-md-6">
+                <div class="bank-card">
+                    <div class="bank-icon">
+                        <i class="bi bi-bank" aria-hidden="true"></i>
+                    </div>
+
+                    <h2>SGA ACCOUNT</h2>
+                    <span class="account-balance">$3,000</span>
+                    <p class="type">Umpires &amp; Equipment</p>
+                </div>
+            </div>
+
+            <!-- RecWell Account -->
+            <div class="col-12 col-md-6">
+                <div class="bank-card">
+                    <div class="bank-icon">
+                        <i class="bi bi-bank" aria-hidden="true"></i>
+                    </div>
+                    <h2>RECWELL ACCOUNT</h2>
+                    <span class="account-balance">$3,000</span>
+                    <p class="type">Hotels &amp; Equipment</p>
+                </div>
+            </div>
+
+            <!-- Foundation Account -->
+            <div class="col-12 col-md-6">
+                <div class="bank-card">
+                    <div class="bank-icon">
+                        <i class="bi bi-bank" aria-hidden="true"></i>
+                    </div>
+
+                    <h2>FOUNDATION ACCOUNT</h2>
+                    <span class="account-balance">$3,000</span>
+                    <p class="type">Donations &amp; Grants</p>
+                </div>
+            </div>
+
+            <!-- SECU Account -->
+            <div class="col-12 col-md-6">
+                <div class="bank-card">
+                    <div class="bank-icon">
+                        <i class="bi bi-bank" aria-hidden="true"></i>
+                    </div>
+
+                    <h2>SECU ACCOUNT</h2>
+                    <span class="account-balance">$3,000</span>
+                    <p class="type">Food &amp; Transportation</p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+</section>
+
+{% endblock %}

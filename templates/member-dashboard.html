@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block title %}Member Dashboard{% endblock %}
+
+{% block content %}
+    <section class="financial-ledger-header">
+        <p class="ledger-label">UMD CLUB SOFTBALL</p>
+        <h1>WELCOME BACK, TEDDY</h1>
+    </section>
+        <h2>Your Portals</h2>
+<!--Row of two cards, each one functions as a button -->
+<div class="row">
+  <div class="col">
+    <div class="card mb-3" style="max-width: 540px;">
+        <div class="row g-0 align-items-center">
+            <div class="col-md-4 text-center">
+                <i class="bi bi-person-fill display-3 text-danger"></i>
+            </div>
+            <div class="col-md-8">
+                <div class="card-body">
+                    <h3 class="card-title">My Information</h3>
+                    <p class="card-text">Verify team, graduation, roster, and dues details</p>
+                    <a href="/my-information" class="stretched-link"></a>
+                </div>
+            </div>
+        </div>
+    </div>
+  </div>
+  <div class="col">
+    <div class="card mb-3" style="max-width: 540px;">
+        <div class="row g-0 align-items-center">
+            <div class="col-md-4 text-center">
+                <i class="bi bi-credit-card display-3 text-danger"></i>
+            </div>
+            <div class="col-md-8">
+                <div class="card-body">
+                    <h3 class="card-title">Pay Dues</h3>
+                    <p class="card-text">Pay your assigned team dues securely through PayPal</p>
+                    <a href="/pay-dues" class="stretched-link"></a>
+                </div>
+            </div>
+        </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,158 @@
+{% extends "base.html" %}
+
+{% block title %}USER PERMISSIONS{% endblock %}
+
+{% block content %}
+
+<!-- PAGE HEADER -->
+<section class="financial-ledger-header">
+    <p class="ledger-label">UMD CLUB SOFTBALL</p>
+    <h1>USER PERMISSIONS</h1>
+</section>
+
+    <div class="permissions-main">
+
+        <section class="permissions-card" aria-label="User permission management">
+
+            <!-- Search and role filter toolbar -->
+            <!-- Search, filter, and save button toolbar -->
+<div class="permissions-toolbar">
+
+    <!-- Search and role filter grouped together -->
+    <div class="permissions-filters">
+
+        <div class="search-wrapper">
+            <i class="bi bi-search" aria-hidden="true"></i>
+
+            <input type="search"
+                   id="memberSearch"
+                   class="form-control search-input"
+                   placeholder="Search members by name or email"
+                   aria-label="Search members by name or email">
+        </div>
+
+        <div class="role-filter-wrapper">
+            <select id="roleFilter"
+                    class="form-select role-filter"
+                    aria-label="Filter members by role">
+
+                <option value="all" selected>All roles</option>
+                <option value="Member">Member</option>
+                <option value="Treasurer">Treasurer</option>
+                <option value="Executive Board">Executive Board</option>
+                <option value="Faculty Advisor">Faculty Advisor</option>
+
+            </select>
+        </div>
+
+    </div>
+
+    <!-- Save Changes button -->
+    <button type="button" class="permissions-save-button">
+        Save Changes
+    </button>
+
+</div>
+
+            <!-- Member list container -->
+            <div class="permissions-list" id="permissionsList">
+
+                <!-- Teddy Terrapin -->
+                <div class="permission-row"
+                     data-name="Teddy Terrapin"
+                     data-email="teddy@terpmail.umd.edu">
+
+                    <div class="member-info">
+                        <h2>Teddy Terrapin</h2>
+                        <p>teddy@terpmail.umd.edu</p>
+                    </div>
+
+                    <div class="role-actions">
+                        <label class="visually-hidden" for="role-teddy">
+                            Role for Teddy Terrapin
+                        </label>
+
+                        <select id="role-teddy" class="form-select member-role">
+                            <option selected>Member</option>
+                            <option>Treasurer</option>
+                            <option>Executive Board</option>
+                            <option>Faculty Advisor</option>
+                        </select>
+
+                        <button type="button" class="save-role-button">
+                            Delete role
+                        </button>
+                    </div>
+
+                </div>
+
+                <!-- Chucky Cheese -->
+                <div class="permission-row"
+                     data-name="Chucky Cheese"
+                     data-email="chucky@terpmail.umd.edu">
+
+                    <div class="member-info">
+                        <h2>Chucky Cheese</h2>
+                        <p>chucky@terpmail.umd.edu</p>
+                    </div>
+
+                    <div class="role-actions">
+                        <label class="visually-hidden" for="role-chucky">
+                            Role for Chucky Cheese
+                        </label>
+
+                        <select id="role-chucky" class="form-select member-role">
+                            <option>Member</option>
+                            <option selected>Treasurer</option>
+                            <option>Executive Board</option>
+                            <option>Faculty Advisor</option>
+                        </select>
+
+                        <button type="button" class="save-role-button">
+                            Delete role
+                        </button>
+                    </div>
+
+                </div>
+
+                <!-- Annabelle Doll -->
+                <div class="permission-row"
+                     data-name="Annabelle Doll"
+                     data-email="annabelle@terpmail.umd.edu">
+
+                    <div class="member-info">
+                        <h2>Annabelle Doll</h2>
+                        <p>annabelle@terpmail.umd.edu</p>
+                    </div>
+
+                    <div class="role-actions">
+                        <label class="visually-hidden" for="role-annabelle">
+                            Role for Annabelle Doll
+                        </label>
+
+                        <select id="role-annabelle" class="form-select member-role">
+                            <option>Member</option>
+                            <option>Treasurer</option>
+                            <option selected>Executive Board</option>
+                            <option>Faculty Advisor</option>
+                        </select>
+
+                        <button type="button" class="save-role-button">
+                            Delete Role
+                        </button>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- No members message -->
+            <p id="noMembersMessage" class="no-members-message" hidden>
+                No members match your search.
+            </p>
+
+        </section>
+
+    </div>
+
+{% endblock %}

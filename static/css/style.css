@@ -1,4 +1,4 @@
-/* --- 1. CSS Variables (Color Palette) --- */
+/* CSS Variables (Color Palette) */
 :root {
 --sidebar-bg: #111111;
 --main-bg: #fbf9f6;
@@ -10,10 +10,19 @@
 --border-light: #eae5de;
 }
 
+.back-link {
+    color: var(--brand-red, #d91a3c);
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 600;
+}
 
+.back-link:hover {
+    text-decoration: underline;
+    color: var(--brand-red-hover, #b51230);
+}
 
-
-/* --- 2. Base & Typography --- */
+/* Base Background */
 body {
 background-color: var(--main-bg);
 font-family: system-ui, -apple-system, sans-serif;
@@ -21,14 +30,14 @@ margin: 0;
 }
 
 
-/* --- NAV BAR STYLES --- */
+/* NAV BAR STYLES */
 
-/* --- 3. Layout: Sidebar & Main Wrapper --- */
+/* Layout: Sidebar & Main Wrapper */
 .sidebar {
 width: 260px;
 background-color: var(--sidebar-bg);
 color: #fff;
-min-height: 100vh;
+height: 100vh;
 display: flex;
 flex-direction: column;
 justify-content: space-between;
@@ -109,6 +118,23 @@ margin: 2px 14px;
 padding: 10px 14px;
 }
 
+/* Sidebar Navigation */
+.sidebar-nav {
+    flex-grow: 1;
+    overflow-y: auto;
+    min-height: 0;
+    padding-bottom: 20px;
+}
+
+/* Customize the scrollbar to match theme */
+.sidebar-nav::-webkit-scrollbar {
+    width: 6px;
+}
+.sidebar-nav::-webkit-scrollbar-thumb {
+    background-color: #333;
+    border-radius: 10px;
+}
+
 /* User Profile Chip (Bottom of Sidebar) */
 .user-chip {
 padding: 16px 20px;
@@ -139,7 +165,7 @@ align-items: center;
 padding-bottom: 20px;
 }
 
-/* --- 4. Cards & Badges --- */
+/* Cards & Badges */
 .content-card {
 background: #fff;
 border-radius: 16px;
@@ -180,14 +206,14 @@ font-weight: 800;
 text-transform: uppercase;
 }
 
-/* --- 5. Forms --- */
+/* Forms */
 .form-label {
 font-size: 13px;
 font-weight: 700;
 color: #212529;
 }
 
-/* --- 6. Tables --- */
+/* Tables */
 .table thead th {
 font-size: 11px;
 text-transform: uppercase;
@@ -207,10 +233,21 @@ border-bottom: 1px solid #f3f0ea;
 white-space: nowrap;
 }
 
-.amount-pos { color: #198754; font-weight: 700; }
-.amount-neg { color: var(--brand-red); font-weight: 700; }
+.table tbody td.amount-pos,
+.ledger-table tbody td.amount-pos,
+td.amount-pos {
+    color: #198754 !important;
+    font-weight: 700;
+}
 
-/* --- 7. Buttons --- */
+.table tbody td.amount-neg,
+.ledger-table tbody td.amount-neg,
+td.amount-neg {
+    color: var(--brand-red, #d91a3c) !important;
+    font-weight: 700;
+}
+
+/* Buttons */
 .close-btn {
 position: absolute;
 top: 20px;
@@ -324,7 +361,7 @@ border-color: #111111;
 color: #ffffff;
 }
 
-/* --- 8. Miscellaneous Components --- */
+/* Miscellaneous Components */
 .floating-chat {
 position: fixed;
 bottom: 24px;
@@ -342,10 +379,10 @@ text-decoration: none;
 z-index: 1050;
 }
 
-/* --- END NAV BAR STYLES --- */
+/* END NAV BAR STYLES */
 
 
-/* --- LOG-IN PAGE STYLES --- */
+/* LOG-IN PAGE STYLES */
 
 .login-page-bg {
 min-height: 100vh;
@@ -478,7 +515,7 @@ color: #ffffff;}
 .btn-portal-red:active {
 transform: translateY(1px);}
 
-/* --- END LOG-IN PAGE STYLES --- */
+/* END LOG-IN PAGE STYLES */
 
 
 /* LOG-IN PAGE: EMAIL & PASSWORD VALIDATION STYLES */
@@ -498,7 +535,7 @@ transform: translateY(1px);}
     font-weight: 600;
 }
 
-/* Invalid / In-progress criteria state (UMD Red indicator) */
+/* Invalid / In-progress criteria state (Red indicator) */
 .pwd-feedback-invalid {
     color: var(--brand-red, #d91a3c) !important;
     font-weight: 500;
@@ -517,7 +554,6 @@ transform: translateY(1px);}
 }
 /* END LOG-IN PAGE: EMAIL & PASSWORD VALIDATION STYLES */
 
-/*----- annemarie ----*/
 /* REIMBURSEMENT REQUEST PAGE */
 
 .reimbursement-page {
@@ -613,9 +649,7 @@ transform: translateY(1px);}
     background-color: #b20d24;
     border-color: #b20d24;
 }
-/* =========================================
-   REIMBURSEMENT REVIEW PAGE
-   ========================================= */
+/* REIMBURSEMENT REVIEW PAGE SPECIFIC STYLES */
 
 .reimbursement-review-page {
     background-color: #f7f5f2;
@@ -756,9 +790,9 @@ transform: translateY(1px);}
     margin-top: 20px;
     font-size: 12px;
     color: #999999;
-}/* =========================================
-   FINANCIAL REPORTS PAGE
-   ========================================= */
+}
+
+/* FINANCIAL REPORTS PAGE SPECIFIC STYLES */
 
 .financial-report-page {
     background-color: #f7f5f2;
@@ -1034,42 +1068,126 @@ transform: translateY(1px);}
 }
 
 
-
-/* ==========================================================
-   RECORD TRANSACTION PAGE SPECIFIC STYLES
-   ========================================================== */
-
-.form-control:focus,
-.form-select:focus {
-    border-color: var(--brand-red);
-    box-shadow: 0 0 0 3px rgba(217, 26, 60, 0.15);
-    outline: none;
+/* RECORD TRANSACTION PAGE SPECIFIC STYLES */
+.record-header {
+    margin-bottom: 30px;
 }
 
-.form-textarea {
+.record-header .record-label {
+    color: #b20d24;
+    font-size: 12px;
+    font-weight: bold;
+    letter-spacing: 2px;
+    margin-bottom: 4px;
+}
+
+.record-header h1 {
+    color: #242122;
+    font-size: 42px;
+    font-weight: 800;
+    margin-bottom: 10px;
+}
+
+.record-header p {
+    color: #777777;
+    margin: 0;
+}
+
+/* Form Card Container */
+.record-card {
+    max-width: 820px;
+    background-color: #ffffff;
+    border: 1px solid var(--border-light, #eae5de);
+    border-radius: 16px;
+    padding: 30px;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.03);
+}
+
+/* Grid & Column Layout */
+.portal-form .form-grid {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    column-gap: 20px;
+    row-gap: 16px;
+}
+
+.portal-form .col-md-6 {
+    grid-column: span 6;
+    display: flex;
+    flex-direction: column;
+}
+
+.portal-form .col-12 {
+    grid-column: span 12;
+    display: flex;
+    flex-direction: column;
+}
+/* Form Inputs, Selects, and Textareas */
+.portal-form .form-label {
+    font-size: 13px;
+    font-weight: 700;
+    color: #333333;
+    margin-bottom: 6px;
+}
+
+.portal-form .form-control,
+.portal-form .form-select {
+    width: 100%;
+    background-color: #faf9f7;
+    border: 1px solid #e5e0dc;
+    border-radius: 8px;
+    padding: 10px 14px;
+    font-size: 14px;
+    box-sizing: border-box;
+    outline: none;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.portal-form .form-control:focus,
+.portal-form .form-select:focus {
+    border-color: var(--brand-red, #d91a3c);
+    box-shadow: 0 0 0 3px rgba(217, 26, 60, 0.15);
+}
+
+.portal-form .form-textarea {
     resize: vertical;
     min-height: 90px;
 }
 
-select.form-control optgroup {
+select.form-control optgroup,
+select.form-select optgroup {
     font-weight: 700;
-    color: var(--text-dark);
+    color: var(--text-dark, #1a1a1a);
     padding-top: 6px;
 }
 
-select.form-control option {
+select.form-control option,
+select.form-select option {
     font-weight: 400;
     padding: 4px 8px;
-    color: var(--text-dark);
+    color: var(--text-dark, #1a1a1a);
 }
 
-.file-input {
+.portal-form .file-input {
     padding: 8px 12px;
     background-color: #faf9f7;
     cursor: pointer;
 }
-/* HOME PAGE */
-/*Homepage*/
+
+/* Action Toolbar */
+.record-card .form-actions-toolbar {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 12px;
+    margin-top: 24px;
+    padding-top: 16px;
+    border-top: 1px solid #f2eee9;
+}
+
+/* END RECORD TRANSACTION PAGE SPECIFIC STYLES */
+
+/* HOME PAGE SPECIFIC STYLES */
 .homepage{
      display: flex;
     flex-direction: column;
@@ -1113,6 +1231,8 @@ select.form-control option {
 .home-purpose{
     background-color: #242021;
     min-height: 500px;
+    padding: 50px 4.5%;
+    box-sizing: border-box;
 }
 .home-purpose h2 {
     color: #F6F4F0;
@@ -1131,11 +1251,10 @@ select.form-control option {
 .home-container-text-center {
     background-color: #2B2829;
     color: floralwhite;
-    border-radius: 12px;
-    padding: 20px;
-    margin: 100px;
-    min-height: 250px;
-    align-content: center;
+    border-radius: 18px;
+    padding: 40px 30px;
+    margin: 0;
+    box-sizing: border-box;
 }
 
 .teamphoto {
@@ -1438,3 +1557,1531 @@ select.form-control option {
 .gallery-photo:hover img {
     transform: scale(1.05);
 }
+
+
+/* END HOME PAGE SPECIFIC STYLES */
+
+
+/* FINANCIAL LEDGER PAGE SPECIFIC STYLES */
+
+.financial-ledger-header {
+    margin-bottom: 30px;
+}
+
+.financial-ledger-header .ledger-label {
+    color: #b20d24;
+    font-size: 12px;
+    font-weight: bold;
+    letter-spacing: 2px;
+    margin-bottom: 4px;
+}
+
+.financial-ledger-header h1 {
+    color: #242122;
+    font-size: 42px;
+    font-weight: 800;
+    margin-bottom: 10px;
+}
+
+.financial-ledger-header p {
+    color: #777777;
+    margin: 0;
+}
+
+.ledger-card {
+    background: #ffffff;
+    border: 1px solid var(--border-light, #eae5de);
+    border-radius: 18px;
+    padding: 28px 32px 36px;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.03);
+    box-sizing: border-box;
+    margin-bottom: 40px;
+}
+
+/* Toolbar & Filter Bar */
+/* --- Ledger Toolbar Container --- */
+.ledger-toolbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 20px;
+    padding-bottom: 20px;
+    margin-bottom: 24px;
+    border-bottom: 1px solid #f2eee9;
+}
+
+/* --- Left Title Group --- */
+.ledger-toolbar-left {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    min-width: 260px;
+}
+
+.ledger-title {
+    font-size: 21px;
+    font-weight: 800;
+    color: var(--text-dark, #1a1a1a);
+    margin: 0;
+    letter-spacing: -0.3px;
+}
+
+.ledger-subtitle {
+    font-size: 13px;
+    color: var(--text-muted, #737373);
+    margin: 0;
+}
+
+/* --- Right Control Group --- */
+.toolbar-actions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.filter-wrapper {
+    position: relative;
+    display: inline-block;
+}
+
+.filter-select {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background-color: #faf9f7;
+    border: 1px solid #ded8d2;
+    border-radius: 9px;
+    padding: 9px 38px 9px 14px;
+    font-size: 13px;
+    font-weight: 600;
+    color: #242122;
+    cursor: pointer;
+    outline: none;
+    transition: all 0.15s ease;
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23555555' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    background-size: 12px;
+}
+
+.filter-select:hover {
+    border-color: #c4beb7;
+    background-color: #ffffff;
+}
+
+.filter-select:focus {
+    border-color: var(--brand-red, #d91a3c);
+    box-shadow: 0 0 0 3px rgba(217, 26, 60, 0.12);
+    background-color: #ffffff;
+}
+
+/* Button Refinements for Height & Alignment Consistency */
+.btn-action-reports,
+.btn-action-upload,
+.btn-action-create {
+    height: 38px;
+    box-sizing: border-box;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 16px;
+    font-size: 13px;
+    font-weight: 700;
+    border-radius: 9px;
+    text-decoration: none;
+    white-space: nowrap;
+    transition: all 0.15s ease;
+}
+
+.btn-action-reports {
+    background: #ffffff;
+    color: #8c1d40;
+    border: 1.5px solid #ecd8de;
+}
+
+.btn-action-reports:hover {
+    background: #fdf5f7;
+    border-color: #8c1d40;
+    color: #6d1531;
+    transform: translateY(-1px);
+}
+
+.btn-action-upload {
+    background: #ffffff;
+    color: #2b2f33;
+    border: 1.5px solid #ded8d2;
+    gap: 6px;
+}
+
+.btn-action-upload:hover {
+    background: #f8f6f2;
+    border-color: #111111;
+    color: #000000;
+    transform: translateY(-1px);
+}
+
+.upload-icon {
+    font-size: 14px;
+    line-height: 1;
+}
+
+.btn-action-create {
+    background: linear-gradient(135deg, #e32646 0%, #d91a3c 100%);
+    color: #ffffff;
+    border: none;
+    gap: 6px;
+    padding: 0 18px;
+    box-shadow: 0 3px 10px rgba(217, 26, 60, 0.25);
+}
+
+.btn-action-create:hover {
+    background: linear-gradient(135deg, #cf1637 0%, #b51230 100%);
+    color: #ffffff;
+    transform: translateY(-1px);
+    box-shadow: 0 5px 14px rgba(217, 26, 60, 0.35);
+}
+
+/* Table Format */
+.ledger-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.ledger-table thead th {
+    font-size: 11px;
+    font-weight: 800;
+    color: #6c757d;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border-bottom: 1px solid #e9e5e0;
+    padding: 14px 16px;
+    white-space: nowrap;
+    text-align: left;
+}
+
+.ledger-table tbody td {
+    font-size: 13px;
+    padding: 16px;
+    color: #212529;
+    border-bottom: 1px solid #f4f1eb;
+    vertical-align: middle;
+    white-space: nowrap;
+}
+
+.ledger-table tbody tr:hover td {
+    background-color: #faf9f7;
+}
+
+/* Save / Delete Success Alert Banner */
+.ledger-toast-alert {
+    background-color: #d1e7dd;
+    color: #0f5132;
+    border: 1px solid #badbcc;
+    border-radius: 12px;
+    padding: 14px 20px;
+    font-size: 14px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 12px rgba(15, 81, 50, 0.08);
+    animation: toastSlideDown 0.3s ease-out;
+}
+
+.toast-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 22px;
+    height: 22px;
+    background-color: #0f5132;
+    color: #ffffff;
+    border-radius: 50%;
+    font-size: 12px;
+}
+
+/* FINANCIAL LEDGER: VIEW RECEIPT SPECIFIC STYLES */
+
+.btn-view-receipt {
+    background: none;
+    border: none;
+    color: var(--brand-red, #d91a3c);
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    padding: 0;
+    text-decoration: none;
+    transition: color 0.15s ease;
+}
+
+.btn-view-receipt:hover {
+    color: var(--brand-red-hover, #b51230);
+    text-decoration: underline;
+}
+
+.modal-preview-body {
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.receipt-display-frame {
+    width: 100%;
+    min-height: 380px;
+    background-color: #faf9f7;
+    border: 1px solid #dee2e6;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.receipt-image-preview {
+    max-width: 100%;
+    max-height: 520px;
+    object-fit: contain;
+    border-radius: 8px;
+}
+
+.receipt-pdf-frame {
+    width: 100%;
+    height: 520px;
+    border: none;
+    border-radius: 8px;
+}
+
+/* FINANCIAL LEDGER: EDIT ACTION SPECIFIC STYLES */
+
+.ledger-modal-card {
+    background: #ffffff;
+    border-radius: 20px;
+    border: none;
+    box-shadow: 0 20px 50px -10px rgba(0, 0, 0, 0.45);
+    overflow: hidden;
+}
+
+.ledger-modal-card .modal-header {
+    background-color: #ffffff;
+    padding: 28px 36px 18px 54px !important;
+    border-bottom: 1px solid #f0ede8;
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: flex-start !important;
+}
+
+.ledger-modal-card .modal-title {
+    color: #242122;
+    margin: 0;
+    font-size: 20px;
+    font-weight: 800;
+}
+
+
+.ledger-modal-card .modal-body {
+    padding: 24px 28px;
+    max-height: calc(85vh - 160px);
+    overflow-y: auto;
+}
+
+.ledger-modal-card .form-grid {
+    display: grid !important;
+    grid-template-columns: repeat(2, 1fr) !important;
+    column-gap: 20px;
+    row-gap: 16px;
+    width: 100%;
+}
+
+.ledger-modal-card .form-group {
+    grid-column: span 1;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 0;
+    min-width: 0;
+}
+
+.ledger-modal-card .form-group.full-width {
+    grid-column: span 2 !important;
+}
+
+.ledger-modal-card .modal-footer {
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    padding: 18px 36px 26px 54px !important;
+    border-top: 1px solid #f0ede8;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* Locked Read-Only Transaction ID */
+.form-control-readonly {
+    background-color: #f1ede7 !important;
+    color: #777777 !important;
+    border-color: #ded8d2 !important;
+    cursor: not-allowed !important;
+    font-weight: 700;
+    user-select: none;
+}
+
+.form-control-readonly:focus {
+    border-color: #ded8d2 !important;
+    box-shadow: none !important;
+}
+
+.ledger-modal-card .right-actions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.btn-delete-entry {
+    background: #ffffff;
+    border: 1.5px solid var(--brand-red, #d91a3c);
+    color: var(--brand-red, #d91a3c);
+    font-size: 13px;
+    font-weight: 700;
+    border-radius: 10px;
+    padding: 10px 20px;
+    cursor: pointer;
+    transition: all 0.15s ease;
+}
+
+.btn-delete-entry:hover {
+    background: #fdf5f7;
+    border-color: var(--brand-red-hover, #b51230);
+    color: var(--brand-red-hover, #b51230);
+}
+
+/* END FINANCIAL LEDGER PAGE SPECIFIC STYLES */
+
+
+/* UPLOAD TRANSACTIONS PAGE SPECIFIC STYLES */
+.upload-header {
+    margin-bottom: 28px;
+}
+
+.upload-header .upload-label {
+    color: #b20d24;
+    font-size: 12px;
+    font-weight: bold;
+    letter-spacing: 2px;
+    margin-bottom: 4px;
+}
+
+.upload-header h1 {
+    color: #242122;
+    font-size: 42px;
+    font-weight: 800;
+    margin-bottom: 8px;
+}
+
+.upload-header p {
+    color: #777777;
+    margin: 0;
+    font-size: 14px;
+}
+
+/* Single Form Card */
+.upload-single-card {
+    max-width: 820px;
+    background: #ffffff;
+    border: 1px solid var(--border-light, #eae5de);
+    border-radius: 20px;
+    padding: 34px 34px 28px;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.03);
+}
+
+.upload-card-header {
+    margin-bottom: 24px;
+}
+
+.upload-card-title {
+    font-size: 20px;
+    font-weight: 800;
+    color: #1a1a1a;
+    margin: 0 0 6px 0;
+}
+
+.upload-card-subtitle {
+    font-size: 13px;
+    color: #737373;
+    line-height: 1.5;
+    margin: 0;
+}
+
+/* Dashed Dropzone */
+.upload-dropzone {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border: 2px dashed #ded8d2;
+    border-radius: 18px;
+    padding: 56px 20px;
+    background-color: #faf9f7;
+    cursor: pointer;
+    text-align: center;
+    position: relative;
+    transition: all 0.2s ease;
+    margin-bottom: 28px;
+}
+
+.upload-dropzone:hover {
+    border-color: var(--brand-red, #d91a3c);
+    background-color: #fdfaf9;
+}
+
+.upload-file-input {
+    position: absolute;
+    width: 0.1px;
+    height: 0.1px;
+    opacity: 0;
+    overflow: hidden;
+    z-index: -1;
+}
+
+.dropzone-circle-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background-color: var(--brand-red, #d91a3c);
+    color: #ffffff;
+    font-size: 20px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 14px;
+    box-shadow: 0 4px 12px rgba(217, 26, 60, 0.25);
+    transition: transform 0.15s ease;
+}
+
+.upload-dropzone:hover .dropzone-circle-icon {
+    transform: translateY(-2px);
+}
+
+.dropzone-text {
+    font-size: 15px;
+    font-weight: 700;
+    color: #1a1a1a;
+    margin: 0 0 4px 0;
+}
+
+.dropzone-text.selected-filename {
+    color: var(--brand-red, #d91a3c);
+    font-weight: 800;
+}
+
+.dropzone-subtext {
+    font-size: 12px;
+    color: #8c8c8c;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* Action Footer Toolbar */
+.upload-footer-toolbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    padding-top: 10px;
+    border-top: 1px solid #f2eee9;
+}
+
+.upload-footer-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.btn-return-overview {
+    background: #ffffff;
+    border: 1px solid #d5d0c7;
+    color: #2b2f33;
+    font-size: 13px;
+    font-weight: 700;
+    border-radius: 10px;
+    padding: 10px 20px;
+    text-decoration: none;
+    transition: all 0.15s ease;
+}
+
+.btn-return-overview:hover {
+    background: #f8f6f2;
+    border-color: #111111;
+    color: #000000;
+}
+
+.btn-submit-upload {
+    background: var(--brand-red, #d91a3c);
+    border: 1.5px solid var(--brand-red, #d91a3c);
+    color: #ffffff;
+    font-size: 13px;
+    font-weight: 700;
+    border-radius: 10px;
+    padding: 10px 24px;
+    cursor: pointer;
+    box-shadow: 0 3px 10px rgba(217, 26, 60, 0.25);
+    transition: all 0.15s ease;
+}
+
+.btn-submit-upload:hover {
+    background: var(--brand-red-hover, #b51230);
+    border-color: var(--brand-red-hover, #b51230);
+    transform: translateY(-1px);
+}
+
+/* END UPLOAD TRANSACTIONS PAGE SPECIFIC STYLES */
+
+/* Individual feature */
+.purpose-card {
+    height: 100%;
+    padding: 10px;
+    text-align: left;
+}
+
+/* Red icons */
+.purpose-card .icon-red {
+    display: block;
+    color: #E21833;
+    font-size: 48px;
+    margin-bottom: 22px;
+}
+
+/* Feature headings */
+.purpose-card h3 {
+    color: #F6F4F0;
+    font-size: 25px;
+    font-weight: 800;
+    margin: 0 0 18px 0;
+}
+
+/* Feature descriptions */
+.purpose-card p {
+    color: #D6D1D2;
+    font-size: 17px;
+    line-height: 1.7;
+    margin: 0;
+}
+
+
+/* Instagram icon */
+.instagram-icon {
+    width: 28px;
+    height: 28px;
+    object-fit: contain;
+    display: inline-block;
+    transition: transform 0.2s ease;
+}
+
+/* Slightly enlarge the icon on hover */
+.instagram-icon:hover {
+    transform: scale(1.1);
+}
+.footer-instagram {
+    color: #F6F4F0;
+    font-size: 24px;
+    text-decoration: none;
+    flex-shrink: 0;
+    transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.footer-instagram:hover {
+    color: #E7A0B5;
+    transform: scale(1.1);
+}
+
+/* BANK ACCOUNTS */
+
+/* Bank account grid */
+.bank-container {
+    padding: 12px 0;
+}
+
+/* Individual bank account card */
+.bank-card {
+    position: relative;
+    background-color: #ffffff;
+    border: 1px solid #ded9d3;
+    border-radius: 20px;
+    padding: 28px;
+    min-height: 220px;
+    text-align: left;
+}
+
+/* Pink square behind the red bank icon */
+.bank-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    background-color: #fce8eb;
+    border-radius: 15px;
+    margin-bottom: 24px;
+}
+
+/* Red bank icon */
+.bank-icon i {
+    color: #c8102e;
+    font-size: 22px;
+    line-height: 1;
+}
+
+/* Bank account heading */
+.bank-card h2 {
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    color: #77716e;
+    margin-bottom: 8px;
+}
+
+/* Bank account layout */
+.bank-container {
+    width: 100%;
+    max-width: 1500px;
+    padding: 12px 0;
+    margin: 0 auto;
+}
+
+/* Bootstrap grid spacing */
+.bank-container .row {
+    --bs-gutter-x: 20px;
+    --bs-gutter-y: 20px;
+}
+
+/* Individual bank account card */
+.bank-card {
+    position: relative;
+    width: 100%;
+    min-height: 220px;
+    padding: 28px;
+    background-color: #ffffff;
+    border: 1px solid #ded9d3;
+    border-radius: 20px;
+    text-align: left;
+    box-sizing: border-box;
+}
+
+/* Bank icon background */
+.bank-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    margin-bottom: 24px;
+    background-color: #fce8eb;
+    border-radius: 15px;
+    flex-shrink: 0;
+}
+
+/* Red bank icon */
+.bank-icon i {
+    color: #c8102e;
+    font-size: 22px;
+    line-height: 1;
+}
+
+/* Account heading */
+.bank-card h3 {
+    margin: 0 0 8px;
+    color: #77716e;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    line-height: 1.4;
+}
+
+/* Balance */
+.bank-card .account-balance {
+    display: block;
+    margin-bottom: 5px;
+    color: #242021;
+    font-size: 32px;
+    font-weight: 800;
+    line-height: 1.2;
+}
+
+/* Account description */
+.bank-card .type {
+    margin: 0;
+    color: #77716e;
+    font-size: 14px;
+}
+
+.permissions-page {
+    --permissions-red: #c8102e;
+    --permissions-dark: #292526;
+    --permissions-cream: #f6f4f0;
+    --permissions-white: #ffffff;
+    --permissions-border: #e1d9d2;
+    --permissions-muted: #817b7b;
+
+    min-height: 100vh;
+    background-color: var(--permissions-cream);
+    color: var(--permissions-dark);
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+/* PERMISSIONS CARD */
+
+.permissions-card {
+    overflow: hidden;
+    width: 100%;
+    border: 1px solid var(--permissions-border);
+    border-radius: 25px;
+    background-color: var(--permissions-white);
+}
+
+/* Search and filter row */
+
+.permissions-toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    min-height: auto;
+    padding: 16px 24px;
+    border-bottom: 1px solid ;
+}
+
+.search-wrapper {
+    position: relative;
+    width: 265px;
+    max-width: 100%;
+}
+
+.search-wrapper > i {
+    position: absolute;
+    top: 50%;
+    left: 19px;
+    z-index: 1;
+    transform: translateY(-50%);
+    color: #8a8181;
+    font-size: 17px;
+    pointer-events: none;
+}
+
+.search-input.form-control {
+    width: 100%;
+    min-height: 59px;
+    padding: 12px 15px 12px 52px;
+    border: 1px solid ;
+    border-radius: 13px;
+    background-color: #fff;
+    box-shadow: none;
+    font-size: 15px;
+}
+
+.search-input::placeholder {
+    color: #b0a8a8;
+    opacity: 1;
+}
+
+.search-input:focus,
+.role-filter:focus,
+.member-role:focus {
+    border-color: var(--permissions-red);
+    box-shadow: 0 0 0 3px rgb(200 16 46 / 10%);
+}
+
+.role-filter-wrapper {
+    width: 247px;
+    max-width: 100%;
+}
+
+.role-filter.form-select {
+    width: 100%;
+    min-height: 44px;
+    padding: 12px 40px 12px 20px;
+    border: 1px solid ;
+    border-radius: 13px;
+    background-color: #fff;
+    box-shadow: none;
+    font-size: 15px;
+}
+
+/* INDIVIDUAL USER ROWS */
+
+.permission-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 28px;
+    min-height: 108px;
+    padding: 22px 30px;
+    border-bottom: 1px solid #ece6e0;
+}
+
+.permission-row:last-child {
+    border-bottom: 0;
+}
+
+.member-info {
+    flex: 1 1 auto;
+    min-width: 0;
+}
+
+.member-info h2 {
+    margin: 0 0 9px;
+    color: #201d1e;
+    font-size: 19px;
+    font-weight: 700;
+    line-height: 1.3;
+}
+
+.member-info p {
+    margin: 0;
+    color: #777080;
+    font-size: 14px;
+    overflow-wrap: anywhere;
+}
+
+.role-actions {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 18px;
+    flex: 0 0 auto;
+}
+
+.member-role.form-select {
+    width: 330px;
+    min-height: 59px;
+    padding: 12px 42px 12px 20px;
+    border: 1px solid;
+    border-radius: 13px;
+    background-color: #fff;
+    box-shadow: none;
+    font-size: 19px;
+}
+
+.save-role-button {
+    min-width: 100px;
+    padding: 10px 0;
+    border: 0;
+    background: transparent;
+    color: var(--permissions-red);
+    font-size: 19px;
+    white-space: nowrap;
+    transition: color 0.2s ease;
+}
+
+.save-role-button:hover {
+    color: #8e0b21;
+    text-decoration: underline;
+}
+
+.save-role-button:focus-visible,
+.notification-button:focus-visible,
+.logout-button:focus-visible {
+    outline: 3px solid rgb(200 16 46 / 35%);
+    outline-offset: 3px;
+}
+
+/* Search/filter empty state */
+
+.no-members-message {
+    margin: 0;
+    padding: 35px 20px;
+    color: var(--permissions-muted);
+    text-align: center;
+    font-size: 16px;
+}
+
+.permission-row[hidden],
+.no-members-message[hidden] {
+    display: none !important;
+}
+.permissions-filters {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    flex: 1;
+    min-width: 0;
+}
+.permissions-save-button {
+    min-height: 48px;
+    padding: 10px 24px;
+    border: 1px solid #e21833;
+    border-radius: 8px;
+    background-color: #e21833;
+    color: white;
+    font-size: 15px;
+    font-weight: 600;
+    white-space: nowrap;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.permissions-save-button:hover {
+    background-color: #a50d26;
+    border-color: #a50d26;
+}
+
+
+
+/* END OF USER PERMISSIONS CSS */
+
+
+
+/* Main dues section */
+.edit-dues2-container {
+    width: 100%;
+    padding: 12px 15px;
+    box-sizing: border-box;
+}
+
+/* Outer white container */
+.edit-dues-container {
+    width: 100%;
+    max-width: 1200px;
+    padding: 30px;
+    margin: 0 auto;
+    background-color: #ffffff;
+    border: 1px solid #ded9d3;
+    border-radius: 20px;
+    box-sizing: border-box;
+}
+
+/* Bootstrap row spacing */
+.edit-dues-container .row {
+    --bs-gutter-x: 20px;
+    row-gap: 20px;
+}
+
+/* Individual team containers */
+.edit-dues-entry {
+    height: 100%;
+    padding: 24px;
+    background-color: #f6f4f0;
+    border-radius: 16px;
+    box-sizing: border-box;
+    transition: box-shadow 0.2s ease,
+                background-color 0.2s ease;
+}
+
+/* Team container hover effect */
+.edit-dues-entry:hover {
+    background-color: #f3f0eb;
+    box-shadow: 0 4px 12px rgba(36, 32, 33, 0.06);
+}
+
+/* Inner team content */
+.edit-dues {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+    width: 100%;
+}
+
+/* Team names */
+.edit-dues label {
+    display: block;
+    margin: 0;
+    color: #242021;
+    font-family: inherit;
+    font-size: 23px;
+    font-weight: 800;
+    line-height: 1.3;
+    text-transform: uppercase;
+}
+
+/* Team descriptions */
+.edit-dues h6 {
+    margin: 0 0 14px;
+    color: #77716e;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.5;
+}
+
+/* Dues amount input boxes */
+.edit-dues input[type="number"] {
+    display: block;
+    width: 100%;
+    min-width: 0;
+    height: 54px;
+    padding: 0 16px;
+    background-color: #ffffff;
+    border: 1px solid #ded9d3;
+    border-radius: 11px;
+    box-sizing: border-box;
+    color: #242021;
+    font-family: inherit;
+    font-size: 16px;
+    font-weight: 600;
+    outline: none;
+    transition: border-color 0.2s ease,
+                box-shadow 0.2s ease;
+}
+
+/* Input focus state */
+.edit-dues input[type="number"]:focus {
+    border-color: #e31837;
+    box-shadow: 0 0 0 3px rgba(227, 24, 55, 0.12);
+}
+
+/* Save changes button */
+.edit-dues-container button {
+    display: block;
+    margin: 25px auto 0;
+    padding: 15px 24px;
+    background-color: #e31837;
+    border: 1px solid #e31837;
+    border-radius: 11px;
+    color: #ffffff;
+    font-family: inherit;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s ease,
+                transform 0.2s ease;
+}
+
+/* Button hover state */
+.edit-dues-container button:hover {
+    background-color: #c8102e;
+    border-color: #c8102e;
+}
+
+
+/* Semester dues pricing heading */
+.semester-dues-header {
+    margin-bottom: 28px;
+}
+
+.semester-dues-header h2 {
+    margin: 0 0 6px;
+    color: #242021;
+    font-size: 17px;
+    font-weight: 700;
+    line-height: 1.4;
+}
+
+.semester-dues-header p {
+    margin: 0;
+    color: #77716e;
+    font-size: 14px;
+    line-height: 1.5;
+}
+.semester-dropdown {
+    width: 250px;
+    max-width: 100%;
+    z-index: 9999;
+}
+.semester-dropdown-container {
+    width: 250px;
+    display: flex;
+    flex-direction: column;
+}
+
+.semester-dropdown-container label {
+    display: block;
+    width: 100%;
+    margin-bottom: 5px;
+}
+
+.semester-dropdown {
+    width: 100%;
+}
+.semester-dues-header {
+    position: relative;
+    top: 80px;
+}
+/* Outer Card Styling */
+    .member-card {
+      border: 1px solid #e0e0e0;
+      border-radius: 16px;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
+      background-color: #ffffff;
+      overflow: hidden;
+    }
+.team-label {
+    margin-bottom: 6px;
+    font-size: 14px;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: #242021;
+}
+.edit-dues-button {
+    display: block;
+    width: fit-content;
+    margin: 24px auto 0;
+    padding: 15px 24px;
+    background-color: #e31837;
+    border: 1px solid #e31837;
+    border-radius: 11px;
+    color: #ffffff;
+    font-family: inherit;
+    font-size: 16px;
+    font-weight: 600;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background-color 0.2s ease,
+                transform 0.2s ease;
+}
+
+.edit-dues-button:hover {
+    background-color: #bd1530;
+    color: #ffffff;
+    transform: translateY(-2px);
+}
+.input-group-text {
+    background-color: #faf9f7;
+    border: 1px solid #ded9d3;
+    border-radius: 11px 0 0 11px; /* Rounds left corners to match the input */
+    padding: 0 16px;
+    font-weight: 600;
+    color: #77716e;
+}
+
+.input-group .form-control {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+}
+
+
+/* Create Account Page */
+
+.create-account-page {
+    background-color: #1c1919;
+    padding: 40px 0;
+    min-height: 100vh;
+}
+
+.account-card {
+    max-width: 550px;
+    margin: auto;
+    background-color: #f8f6f3;
+    border-radius: 20px;
+    overflow: hidden;
+}
+
+.account-header {
+    background-color: #242222;
+    color: white;
+    padding: 35px;
+}
+
+.account-header h1 {
+    font-size: 32px;
+    font-weight: bold;
+    margin-top: 15px;
+}
+
+.description {
+    color: #aaaaaa;
+    margin-top: 15px;
+}
+
+.account-body {
+    padding: 35px;
+}
+
+.account-body .form-control,
+.account-body .form-select {
+    padding: 15px;
+    border-radius: 12px;
+}
+
+.login-text {
+    text-align: center;
+    margin-top: 20px;
+    color: #777777;
+}
+
+.login-text a {
+    color: var(--brand-red);
+    text-decoration: none;
+}
+
+
+/* Game schedule styling */
+
+.schedule-semester,
+.member-schedule-label,
+.add-game-label {
+    color: var(--brand-red);
+    font-weight: bold;
+    letter-spacing: 3px;
+}
+
+.member-schedule-title,
+.add-game-title {
+    font-size: 55px;
+    font-weight: bold;
+    color: #242222;
+}
+
+.member-schedule-subtitle,
+.add-game-subtitle {
+    color: #777777;
+    font-size: 20px;
+    margin-bottom: 40px;
+}
+
+.member-schedule-page,
+.add-game-page {
+    padding: 40px 0 80px 0;
+}
+
+
+/* Public Game Schedule Page */
+
+.schedule-page {
+    padding-top: 50px;
+    padding-bottom: 80px;
+}
+
+.schedule-title {
+    color: #242222;
+    font-size: 55px;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+
+/* Game schedule after login */
+
+.member-schedule-card {
+    background-color: white;
+    border: 1px solid #dddddd;
+    border-radius: 20px;
+    overflow: hidden;
+}
+
+.member-schedule-header {
+    padding: 30px;
+}
+
+.member-schedule-header h3 {
+    font-size: 22px;
+    font-weight: bold;
+}
+
+.member-schedule-header p {
+    color: #777777;
+}
+
+.member-schedule-table {
+    margin-bottom: 0;
+}
+
+.member-schedule-table th {
+    background-color: #f8f6f3;
+    color: #777777;
+    padding: 20px;
+    font-size: 13px;
+}
+
+.member-schedule-table td {
+    padding: 25px 20px;
+    border-bottom: 1px solid #dddddd;
+    vertical-align: middle;
+}
+
+
+/* Create/update game entry */
+
+.add-game-card {
+    background-color: white;
+    padding: 35px;
+    border: 1px solid #dddddd;
+    border-radius: 20px;
+}
+
+.add-game-card h3 {
+    font-size: 22px;
+    font-weight: bold;
+}
+
+.add-game-card p {
+    color: #777777;
+    margin-bottom: 35px;
+}
+
+.add-game-card hr {
+    margin-top: 30px;
+    margin-bottom: 30px;
+}
+
+.add-game-buttons {
+    text-align: right;
+}
+
+.add-game-buttons .btn {
+    padding: 12px 25px;
+    border-radius: 12px;
+    margin-left: 10px;
+}
+
+.add-game-buttons .btn-danger {
+    background-color: #e31837;
+    border-color: #e31837;
+}
+
+/* Homepage button styling */
+.join-section .join-content {
+    justify-content: center;
+}
+
+.join-section .join-text {
+    flex: 0 1 auto;
+}
+
+
+
+/* Help Button */
+.help-button {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: #d91a3c;
+    color: white;
+    padding: 12px 20px;
+    border-radius: 30px;
+    text-decoration: none;
+    z-index: 1000;
+}
+
+/* TerpAI Button */
+.terpai-button {
+    position: fixed;
+    bottom: 80px;
+    right: 20px;
+    background-color: #ffcc00;
+    color: black;
+    padding: 12px 20px;
+    border-radius: 30px;
+    text-decoration: none;
+    z-index: 1000;
+}
+/* --- Payment Card --- */
+.payment-card {
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.03);
+    background-color: #fff;
+    border: 1px solid var(--border-light);
+}
+
+.payment-card-header {
+    background-color: #212121;
+    color: #fff;
+    padding: 2.5rem;
+}
+
+.payment-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: -0.5px;
+    margin: 8px 0 4px 0;
+}
+
+.payment-amount {
+    font-size: 3.5rem;
+    font-weight: 700;
+    font-family: Impact, sans-serif;
+    margin: 0;
+}
+
+.payment-card-body {
+    padding: 2.5rem;
+}
+
+.btn-paypal {
+    background-color: var(--brand-yellow);
+    color: #111;
+    border-radius: 8px;
+    border: none;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.bg-custom-danger {
+      background-color: #e60028 !important;
+    }
+
+    .card-value {
+      font-family: 'Impact', 'Arial Black', sans-serif;
+      font-size: 2.25rem;
+      line-height: 1.1;
+      letter-spacing: 0.5px;
+    }
+
+    .card-title-text {
+      font-size: 0.75rem;
+      letter-spacing: 0.08em;
+    }
+
+    .icon-badge {
+      width: 36px;
+      height: 36px;
+      border-radius: 8px;
+    }
+
+/* --- Profile & Data Display --- */
+.profile-card-dark {
+    background-color: #212121;
+    color: #fff;
+    border-radius: 16px;
+    padding: 1.5rem;
+}
+
+.profile-card-dark p {
+    color: #a0a0a0;
+    line-height: 1.6;
+}
+
+.profile-avatar-lg {
+    width: 70px;
+    height: 70px;
+    background-color: var(--brand-yellow);
+    color: #212121;
+    font-size: 1.5rem;
+    font-weight: 800;
+    border-radius: 50%;
+}
+
+.profile-name {
+    font-size: 1.4rem;
+    font-weight: 900;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+}
+
+.data-field-box {
+    background-color: #f8f6f2;
+    padding: 1rem;
+    border-radius: 8px;
+    height: 100%;
+}
+
+.data-label {
+    color: #888;
+    letter-spacing: 1px;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    font-weight: 700;
+}
+
+.info-banner {
+    background-color: #fff;
+    border-radius: 12px;
+    border: 1px solid var(--border-light);
+    box-shadow: 0 4px 14px rgba(0,0,0,0.02);
+    padding: 1rem;
+    font-size: 0.85rem;
+}
+

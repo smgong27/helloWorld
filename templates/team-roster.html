@@ -1,0 +1,101 @@
+{% extends "base.html" %}
+
+{% block title %}Team Roster{% endblock %}
+
+{% block content %}
+<div class="container-fluid pb-5">
+
+    <!-- PAGE HEADER -->
+    <section class="financial-ledger-header">
+        <p class="ledger-label">UMD CLUB SOFTBALL</p>
+        <h1>TEAM ROSTER</h1>
+    </section>
+
+    <!-- Search Bar -->
+    <div class="mb-4" style="width: 300px;">
+        <input type="text" class="form-control" placeholder="Search by name or team...">
+    </div>
+
+    <!-- ROSTER TABLE -->
+    <!-- ROSTER TABLE -->
+    <div class="review-card">
+
+        <!-- Table Heading and Edit Button -->
+        <div class="row align-items-center mb-4">
+            <div class="col-md-8">
+                <h2>Current Team Roster</h2>
+                <p>View member status and team assignments.</p>
+            </div>
+            <div class="col-md-4 text-md-end">
+                <a href="/team-roster-update" class="btn btn-danger review-save-button">Edit</a>
+            </div>
+        </div>
+
+        <div class="table-responsive">
+            <table class="table table-hover align-middle">
+                <thead>
+                    <tr>
+                        <th>MEMBER ID</th>
+                        <th>FIRST NAME</th>
+                        <th>LAST NAME</th>
+                        <th>EMAIL</th>
+                        <th>EXP.</th>
+                        <th>GRADUATION</th>
+                        <th>START DATE</th>
+                        <th>END DATE</th>
+                        <th>ACTIVE STATUS</th>
+                        <th>TEAM</th>
+                        <th>DUES PAID</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Mock Row 1: Tony Tiger -->
+                    <tr>
+                        <td class="fw-bold text-secondary">M1</td>
+                        <td class="fw-bold">Tony</td>
+                        <td class="fw-bold">Tiger</td>
+                        <td>tonytiger@terpmail.umd.edu</td>
+                        <td>8 yrs</td>
+                        <td>Spring 2027</td>
+                        <td>Fall 2022</td>
+                        <td>Spring 2027</td>
+                        <td>Inactive</td>
+                        <td>Active</td>
+                        <td><span class="badge text-bg-danger">Unpaid</span></td>
+                    </tr>
+
+                    <!-- Mock Row 2: Chucky Cheese -->
+                    <tr>
+                        <td class="fw-bold text-secondary">M2</td>
+                        <td class="fw-bold">Chucky</td>
+                        <td class="fw-bold">Cheese</td>
+                        <td>chuckycheese@terpmail.umd.edu</td>
+                        <td>1 yr</td>
+                        <td>Spring 2029</td>
+                        <td>Fall 2025</td>
+                        <td>Spring 2029</td>
+                        <td>Active</td>
+                        <td>NCSA</td>
+                        <td><span class="badge text-bg-success">Paid</span></td>
+                    </tr>
+
+                    <!-- Mock Row 3: Teddy Terrapin -->
+                    <tr>
+                        <td class="fw-bold text-secondary">M4</td>
+                        <td class="fw-bold">Teddy</td>
+                        <td class="fw-bold">Terrapin</td>
+                        <td>teddyterrapin@terpmail.umd.edu</td>
+                        <td>2 yrs</td>
+                        <td>Spring 2028</td>
+                        <td>Fall 2024</td>
+                        <td>Spring 2028</td>
+                        <td>Active</td>
+                        <td>NCSA</td>
+                        <td><span class="badge text-bg-success">Paid</span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

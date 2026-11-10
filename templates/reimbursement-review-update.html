@@ -1,0 +1,198 @@
+{% extends "base.html" %}
+
+{% block title %}Update Reimbursement Review{% endblock %}
+
+{% block content %}
+
+<div class="reimbursement-review-page">
+
+    <div class="container-fluid mt-5 mb-5">
+
+       <!-- Page Heading -->
+<div class="review-header">
+    <p class="review-label">UMD CLUB SOFTBALL</p>
+    <h1>EDIT REIMBURSEMENT REVIEW</h1>
+</div>
+
+        <!-- Reimbursement Table -->
+        <section class="review-content">
+
+            <div class="review-card">
+
+                <!-- Heading and Buttons -->
+                <div class="row align-items-center mb-4">
+
+                    <div class="col-md-8">
+                        <h2>Update reimbursement requests</h2>
+                        <p>Update approval status and explain any denied requests.</p>
+                    </div>
+
+                    <div class="col-md-4 text-md-end">
+                        <a href="/reimbursement-review"
+                           class="btn btn-outline-secondary me-2">
+                            Cancel
+                        </a>
+
+                        <button type="submit"
+                                form="review-form"
+                                class="btn btn-danger review-save-button">
+                            Save Changes
+                        </button>
+                    </div>
+
+                </div>
+
+                <!-- Editable Form -->
+                <form id="review-form"
+                      action="/reimbursement-review-update"
+                      method="post">
+
+                    <div class="table-responsive">
+
+                        <table class="table review-table">
+
+                            <thead>
+                            <tr>
+                                <th>Expense ID</th>
+                                <th>Game ID</th>
+                                <th>User ID / Name</th>
+                                <th>Venmo</th>
+                                <th>Description</th>
+                                <th>Receipt</th>
+                                <th>Amount</th>
+                                <th>Status</th>
+                                <th>Repaid</th>
+                                <th>Treasurer Comments</th>
+                            </tr>
+                            </thead>
+
+                            <tbody>
+
+                            <!-- Reimbursement 1 -->
+                            <tr>
+                                <td><strong>E104</strong></td>
+                                <td>G-204</td>
+                                <td>U-018 · Hokie Bird</td>
+                                <td>@hokiebird</td>
+                                <td>NCSA tournament registration</td>
+
+                                <td>
+                                    <span class="receipt-preview">View receipt</span>
+                                </td>
+
+                                <td><strong>$250.00</strong></td>
+
+                                <td>
+                                    <select class="form-select" name="status_e104">
+                                        <option selected>Pending</option>
+                                        <option>Approved</option>
+                                        <option>Denied</option>
+                                    </select>
+                                </td>
+
+                                <td>
+                                    <select class="form-select" name="repaid_e104">
+                                        <option selected>No</option>
+                                        <option>Yes</option>
+                                    </select>
+                                </td>
+
+                                <td>
+                                    <textarea class="form-control"
+                                              name="comments_e104"
+                                              rows="2"
+                                              placeholder="Reason for denial"></textarea>
+                                </td>
+                            </tr>
+
+                            <!-- Reimbursement 2 -->
+                            <tr>
+                                <td><strong>E103</strong></td>
+                                <td>G-201</td>
+                                <td>U-007 · Chucky Cheese</td>
+                                <td>@chuckycheese</td>
+                                <td>Umpire fees · Delaware</td>
+
+                                <td>
+                                    <span class="receipt-preview">View receipt</span>
+                                </td>
+
+                                <td><strong>$500.00</strong></td>
+
+                                <td>
+                                    <select class="form-select" name="status_e103">
+                                        <option>Pending</option>
+                                        <option selected>Approved</option>
+                                        <option>Denied</option>
+                                    </select>
+                                </td>
+
+                                <td>
+                                    <select class="form-select" name="repaid_e103">
+                                        <option selected>No</option>
+                                        <option>Yes</option>
+                                    </select>
+                                </td>
+
+                                <td>
+                                    <textarea class="form-control"
+                                              name="comments_e103"
+                                              rows="2"
+                                              placeholder="Reason for denial"></textarea>
+                                </td>
+                            </tr>
+
+                            <!-- Reimbursement 3 -->
+                            <tr>
+                                <td><strong>E102</strong></td>
+                                <td>—</td>
+                                <td>U-007 · Chucky Cheese</td>
+                                <td>@chuckycheese</td>
+                                <td>Travel fuel expense</td>
+
+                                <td>
+                                    <span class="receipt-preview">View receipt</span>
+                                </td>
+
+                                <td><strong>$50.00</strong></td>
+
+                                <td>
+                                    <select class="form-select" name="status_e102">
+                                        <option>Pending</option>
+                                        <option>Approved</option>
+                                        <option selected>Denied</option>
+                                    </select>
+                                </td>
+
+                                <td>
+                                    <select class="form-select" name="repaid_e102">
+                                        <option selected>No</option>
+                                        <option>Yes</option>
+                                    </select>
+                                </td>
+
+                                <td>
+                                    <textarea class="form-control"
+                                              name="comments_e102"
+                                              rows="2"
+                                              placeholder="Reason for denial">Receipt does not show the purchase date.</textarea>
+                                </td>
+                            </tr>
+
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+                </form>
+
+            </div>
+
+        </section>
+
+    </div>
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% block title %}Pay Dues{% endblock %}
+
+{% block content %}
+    <div class="container pb-5">
+<!-- PAGE HEADER -->
+<section class="financial-ledger-header">
+    <p class="ledger-label">UMD CLUB SOFTBALL</p>
+    <h1>PAY DUES</h1>
+</section>
+
+        <!-- Payment Card Layout -->
+        <div class="row">
+            <div class="col-lg-8 col-xl-7">
+                <div class="card border-0" style="border-radius: 16px; overflow: hidden; box-shadow: 0 4px 6px rgba(0,0,0,0.05);">
+
+                    <!-- Top Section: Dark Summary -->
+                    <div class="p-4 p-md-5" style="background-color: #212121; color: white;">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <small class="fw-bold text-uppercase" style="color: #FFD200; letter-spacing: 1.5px; font-size: 0.75rem;">Assigned Team &middot; NCSA</small>
+                                <h2 class="fw-bold mt-2 mb-1 text-uppercase" style="font-size: 2.5rem; letter-spacing: -0.5px;">Fall 2026 Dues</h2>
+                                <p class="mb-0" style="color: #a0a0a0; font-size: 0.95rem;">Maryland Club Softball NCSA Member Fee</p>
+                            </div>
+                            <div>
+                                <h2 class="fw-bold m-0" style="font-size: 3.5rem; font-family: Impact, sans-serif;">$100</h2>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Bottom Section: White Action Area -->
+                    <div class="p-4 p-md-5" style="background-color: white;">
+                        <p style="color: #666; font-size: 1.1rem; line-height: 1.6;">
+                            Your payment will be processed securely through PayPal. A confirmation will be saved to your member record and emailed to you.
+                        </p>
+
+                        <a href="#" class="btn w-100 fw-bold fs-5 py-3 mt-3" style="background-color: #FFD200; color: #212121; border-radius: 8px; border: none; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                            Continue to PayPal
+                        </a>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+{% endblock %}

@@ -1,0 +1,80 @@
+
+{% extends "base.html" %}
+
+{% block title %}Edit Game Entry{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid pb-5">
+
+        <section class="financial-ledger-header">
+        <p class="ledger-label">UMD CLUB SOFTBALL</p>
+        <h1>EDIT GAME ENTRY</h1>
+    </section>
+
+    <div class="add-game-card">
+
+        <h2>Update game details</h2>
+        <p>Enter the schedule information stored in the GAME table.</p>
+
+        <form>
+
+            <div class="row">
+
+                <div class="col-md-6 mb-3">
+                    <label for="team_id" class="form-label">Team ID</label>
+                    <input type="text" class="form-control" id="team_id"
+                           name="team_id" value="NCSA" required>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label for="opponent" class="form-label">Game opponent</label>
+                    <input type="text" class="form-control" id="opponent"
+                           name="opponent" value="University of Delaware" required>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label for="game_date" class="form-label">Game date</label>
+                    <input type="date" class="form-control" id="game_date"
+                           name="game_date" value="2026-10-08" required>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label for="game_times" class="form-label">Game times</label>
+                    <input type="text" class="form-control" id="game_times"
+                           name="game_times" value="10am, 12pm" required>
+                </div>
+
+            </div>
+
+            <div class="mb-3">
+                <label for="game_location" class="form-label">Game location</label>
+                <select class="form-select" id="game_location"
+                        name="game_location" required>
+                    <option value="">Select a location</option>
+                    <option value="Home" selected>Home</option>
+                    <option value="Away">Away</option>
+                </select>
+            </div>
+
+            <hr>
+
+            <div class="add-game-buttons">
+
+                <a href="/game-schedule-after-login" class="btn btn-outline-dark">
+                    Cancel
+                </a>
+
+                <a href="/game-schedule-after-login" class="btn btn-danger">
+                    Save changes
+                </a>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+{% endblock %}

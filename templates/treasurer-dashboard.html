@@ -1,0 +1,321 @@
+{% extends "base.html" %}
+
+{% block title %}Treasurer Dashboard{% endblock %}
+
+{% block content %}
+
+<!-- Page Header -->
+<section class="financial-ledger-header">
+    <p class="ledger-label">UMD CLUB SOFTBALL</p>
+    <h1>WELCOME BACK, TEDDY</h1>
+</section>
+<div class="container-fluid">
+    <div class="row g-4">
+
+      <!-- Card 1: Total Cash Balance -->
+      <div class="col-12 col-md-6">
+        <div class="card bg-custom-danger text-white border-0 rounded-4 p-4 h-100 shadow-sm">
+          <div class="d-flex justify-content-between align-items-center">
+            <span class="  text-uppercase fw-bold opacity-75">Total Cash Balance</span>
+            <i class="bi bi-bank display-5 text-white opacity-75"></i>
+          </div>
+          <div class="mt-5">
+            <div class="   fw-bold text-white">$41,000</div>
+            <div class="small opacity-75 mt-1">Across 4 active accounts</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 2: Semester Income -->
+      <div class="col-12 col-md-6">
+        <div class="card bg-white border rounded-4 p-4 h-100 shadow-sm">
+          <div class="d-flex justify-content-between align-items-center">
+            <span class="  text-uppercase fw-bold text-secondary">Semester Income</span>
+            <i class="bi bi-bar-chart-line display-5 text-danger opacity-75"></i>
+          </div>
+          <div class="mt-5">
+            <div class="   fw-bold text-dark">$15,800</div>
+            <div class="small text-secondary mt-1">+12.4% vs. spring</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 3: Pending Payouts -->
+      <div class="col-12 col-md-6">
+        <div class="card bg-white border rounded-4 p-4 h-100 shadow-sm">
+          <div class="d-flex justify-content-between align-items-center">
+            <span class="  text-uppercase fw-bold text-secondary">Pending Payouts</span>
+            <i class="bi bi-clock display-5 text-danger opacity-75"></i>
+          </div>
+          <div class="mt-5">
+            <div class="   fw-bold text-dark">$285.50</div>
+            <div class="small text-secondary mt-1">3 requests to review</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 4: Dues Collected -->
+      <div class="col-12 col-md-6">
+        <div class="card bg-white border rounded-4 p-4 h-100 shadow-sm">
+          <div class="d-flex justify-content-between align-items-center">
+            <span class="  text-uppercase fw-bold text-secondary">Dues Collected</span>
+            <i class="bi bi-check display-5 text-danger opacity-75"></i>
+          </div>
+          <div class="mt-5">
+            <div class="s fw-bold text-dark">23 / 26</div>
+            <div class="small text-secondary mt-1">88% of active roster</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+<section class="financial-card w-100 card border rounded-4 p-4 shadow-sm my-4">
+    <h2>Monthly Revenue vs. Expenses</h2>
+    <p>Financial activity throughout the semester</p>
+
+    <div class="financial-chart d-flex justify-content-between align-items-end w-100 py-3" style="min-height: 200px;">
+
+        <div class="chart-month flex-fill text-center px-2">
+            <div class="chart-bars d-flex justify-content-center align-items-end gap-1 mb-2" style="height: 150px;">
+                <div class="revenue-bar revenue-aug" style="width: 14px;"></div>
+                <div class="expense-bar expense-aug" style="width: 14px;"></div>
+            </div>
+            <span>Aug</span>
+        </div>
+
+        <div class="chart-month flex-fill text-center px-2">
+            <div class="chart-bars d-flex justify-content-center align-items-end gap-1 mb-2" style="height: 150px;">
+                <div class="revenue-bar revenue-sep" style="width: 14px;"></div>
+                <div class="expense-bar expense-sep" style="width: 14px;"></div>
+            </div>
+            <span>Sep</span>
+        </div
+
+        <div class="chart-month flex-fill text-center px-2">
+            <div class="chart-bars d-flex justify-content-center align-items-end gap-1 mb-2" style="height: 150px;">
+                <div class="revenue-bar revenue-oct" style="width: 14px;"></div>
+                <div class="expense-bar expense-oct" style="width: 14px;"></div>
+            </div>
+            <span>Oct</span>
+        </div>
+
+        <div class="chart-month flex-fill text-center px-2">
+            <div class="chart-bars d-flex justify-content-center align-items-end gap-1 mb-2" style="height: 150px;">
+                <div class="revenue-bar revenue-nov" style="width: 14px;"></div>
+                <div class="expense-bar expense-nov" style="width: 14px;"></div>
+            </div>
+            <span>Nov</span>
+        </div>
+
+        <div class="chart-month flex-fill text-center px-2">
+            <div class="chart-bars d-flex justify-content-center align-items-end gap-1 mb-2" style="height: 150px;">
+                <div class="revenue-bar revenue-dec" style="width: 14px;"></div>
+                <div class="expense-bar expense-dec" style="width: 14px;"></div>
+            </div>
+            <span>Dec</span>
+        </div>
+
+    </div>
+
+    <div class="chart-legend">
+        <span class="legend-revenue">■ Revenue</span>
+        <span class="legend-expense">■ Expenses</span>
+    </div>
+
+</section>
+
+<div class="card bg-danger text-white border-0 rounded-4 p-4 mb-4 shadow-sm">
+  <div class="d-flex justify-content-between align-items-start mb-3">
+    <span class="badge bg-white text-danger fw-bold text-uppercase px-2 py-1">Next Home Series</span>
+    <i class="bi bi-calendar-event fs-3 opacity-75"></i>
+  </div>
+  <div>
+    <h3 class="fw-bold mb-1">Terps vs. Delaware</h3>
+    <p class="mb-0 opacity-75"><i class="bi bi-geo-alt-fill me-1"></i>October 8 &middot; Engineering Fields</p>
+  </div>
+</div>
+
+<div class="row g-4 my-2">
+  <!-- Card 1: My Information -->
+  <div class="col-12 col-md-6">
+    <div class="card h-100 shadow-sm border rounded-4">
+      <div class="row g-0 align-items-center h-100">
+        <div class="col-md-4 text-center py-3">
+          <i class="bi bi-person-fill display-3 text-danger"></i>
+        </div>
+        <div class="col-md-8">
+          <div class="card-body">
+            <h4 class="card-title h5 fw-bold">My Information</h4>
+            <p class="card-text text-secondary small">Verify team, graduation, roster, and dues details</p>
+            <a href="/my-information" class="stretched-link"></a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Card 2: Pay Dues -->
+  <div class="col-12 col-md-6">
+    <div class="card h-100 shadow-sm border rounded-4">
+      <div class="row g-0 align-items-center h-100">
+        <div class="col-md-4 text-center py-3">
+          <i class="bi bi-credit-card display-3 text-danger"></i>
+        </div>
+        <div class="col-md-8">
+          <div class="card-body">
+            <h4 class="card-title h5 fw-bold">Pay Dues</h4>
+            <p class="card-text text-secondary small">Pay your assigned team dues securely through PayPal</p>
+            <a href="/pay-dues" class="stretched-link"></a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Card 3: Reimbursement Request -->
+  <div class="col-12 col-md-6">
+    <div class="card h-100 shadow-sm border rounded-4">
+      <div class="row g-0 align-items-center h-100">
+        <div class="col-md-4 text-center py-3">
+          <i class="bi bi-receipt display-3 text-danger"></i>
+        </div>
+        <div class="col-md-8">
+          <div class="card-body">
+            <h4 class="card-title h5 fw-bold">Reimbursement Request</h4>
+            <p class="card-text text-secondary small">Submit an expense, Venmo username, and receipt</p>
+            <a href="/reimbursement-request" class="stretched-link"></a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Card 4: Reimbursement Review -->
+  <div class="col-12 col-md-6">
+    <div class="card h-100 shadow-sm border rounded-4">
+      <div class="row g-0 align-items-center h-100">
+        <div class="col-md-4 text-center py-3">
+          <i class="bi bi-check display-3 text-danger"></i>
+        </div>
+        <div class="col-md-8">
+          <div class="card-body">
+            <h4 class="card-title h5 fw-bold">Reimbursement Review</h4>
+            <p class="card-text text-secondary small">Validate receipts and process pending payouts</p>
+            <a href="/reimbursement-review" class="stretched-link"></a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Card 5: Team Roster -->
+  <div class="col-12 col-md-6">
+    <div class="card h-100 shadow-sm border rounded-4">
+      <div class="row g-0 align-items-center h-100">
+        <div class="col-md-4 text-center py-3">
+          <i class="bi bi-people display-3 text-danger"></i>
+        </div>
+        <div class="col-md-8">
+          <div class="card-body">
+            <h4 class="card-title h5 fw-bold">Team Roster</h4>
+            <p class="card-text text-secondary small">Review member status, team assignment and dues.</p>
+            <a href="/team-roster" class="stretched-link"></a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Card 6: Financial Ledger -->
+  <div class="col-12 col-md-6">
+    <div class="card h-100 shadow-sm border rounded-4">
+      <div class="row g-0 align-items-center h-100">
+        <div class="col-md-4 text-center py-3">
+          <i class="bi bi-receipt display-3 text-danger"></i>
+        </div>
+        <div class="col-md-8">
+          <div class="card-body">
+            <h4 class="card-title h5 fw-bold">Financial Ledger</h4>
+            <p class="card-text text-secondary small">Track validated revenue and expense transactions</p>
+            <a href="/financial-ledger" class="stretched-link"></a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Card 7: Bank Accounts -->
+  <div class="col-12 col-md-6">
+    <div class="card h-100 shadow-sm border rounded-4">
+      <div class="row g-0 align-items-center h-100">
+        <div class="col-md-4 text-center py-3">
+          <i class="bi bi-bank display-3 text-danger"></i>
+        </div>
+        <div class="col-md-8">
+          <div class="card-body">
+            <h4 class="card-title h5 fw-bold">Bank Accounts</h4>
+            <p class="card-text text-secondary small">Reconcile balances across required club accounts.</p>
+            <a href="/bank-accounts" class="stretched-link"></a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Card 8: Financial Reports -->
+  <div class="col-12 col-md-6">
+    <div class="card h-100 shadow-sm border rounded-4">
+      <div class="row g-0 align-items-center h-100">
+        <div class="col-md-4 text-center py-3">
+          <i class="bi bi-graph-up display-3 text-danger"></i>
+        </div>
+        <div class="col-md-8">
+          <div class="card-body">
+            <h4 class="card-title h5 fw-bold">Financial Reports</h4>
+            <p class="card-text text-secondary small">View cash flow, categories and revenue projections.</p>
+            <a href="/financial-report" class="stretched-link"></a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Card 9: Game Schedule -->
+  <div class="col-12 col-md-6">
+    <div class="card h-100 shadow-sm border rounded-4">
+      <div class="row g-0 align-items-center h-100">
+        <div class="col-md-4 text-center py-3">
+          <i class="bi bi-calendar display-3 text-danger"></i>
+        </div>
+        <div class="col-md-8">
+          <div class="card-body">
+            <h4 class="card-title h5 fw-bold">Game Schedule</h4>
+            <p class="card-text text-secondary small">View and manage upcoming NCSA and Active team games</p>
+            <a href="/game-schedule-after-login" class="stretched-link"></a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Card 10: Edit Team Dues -->
+  <div class="col-12 col-md-6">
+    <div class="card h-100 shadow-sm border rounded-4">
+      <div class="row g-0 align-items-center h-100">
+        <div class="col-md-4 text-center py-3">
+          <i class="bi bi-credit-card display-3 text-danger"></i>
+        </div>
+        <div class="col-md-8">
+          <div class="card-body">
+            <h4 class="card-title h5 fw-bold">Edit Team Dues</h4>
+            <p class="card-text text-secondary small">Set seasonal pricing for NCSA and Active teams</p>
+            <a href="/edit-team-dues" class="stretched-link"></a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,128 @@
+{% extends "base.html" %}
+
+{% block title %}Update Team Roster{% endblock %}
+
+{% block content %}
+<div class="container-fluid pb-5">
+
+    <!-- PAGE HEADER -->
+    <section class="financial-ledger-header">
+        <p class="ledger-label">UMD CLUB SOFTBALL</p>
+        <h1>EDIT TEAM ROSTER</h1>
+    </section>
+
+        <!-- ROSTER TABLE -->
+    <div class="review-card">
+
+        <!-- Heading and Buttons -->
+        <div class="row align-items-center mb-4">
+            <div class="col-md-8">
+                <h2>Update Team Assignments</h2>
+                <p>Modify member active status and team placements.</p>
+            </div>
+            <div class="col-md-4 text-md-end">
+                <a href="/team-roster" class="btn btn-outline-secondary me-2">Cancel</a>
+                <button type="submit" form="roster-form" class="btn btn-danger">Save Changes</button>
+            </div>
+        </div>
+
+        <form id="roster-form" action="/team-roster-update" method="POST">
+            <div class="table-responsive">
+                <table class="table table-hover align-middle">
+                    <thead>
+                        <tr>
+                            <th>MEMBER ID</th>
+                            <th>FIRST NAME</th>
+                            <th>LAST NAME</th>
+                            <th>EMAIL</th>
+                            <th>EXP.</th>
+                            <th>GRADUATION</th>
+                            <th>START DATE</th>
+                            <th>END DATE</th>
+                            <th>ACTIVE STATUS</th>
+                            <th>TEAM</th>
+                            <th>DUES PAID</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Mock Row 1: Tony Tiger -->
+                        <tr>
+                            <td class="fw-bold text-secondary">M1</td>
+                            <td class="fw-bold">Tony</td>
+                            <td class="fw-bold">Tiger</td>
+                            <td>tonytiger@terpmail.umd.edu</td>
+                            <td>8 yrs</td>
+                            <td>Spring 2027</td>
+                            <td>Fall 2022</td>
+                            <td>Spring 2027</td>
+                            <td>
+                                <select name="status_M1" class="form-select border-0 bg-light fw-medium" style="min-width: 110px;">
+                                    <option value="Active">Active</option>
+                                    <option value="Inactive" selected>Inactive</option>
+                                </select>
+                            </td>
+                            <td>
+                                <select name="team_M1" class="form-select border-0 bg-light fw-medium" style="min-width: 110px;">
+                                    <option value="Active" selected>Active</option>
+                                    <option value="NCSA">NCSA</option>
+                                </select>
+                            </td>
+                            <td><span class="badge text-bg-danger">Unpaid</span></td>
+                        </tr>
+
+                        <!-- Mock Row 2: Chucky Cheese -->
+                        <tr>
+                            <td class="fw-bold text-secondary">M2</td>
+                            <td class="fw-bold">Chucky</td>
+                            <td class="fw-bold">Cheese</td>
+                            <td>chuckycheese@terpmail.umd.edu</td>
+                            <td>1 yr</td>
+                            <td>Spring 2029</td>
+                            <td>Fall 2025</td>
+                            <td>Spring 2029</td>
+                            <td>
+                                <select name="status_M2" class="form-select form-select-sm border-0 bg-light fw-medium">
+                                    <option value="Active" selected>Active</option>
+                                    <option value="Inactive">Inactive</option>
+                                </select>
+                            </td>
+                            <td>
+                                <select name="team_M2" class="form-select form-select-sm border-0 bg-light fw-medium">
+                                    <option value="Active">Active</option>
+                                    <option value="NCSA" selected>NCSA</option>
+                                </select>
+                            </td>
+                            <td><span class="badge text-bg-success">Paid</span></td>
+                        </tr>
+
+                        <!-- Mock Row 3: Teddy Terrapin -->
+                        <tr>
+                            <td class="fw-bold text-secondary">M4</td>
+                            <td class="fw-bold">Teddy</td>
+                            <td class="fw-bold">Terrapin</td>
+                            <td>teddyterrapin@terpmail.umd.edu</td>
+                            <td>2 yrs</td>
+                            <td>Spring 2028</td>
+                            <td>Fall 2024</td>
+                            <td>Spring 2028</td>
+                            <td>
+                                <select name="status_M4" class="form-select form-select-sm border-0 bg-light fw-medium">
+                                    <option value="Active" selected>Active</option>
+                                    <option value="Inactive">Inactive</option>
+                                </select>
+                            </td>
+                            <td>
+                                <select name="team_M4" class="form-select form-select-sm border-0 bg-light fw-medium">
+                                    <option value="Active">Active</option>
+                                    <option value="NCSA" selected>NCSA</option>
+                                </select>
+                            </td>
+                            <td><span class="badge text-bg-success">Paid</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

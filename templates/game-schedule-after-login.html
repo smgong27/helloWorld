@@ -1,0 +1,59 @@
+
+{% extends "base.html" %}
+
+{% block title %}Game Schedule{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid pb-5">
+
+    <!-- PAGE HEADER -->
+    <section class="financial-ledger-header">
+        <p class="ledger-label">UMD CLUB SOFTBALL</p>
+        <h1>GAME SCHEDULE</h1>
+    </section>
+
+    <div class="member-schedule-card">
+
+        <div class="member-schedule-header">
+            <a href="/game-schedule-create" class="btn btn-action-create float-end">
+                + Add Entry
+            </a>
+
+            <h2>Club game schedule</h2>
+            <p>Game information synced from the GAME table</p>
+        </div>
+
+        <table class="table member-schedule-table">
+            <thead>
+                <tr>
+                    <th>TEAM ID</th>
+                    <th>GAME OPPONENT</th>
+                    <th>GAME DATE</th>
+                    <th>GAME TIMES</th>
+                    <th>GAME LOCATION</th>
+                    <th>ACTION</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                {% for game in games %}
+                <tr>
+                    <td>{{ game.team_id }}</td>
+                    <td>{{ game.opponent }}</td>
+                    <td>{{ game.game_date.strftime('%m/%d/%Y') }}</td>
+                    <td>{{ game.game_times }}</td>
+                    <td>{{ game.game_location }}</td>
+                    <td>
+                        <a href="/game-schedule-update" class="btn-edit-cell">Edit</a>
+                    </td>
+                </tr>
+    {           {% endfor %}
+            </tbody>
+        </table>
+
+    </div>
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,201 @@
+{% extends "base.html" %}
+
+{% block title %} Reimbursement Request {% endblock %}
+
+{% block content %}
+
+    <div class="reimbursement-page">
+
+    <div class="container mt-5 mb-5">
+
+        <!-- Page Heading -->
+        <section class="reimbursement-header">
+            <p class="reimbursement-label">UMD CLUB SOFTBALL</p>
+            <h1>REIMBURSEMENT REQUEST</h1>
+        </section>
+
+        <!-- Reimbursement Form -->
+        <div class="reimbursement-content">
+
+
+            <form class="reimbursement-form"
+                  action="{{ url_for('reimbursement_request') }}"
+                  method="post"
+                  enctype="multipart/form-data">
+
+                <!-- First and Last Name -->
+                <div class="row">
+
+                    <div class="col-md-6 mb-3">
+                        <label for="first_name" class="form-label">First Name</label>
+                        <input type="text" class="form-control"
+                               id="first_name" name="first_name"
+                               placeholder="Teddy" required>
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                        <label for="last_name" class="form-label">Last Name</label>
+                        <input type="text" class="form-control"
+                               id="last_name" name="last_name"
+                               placeholder="Terrapin" required>
+                    </div>
+
+                </div>
+
+                <!-- Venmo and Expense Date -->
+                <div class="row">
+
+                    <div class="col-md-6 mb-3">
+                        <label for="venmo" class="form-label">Venmo Username</label>
+                        <input type="text" class="form-control"
+                               id="venmo" name="venmo"
+                               placeholder="@teddyterrapin" required>
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                        <label for="expense_date" class="form-label">Expense Date</label>
+                        <input type="date" class="form-control"
+                               id="expense_date" name="expense_date" required>
+                    </div>
+
+                </div>
+
+                <!-- Game Information and Amount -->
+                <div class="row">
+
+                    <div class="col-md-6 mb-3">
+                        <label for="game" class="form-label">Game ID / Name (Optional)</label>
+                        <input type="text" class="form-control"
+                               id="game" name="game"
+                               placeholder="G-204 · Delaware">
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                        <label for="amount" class="form-label">Amount ($)</label>
+                        <input type="number" class="form-control"
+                               id="amount" name="amount"
+                               placeholder="125.00"
+                               min="0.01" step="0.01" required>
+                    </div>
+
+                </div>
+
+                <!-- Expense Description -->
+                <div class="mb-3">
+                    <label for="description" class="form-label">Expense Description</label>
+                    <textarea class="form-control"
+                              id="description" name="description"
+                              rows="3"
+                              placeholder="Tournament, travel, lodging, food, or equipment details"
+                              required></textarea>
+                </div>
+
+                <!-- Receipt Upload  -->
+<!-- Receipt Upload -->
+<div class="mb-3">
+    <label for="receipt" class="form-label">Upload Required Receipt</label>
+
+    <div class="receipt-upload text-center">
+
+        <input type="file"
+               class="form-control"
+               id="receipt"
+               name="receipt"
+               accept=".pdf,.jpg,.jpeg,.png"
+               required>
+
+        <small class="text-muted d-block mt-2">
+            PDF, JPG, or PNG
+        </small>
+
+    </div>
+</div>
+
+                <!-- Submit Button -->
+               <button type="submit" class="btn btn-danger w-100">
+                    Submit Reimbursement
+                </button>
+
+            </form>
+        </div>
+    </div>
+    </div>
+
+        <!-- My Reimbursement Requests -->
+        <section class="review-content mt-5">
+
+            <div class="review-card">
+
+                <h2>My Reimbursement Requests</h2>
+
+                <p>
+                    Track the status of your submitted requests and
+                    view Treasurer comments if a request is denied.
+                </p>
+
+                <div class="table-responsive">
+
+                    <table class="table review-table">
+
+                        <thead>
+                        <tr>
+                            <th>Request ID</th>
+                            <th>Description</th>
+                            <th>Amount</th>
+                            <th>Status</th>
+                            <th>Repaid</th>
+                            <th>Treasurer Comments</th>
+                        </tr>
+                        </thead>
+<tbody>
+
+    <tr>
+        <td><strong>E104</strong></td>
+        <td>Tournament registration</td>
+        <td>$250.00</td>
+        <td>
+            <span class="badge bg-warning text-dark">Pending</span>
+        </td>
+        <td>
+            <span class="badge bg-secondary">No</span>
+        </td>
+        <td>Awaiting review</td>
+    </tr>
+
+    <tr>
+        <td><strong>E103</strong></td>
+        <td>Umpire fees</td>
+        <td>$500.00</td>
+        <td>
+            <span class="badge bg-success">Approved</span>
+        </td>
+        <td>
+            <span class="badge bg-secondary">Yes</span>
+        </td>
+        <td>—</td>
+    </tr>
+
+    <tr>
+        <td><strong>E102</strong></td>
+        <td>Travel fuel expense</td>
+        <td>$50.00</td>
+        <td>
+            <span class="badge bg-danger">Denied</span>
+        </td>
+        <td>
+            <span class="badge bg-secondary">No</span>
+        </td>
+        <td>Receipt does not show the purchase date.</td>
+    </tr>
+
+</tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+        </section>
+
+{% endblock %}

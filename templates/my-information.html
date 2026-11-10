@@ -1,0 +1,96 @@
+{% extends "base.html" %}
+
+{% block title %}My Information{% endblock %}
+
+{% block content %}
+<!-- Page Header -->
+<section class="financial-ledger-header">
+    <p class="ledger-label">UMD CLUB SOFTBALL</p>
+    <h1>MY INFORMATION</h1>
+</section>
+
+<div class="row g-4">
+
+    <!-- Left Side Profile Card -->
+    <div class="col-lg-4">
+    <div class="card h-100 border-0 p-4" style="background-color: #212121; color: white; border-radius: 16px;">
+        <h2 class="fw-black text-uppercase mb-0 mt-2" style="font-size: 1.4rem; font-weight: 900; letter-spacing: 0.5px;">Teddy Terrapin</h2>
+        <p class="mb-4" style="color: #a0a0a0; font-size: 0.85rem;">{{ user_role }}</p>
+        <hr style="border-color: #444; margin-bottom: 2rem;">
+        <p style="color: #a0a0a0; font-size: 0.85rem; line-height: 1.6;">
+            Your profile information is maintained by team leadership and used for roster and dues management.
+        </p>
+    </div>
+</div>
+
+    <!-- Right Side Data Fields -->
+    <div class="col-lg-8">
+        <div class="card h-100 p-4 border-0" style="background-color: white; border-radius: 16px; box-shadow: 0 4px 14px rgba(0,0,0,0.03);">
+            <div class="row g-3">
+                <div class="col-md-6">
+                    <div class="p-3 rounded h-100" style="background-color: #f8f6f2;">
+                        <small class="fw-bold" style="color: #888; letter-spacing: 1px; font-size: 0.7rem; text-transform: uppercase;">First Name</small>
+                        <div class="fs-6 fw-bold mt-1 text-dark">Teddy</div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="p-3 rounded h-100" style="background-color: #f8f6f2;">
+                        <small class="fw-bold" style="color: #888; letter-spacing: 1px; font-size: 0.7rem; text-transform: uppercase;">Last Name</small>
+                        <div class="fs-6 fw-bold mt-1 text-dark">Terrapin</div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="p-3 rounded h-100" style="background-color: #f8f6f2;">
+                        <small class="fw-bold" style="color: #888; letter-spacing: 1px; font-size: 0.7rem; text-transform: uppercase;">Email</small>
+                        <div class="fs-6 fw-bold mt-1 text-dark">teddy@terpmail.umd.edu</div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="p-3 rounded h-100" style="background-color: #f8f6f2;">
+                        <small class="fw-bold" style="color: #888; letter-spacing: 1px; font-size: 0.7rem; text-transform: uppercase;">Years of Experience</small>
+                        <div class="fs-6 fw-bold mt-1 text-dark">12 years</div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="p-3 rounded h-100" style="background-color: #f8f6f2;">
+                        <small class="fw-bold" style="color: #888; letter-spacing: 1px; font-size: 0.7rem; text-transform: uppercase;">Expected Graduation Date</small>
+                        <div class="fs-6 fw-bold mt-1 text-dark">Spring 2027</div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="p-3 rounded h-100" style="background-color: #f8f6f2;">
+                        <small class="fw-bold" style="color: #888; letter-spacing: 1px; font-size: 0.7rem; text-transform: uppercase;">Active Status</small>
+                        <div class="fs-6 fw-bold mt-1 text-dark">Active</div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="p-3 rounded h-100" style="background-color: #f8f6f2;">
+                        <small class="fw-bold" style="color: #888; letter-spacing: 1px; font-size: 0.7rem; text-transform: uppercase;">Dues Paid Status</small>
+                        <div class="fs-6 fw-bold mt-1 text-dark">Paid</div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="p-3 rounded h-100" style="background-color: #f8f6f2;">
+                        <small class="fw-bold" style="color: #888; letter-spacing: 1px; font-size: 0.7rem; text-transform: uppercase;">User Persona</small>
+                        <div class="fs-6 fw-bold mt-1 text-dark">Treasurer</div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="p-3 rounded h-100" style="background-color: #f8f6f2;">
+                        <small class="fw-bold" style="color: #888; letter-spacing: 1px; font-size: 0.7rem; text-transform: uppercase;">Team</small>
+                        <div class="fs-6 fw-bold mt-1 text-dark">NCSA</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Update Form Link -->
+<div class="mt-4 p-3 d-flex flex-wrap align-items-center gap-1" style="background-color: white; border-radius: 12px; border: 1px solid #eae5de; box-shadow: 0 4px 14px rgba(0,0,0,0.02);">
+    <span class="text-muted" style="font-size: 0.85rem;">Information doesn't look right?</span>
+    <a href="https://docs.google.com/forms/d/e/1FAIpQLSeSPElhJPf0X6KLNCIofGNgCCWsLOBSk1bTuuiDEAWSxw_EZg/viewform" target="_blank" rel="noopener noreferrer" class="text-danger fw-bold text-decoration-underline mx-1" style="font-size: 0.85rem;">Resubmit your Information Form</a>
+    <span class="text-muted" style="font-size: 0.85rem;">or contact</span>
+    <a href="mailto:president@umdclubsoftball.com" class="text-danger fw-bold text-decoration-underline" style="font-size: 0.85rem;">president@umdclubsoftball.com</a>.
+</div>
+{% endblock %}

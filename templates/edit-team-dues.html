@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+
+{% block title %}EDIT TEAM DUES{% endblock %}
+
+{% block content %}
+<section class="page-content">
+
+    <!-- PAGE HEADER -->
+    <div class="financial-ledger-header">
+        <p class="ledger-label">UMD CLUB SOFTBALL</p>
+        <h1>EDIT TEAM DUES</h1>
+    </div>
+
+    <div class="edit-dues2-container">
+        <div class="edit-dues-container">
+<!-- Semester dues pricing heading -->
+            <div class="semester-dues-header">
+                <h2>Semester dues pricing</h2>
+                <p>Set semester and change separate dues amounts for each team.</p>
+            </div>
+            <div class="d-flex justify-content-end mb-3">
+                     <div class="semester-dropdown-container">
+                          <form method="GET" action="{{ url_for('edit_team_dues') }}">
+                            <label for="semester" class="form-label">Select Semester</label>
+                            <select class="form-select semester-dropdown" name="semester" id="semester" onchange="this.form.submit()" >
+                               {% for semester in semesters %}
+                                <option value="{{ semester }}"
+                                    {% if semester == selected_semester %}selected{% endif %}>
+                                    {{ semester }}
+                                </option>
+                            {% endfor %}
+                            </select>
+                          </form>
+                     </div>
+            </div>
+
+            <!-- Added an ID to the form so the modal button can submit it -->
+              <form method="POST" action="{{ url_for('edit_team_dues') }}"
+                  id="editDuesForm">
+                  <!-- Keep the selected semester when saving -->
+                <input type="hidden" name="semester"
+                       value="{{ selected_semester or '' }}">
+                <div class="row">
+                    <div class="col-6">
+                        <div class="edit-dues-entry">
+                            <div class="edit-dues">
+                                <label for="ncsa_dues" class="team-label">NCSA TEAM</label>
+                                <h3>Competitive Travel Team</h3>
+                                <div class="input-group mt-2">
+                                    <input type="number"
+                                           step="0.01"
+                                           min="0"
+                                           class="form-control"
+                                           id="ncsa_dues"
+                                           name="ncsa_dues"
+                                           value="{{ '%.2f'|format(ncsa_dues|float) }}" required>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="edit-dues-entry">
+                            <div class="edit-dues">
+                            <label for="active_dues" class="team-label">ACTIVE TEAM</label>
+                                <h3>Non-Competitive Team</h3>
+                                <div class="input-group mt-2">
+                                    <input type="number" step="0.01" min="0" class="form-control" id="active_dues" name="active_dues" value="{{ '%.2f'|format(active_dues|float) }}" required>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="d-flex justify-content-center align-items-center gap-3 mt-4">
+                    <button type="submit" class="edit-dues-button mb-0" data-bs-toggle="modal" data-bs-target="#confirmModal">
+                    Save Changes
+                    </button>
+                </div>
+              </form>
+            </div>
+        </div>
+
+</section>
+{% endblock %}

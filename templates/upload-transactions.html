@@ -1,69 +1,53 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Upload Transactions</title>
-    <link rel="stylesheet" href="static/css/sabrina.style.css">
-</head>
-<body class="ledger-page-body">
+{% extends "base.html" %}
 
-    <!-- Sidebar placeholder -->
-    <aside class="sidebar-placeholder">
-        <div class="sidebar-box"></div>
-    </aside>
+{% block title %}Upload Transactions - UMD Club Softball{% endblock %}
 
-    <!-- Main Content -->
-    <main class="main-wrapper">
+{% block content %}
+<div class="upload-transaction-page">
 
-        <!-- Top Bar -->
-        <header class="portal-topbar">
-            <div>
-                <strong>
-                    {% if current_user and current_user.userPersona == 'Member' %}
-                        Member Portal
-                    {% elif current_user and current_user.userPersona == 'Executive Board' %}
-                        Executive Board Portal
-                    {% elif current_user and current_user.userPersona == 'Advisor' %}
-                        Advisor Portal
-                    {% else %}
-                        Treasurer Portal
-                    {% endif %}
-                </strong><br>
-                <small>University of Maryland Club Softball</small>
-            </div>
-            <div>
-                <a href="/">Log out</a>
-            </div>
-        </header>
+    <div class="mb-3">
+        <a href="/financial-ledger" class="back-link">&lt; Back to Financial Ledger</a>
+    </div>
 
-        <!-- Back Navigation -->
-        <p>
-            <a href="/financial-ledger" class="back-link">&lt; Back to Financial Ledger</a>
-        </p>
+    <section class="upload-header">
+        <p class="upload-label">UMD CLUB SOFTBALL</p>
+        <h1>UPLOAD TRANSACTIONS</h1>
+        <p>Treasurer access</p>
+    </section>
 
-        <!-- Headings -->
-        <p class="category-lead"><strong>UMD CLUB SOFTBALL</strong></p>
-        <h1 class="page-display-title">UPLOAD TRANSACTIONS</h1>
-
-        <!-- Form Card -->
-        <div class="content-card">
-            <h2>Upload a Bank Transaction File</h2>
-            <p>Upload a bank statement to automatically parse credits into the financial ledger.</p>
-
-            <form action="/upload-transactions" method="POST" enctype="multipart/form-data">
-                <div class="form-group">
-                    <label for="statement_file" class="form-label">Statement File:</label>
-                    <input type="file" id="statement_file" name="statement_file" class="form-control" accept=".csv, .pdf, .xls, .xlsx, .ofx, .qfx" required>
-                </div>
-
-                <div class="form-actions">
-                    <button type="submit" class="btn-submit">Submit Upload</button>
-                    <a href="/financial-ledger" class="btn-cancel">Cancel</a>
-                </div>
-            </form>
+    <div class="content-card upload-single-card">
+        <div class="upload-card-header">
+            <h2 class="upload-card-title">Upload a Bank Transaction File</h2>
+            <p class="upload-card-subtitle">Upload a bank statement to automatically parse credits into the financial ledger.</p>
         </div>
 
-    </main>
+        <form action="/upload-transactions" method="POST" enctype="multipart/form-data">
+            <label for="statement_file" class="upload-dropzone">
+                <input type="file" id="statement_file" name="statement_file" class="upload-file-input" accept=".csv, .xls, .xlsx, .ofx, .qfx" required onchange="handleFileSelect(this)">
+                <span class="dropzone-circle-icon">&uarr;</span>
+                <span class="dropzone-text" id="dropzone-filename">Choose a transaction file to auto upload</span>
+                <span class="dropzone-subtext">CSV, XLS, XLSX, OFX, or QFX</span>
+            </label>
 
-</body>
-</html>
+            <div class="upload-footer-toolbar">
+                <a href="/financial-ledger" class="btn-return-overview">Cancel</a>
+                <div class="upload-footer-actions">
+                    <button type="submit" class="btn-submit-upload">Submit Upload</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<script>
+   function handleFileSelect(input) {
+       const filenameDisplay = document.getElementById('dropzone-filename');
+       if (input.files && input.files.length > 0) {
+           filenameDisplay.textContent = input.files[0].name;
+           filenameDisplay.classList.add('selected-filename');
+       } else {
+           filenameDisplay.textContent = 'Choose a transaction file to auto upload';
+           filenameDisplay.classList.remove('selected-filename');
+       }
+   }
+</script>
+{% endblock %}
