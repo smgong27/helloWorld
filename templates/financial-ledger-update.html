@@ -19,27 +19,27 @@
         <h2 class="fs-5 fw-bold mb-2">Transaction Details</h2>
         <p class="text-muted small mb-4">Update existing revenue or expense record details in the club's central financial ledger.</p>
 
-        <form action="/financial-ledger-update" method="POST" enctype="multipart/form-data" class="portal-form">
+        <form action="/financial-ledger-update/{{ transaction.transaction_id }}" method="POST" enctype="multipart/form-data" class="portal-form">
 
             <div class="form-grid">
                 <div class="col-md-6">
                     <label for="transactionID" class="form-label">Transaction ID:</label>
-                    <input type="text" id="transactionID" name="transactionID" class="form-control form-control-readonly" value="E105" readonly tabindex="-1">
+                    <input type="text" id="transactionID" name="transactionID" class="form-control form-control-readonly" value="{{ transaction.transaction_id }}" readonly tabindex="-1">
                 </div>
 
                 <div class="col-md-6">
                     <label for="transactionDate" class="form-label">Transaction Date:</label>
-                    <input type="date" id="transactionDate" name="transactionDate" class="form-control" value="2026-09-24" required>
+                    <input type="date" id="transactionDate" name="transactionDate" class="form-control" value="{{ transaction.transaction_date.isoformat() if transaction.transaction_date else '' }}" required>
                 </div>
 
                 <div class="col-md-6">
                     <label for="accountID" class="form-label">Bank Account:</label>
                     <select id="accountID" name="accountID" class="form-control form-select" required>
                         <option value="" disabled>Select a bank account</option>
-                        <option value="SGA" selected>SGA</option>
-                        <option value="SECU">SECU</option>
-                        <option value="RecWell">RecWell</option>
-                        <option value="Foundation">Foundation</option>
+                        <option value="SGA" {% if transaction.account_id == 'SGA' %}selected{% endif %}>SGA</option>
+                        <option value="SECU" {% if transaction.account_id == 'SECU' %}selected{% endif %}>SECU</option>
+                        <option value="RecWell" {% if transaction.account_id == 'RecWell' %}selected{% endif %}>RecWell</option>
+                        <option value="Foundation" {% if transaction.account_id == 'Foundation' %}selected{% endif %}>Foundation</option>
                     </select>
                 </div>
 
@@ -47,11 +47,11 @@
                     <label class="form-label">Team Allocation</label>
                     <div class="team-multiselect-group" role="group" aria-label="Team allocation selection">
                         <label class="team-pill-option">
-                            <input type="checkbox" id="team_ncsa" name="teamID" value="NCSA" class="team-checkbox" checked>
+                            <input type="checkbox" id="team_ncsa" name="teamID" value="NCSA" class="team-checkbox" {% if transaction.team_id in ['NCSA', 'Both'] %}checked{% endif %}>
                             <span class="team-pill-label">NCSA</span>
                         </label>
                         <label class="team-pill-option">
-                            <input type="checkbox" id="team_active" name="teamID" value="Active" class="team-checkbox">
+                            <input type="checkbox" id="team_active" name="teamID" value="Active" class="team-checkbox" {% if transaction.team_id in ['Active', 'Both'] %}checked{% endif %}>
                             <span class="team-pill-label">Active</span>
                         </label>
                     </div>
@@ -62,55 +62,60 @@
                     <select id="transactionType" name="transactionType" class="form-control form-select" required>
                         <option value="" disabled>Select transaction type</option>
                         <optgroup label="Expense">
-                            <option value="Travel">Travel</option>
-                            <option value="Hotel">Hotel</option>
-                            <option value="Food">Food</option>
-                            <option value="Game/Tournament Fees" selected>Game/Tournament Fees</option>
-                            <option value="Gas">Gas</option>
-                            <option value="Equipment">Equipment</option>
-                            <option value="Other Expense">Other Expense</option>
+                            <option value="Travel" {% if transaction.transaction_type == 'Travel' %}selected{% endif %}>Travel</option>
+                            <option value="Hotel" {% if transaction.transaction_type == 'Hotel' %}selected{% endif %}>Hotel</option>
+                            <option value="Food" {% if transaction.transaction_type == 'Food' %}selected{% endif %}>Food</option>
+                            <option value="Game/Tournament Fees" {% if transaction.transaction_type in ['Game/Tournament Fees', 'Expense'] %}selected{% endif %}>Game/Tournament Fees</option>
+                            <option value="Gas" {% if transaction.transaction_type == 'Gas' %}selected{% endif %}>Gas</option>
+                            <option value="Equipment" {% if transaction.transaction_type == 'Equipment' %}selected{% endif %}>Equipment</option>
+                            <option value="Other Expense" {% if transaction.transaction_type == 'Other Expense' %}selected{% endif %}>Other Expense</option>
                         </optgroup>
                         <optgroup label="Revenue">
-                            <option value="Fundraising">Fundraising</option>
-                            <option value="Dues">Dues</option>
-                            <option value="Donation">Donation</option>
-                            <option value="Other Revenue">Other Revenue</option>
+                            <option value="Fundraising" {% if transaction.transaction_type == 'Fundraising' %}selected{% endif %}>Fundraising</option>
+                            <option value="Dues" {% if transaction.transaction_type in ['Dues', 'Revenue'] %}selected{% endif %}>Dues</option>
+                            <option value="Donation" {% if transaction.transaction_type == 'Donation' %}selected{% endif %}>Donation</option>
+                            <option value="Other Revenue" {% if transaction.transaction_type == 'Other Revenue' %}selected{% endif %}>Other Revenue</option>
                         </optgroup>
                     </select>
                 </div>
 
                 <div class="col-md-6">
                     <label for="amount" class="form-label">Amount ($):</label>
-                    <input type="number" step="0.01" id="amount" name="amount" class="form-control" value="450.00" placeholder="0.00" required>
+                    <input type="number" step="0.01" id="amount" name="amount" class="form-control" value="{{ transaction.amount }}" required>
                 </div>
 
                 <div class="col-md-6">
                     <label for="gameID" class="form-label">Game ID:</label>
-                    <input type="text" id="gameID" name="gameID" class="form-control" value="G-204" placeholder="Optional (e.g., G201)">
+                    <input type="text" id="gameID" name="gameID" class="form-control" value="{{ transaction.game_id if transaction.game_id else '' }}" placeholder="Optional (e.g., G201)">
                 </div>
 
                 <div class="col-md-6">
                     <label for="location" class="form-label">Location:</label>
-                    <input type="text" id="location" name="location" class="form-control" value="College Park, MD" placeholder="e.g., College Park, MD">
+                    <input type="text" id="location" name="location" class="form-control" value="{{ transaction.location if transaction.location else '' }}" placeholder="e.g., College Park, MD">
                 </div>
 
                 <div class="col-12">
                     <label for="description" class="form-label">Description:</label>
-                    <textarea id="description" name="description" rows="3" class="form-control form-textarea" placeholder="Describe the transaction" required>Tournament entry fee</textarea>
+                    <textarea id="description" name="description" rows="3" class="form-control form-textarea" placeholder="Describe the transaction" required>{{ transaction.description }}</textarea>
                 </div>
 
                 <div class="col-12">
                     <label for="expenseReceipt" class="form-label">Replace Receipt (Optional):</label>
                     <input type="file" id="expenseReceipt" name="expenseReceipt" class="form-control file-input" accept=".pdf, .png, .jpg, .jpeg">
+                    {% if transaction.receipt_filename %}
+                        <div class="form-text mt-1 text-muted">Current receipt: <a href="{{ url_for('static', filename='uploads/' + transaction.receipt_filename) }}" target="_blank">{{ transaction.receipt_filename }}</a></div>
+                    {% endif %}
                 </div>
             </div>
 
             <div class="form-actions-toolbar">
-                <button type="button" class="btn-delete-entry">Delete entry</button>
+                <button type="submit" form="deleteForm" class="btn-delete-entry">Delete entry</button>
                 <a href="/financial-ledger" class="btn-return-overview">Cancel</a>
-                <a href="/financial-ledger" class="btn-submit-upload">Save Changes</a>
+                <button type="submit" class="btn-submit-upload">Save Changes</button>
             </div>
         </form>
+
+        <form id="deleteForm" action="/financial-ledger-delete/{{ transaction.transaction_id }}" method="POST" style="display: none;"></form>
     </div>
 </div>
 {% endblock %}

@@ -7,6 +7,8 @@ class User(db.Model):
     __tablename__ = 'user'
 
     user_id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(50), unique=True, nullable=False)
+    password = db.Column(db.String(255), nullable=False)
     first_name = db.Column(db.String(50), nullable=False)
     last_name = db.Column(db.String(50), nullable=False)
     email = db.Column(db.String(100), nullable=False)
@@ -41,4 +43,45 @@ class Team(db.Model):
             name='unique_team_semester'
         ),
     )
+class Expense(db.Model):
+    __tablename__ = 'expense'
 
+    expense_id = db.Column(db.Integer, primary_key=True)
+
+    first_name = db.Column(db.String(50), nullable=False)
+    last_name = db.Column(db.String(50), nullable=False)
+    venmo = db.Column(db.String(100), nullable=False)
+
+    expense_date = db.Column(db.Date, nullable=False)
+    game = db.Column(db.String(100))
+
+    amount = db.Column(db.Numeric(10, 2), nullable=False)
+    description = db.Column(db.Text, nullable=False)
+    receipt_filename = db.Column(db.String(255), nullable=False)
+
+    approval_status = db.Column(
+        db.String(20), nullable=False, default='Pending'
+    )
+
+    repayment_status = db.Column(
+        db.Boolean, nullable=False, default=False
+    )
+
+    treasurer_comment = db.Column(db.Text)
+
+class Transaction(db.Model):
+    __tablename__ = 'transaction'
+
+    transaction_id = db.Column(db.String(20), primary_key=True)
+    transaction_date = db.Column(db.Date, nullable=False)
+    game_id = db.Column(db.String(20), nullable=True)
+    account_id = db.Column(db.String(30), nullable=False)
+    team_id = db.Column(db.String(30), nullable=False)
+    description = db.Column(db.Text, nullable=False)
+    transaction_type = db.Column(db.String(20), nullable=False)
+    location = db.Column(db.String(100), nullable=True)
+    amount = db.Column(db.Numeric(10, 2), nullable=False)
+    receipt_filename = db.Column(db.String(255), nullable=True)
+
+    def __repr__(self):
+        return f"<Transaction {self.transaction_id}: {self.description} (${self.amount})>"

@@ -15,10 +15,11 @@
         <p>Treasurer access</p>
     </section>
 
-    <div class="content-card upload-single-card">
         <div class="upload-card-header">
             <h2 class="upload-card-title">Upload a Bank Transaction File</h2>
-            <p class="upload-card-subtitle">Upload a bank statement to automatically parse credits into the financial ledger.</p>
+            <p class="upload-card-subtitle">
+                Download the <a href="{{ url_for('static', filename='UMD_Softball_Transaction_Template.xlsx') }}" download>Standard Transaction Template</a>, fill it out, and upload it below to automatically populate the ledger.
+            </p>
         </div>
 
         <form action="/upload-transactions" method="POST" enctype="multipart/form-data">
@@ -37,7 +38,6 @@
             </div>
         </form>
     </div>
-</div>
 <script>
    function handleFileSelect(input) {
        const filenameDisplay = document.getElementById('dropzone-filename');

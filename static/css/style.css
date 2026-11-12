@@ -3085,3 +3085,28 @@ select.form-select option {
     font-size: 0.85rem;
 }
 
+/* --- HOMEPAGE NAVBAR CUSTOMIZATIONS --- */
+
+.custom-navbar {
+    background-color: #d91a3c; /* UMD Red */
+    border-bottom: 3px solid #990000; /* Subtle dark red accent border */
+}
+
+/* Spaces out the letters for a cleaner, modern look */
+.tracking-wide {
+    letter-spacing: 1.5px;
+}
+
+/* Styles the standard links */
+.custom-nav-link {
+    font-size: 0.95rem;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+    transition: all 0.3s ease;
+}
+
+/* Adds a slight hover animation so the links feel interactive */
+.custom-nav-link:hover {
+    color: #ffffff !important;
+    transform: translateY(-2px);
+}

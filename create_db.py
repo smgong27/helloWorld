@@ -1,8 +1,8 @@
 from main import app
-from models import db, User, Transaction,Team
+from models import db, User, Transaction, Team
 from sqlalchemy import inspect
 from werkzeug.security import generate_password_hash
-import datetime as dt
+from datetime import datetime, date
 from decimal import Decimal
 
 with app.app_context():
@@ -15,13 +15,13 @@ with app.app_context():
     # Initial loading of users
     users = [
         {'username': 'member', 'email': 'member@umd.edu', 'first_name': 'Mandy', 'last_name': 'McDonald',
-         'password': generate_password_hash('Member123456789', method='pbkdf2:sha256'), 'role': 'MEMBER'},
+         'password': generate_password_hash('Member123456789', method='pbkdf2:sha256'), 'user_persona': 'MEMBER'},
         {'username': 'executive', 'email': 'executive@umd.edu', 'first_name': 'Ellen', 'last_name': 'Embrose',
-         'password': generate_password_hash('Executive123456789', method='pbkdf2:sha256'), 'role': 'EXECUTIVE'},
+         'password': generate_password_hash('Executive123456789', method='pbkdf2:sha256'), 'user_persona': 'EXECUTIVE'},
         {'username': 'treasurer', 'email': 'treasurer@umd.edu', 'first_name': 'Tara', 'last_name': 'Taylor',
-         'password': generate_password_hash('Treasurer123456789', method='pbkdf2:sha256'), 'role': 'TREASURER'},
+         'password': generate_password_hash('Treasurer123456789', method='pbkdf2:sha256'), 'user_persona': 'TREASURER'},
         {'username': 'advisor', 'email': 'advisor@umd.edu', 'first_name': 'Arthur', 'last_name': 'Anderson',
-         'password': generate_password_hash('Advisor123456789', method='pbkdf2:sha256'), 'role': 'ADVISOR'}
+         'password': generate_password_hash('Advisor123456789', method='pbkdf2:sha256'), 'user_persona': 'ADVISOR'}
     ]
 
     for each_user in users:
@@ -32,7 +32,7 @@ with app.app_context():
             first_name=each_user['first_name'],
             last_name=each_user['last_name'],
             password=each_user['password'],
-            role=each_user['role']
+            user_persona=each_user['user_persona']
         )
         db.session.add(a_user)
         db.session.commit()
@@ -40,13 +40,23 @@ with app.app_context():
     # Initial loading of ledger transactions
     transactions = [
         Transaction(
-            transaction_id="E105", transaction_date=dt.datetime(2026, 10, 8), account_id="SGA",
+            transaction_id="E102601", transaction_date=datetime(2026, 10, 8), account_id="SGA",
             team_id="NCSA", transaction_type="Travel", amount=245.50, game_id="G201",
             description="Van rental gas for Delaware away double-header", receipt_filename=None),
         Transaction(
-            transaction_id="R104", transaction_date=dt.datetime(2026, 10, 15), account_id="SECU",
+            transaction_id="R102601", transaction_date=datetime(2026, 10, 15), account_id="SECU",
             team_id="Active", transaction_type="Dues", amount=150.00, game_id=None,
-            description="Fall player dues payment", receipt_filename=None)
+            description="Fall player dues payment", receipt_filename=None),
+        Transaction(
+            transaction_id="R092602", transaction_date=date(2026, 9, 15), game_id="G201",
+            account_id="RecWell", team_id="NCSA", description="Concessions revenue",
+            transaction_type="Revenue", location="College Park, MD", amount=Decimal("800.00"),
+            receipt_filename=None),
+        Transaction(
+            transaction_id="E092602", transaction_date=date(2026, 9, 2), game_id=None,
+            account_id="SGA", team_id="Active", description="Team jerseys & gear",
+            transaction_type="Expense", location="Baltimore, MD", amount=Decimal("680.00"),
+            receipt_filename=None)
     ]
 
     for each_trans in transactions:

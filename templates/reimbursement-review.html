@@ -28,12 +28,7 @@
                         <p>Review reimbursement requests and approval status. </p>
                     </div>
 
-                    <div class="col-md-4 text-md-end">
-                        <a href="/reimbursement-review-update"
-                                class="btn btn-danger review-save-button">
-                            Edit
-                        </a>
-                    </div>
+                    <div class="col-md-4 text-md-end"> </div>
 
                 </div>
 
@@ -54,57 +49,95 @@
                                 <th>Amount</th>
                                 <th>Status</th>
                                 <th>Repaid</th>
-                                <th>Treasure Comments</th>
+                                <th>Treasurer Comments</th>
+                                <th>Actions</th>
                             </tr>
                             </thead>
-                            <tbody>
 
-                             <tr>
-        <td>E104</td>
-        <td>G-204</td>
-        <td>Hokie Bird</td>
-        <td>@hokiebird</td>
-        <td>NCSA tournament registration</td>
-        <td><span class="text-danger">View receipt</span></td>
-        <td><strong>$250.00</strong></td>
-        <td>
-            <span class="badge bg-warning text-dark">Pending</span>
-        </td>
-        <td>No</td>
-        <td>—</td>
-    </tr>
+<tbody>
 
+    <!-- Display reimbursement requests saved in the database -->
+    {% for expense in expenses %}
     <tr>
-        <td>E103</td>
-        <td>G-204</td>
-        <td>Chucky Cheese</td>
-        <td>@chuckycheese</td>
-        <td>Umpire fees · Delaware</td>
-        <td><span class="text-danger">View receipt</span></td>
-        <td><strong>$500.00</strong></td>
+        <td>E{{ expense.expense_id }}</td>
+
+        <td>{{ expense.game or '—' }}</td>
+
+        <td>{{ expense.first_name }} {{ expense.last_name }}</td>
+
+        <td>{{ expense.venmo }}</td>
+
+        <td>{{ expense.description }}</td>
+
         <td>
-            <span class="badge bg-success">Approved</span>
+            <a href="{{ url_for('static', filename='uploads/' ~ expense.receipt_filename) }}"
+               target="_blank"
+               rel="noopener noreferrer"
+               class="text-danger">
+                View receipt
+            </a>
         </td>
-        <td>Yes</td>
-        <td>—</td>
+
+        <td>
+            <strong>${{ "%.2f"|format(expense.amount) }}</strong>
+        </td>
+
+        <td>
+            {% if expense.approval_status == 'Approved' %}
+                <span class="badge bg-success">Approved</span>
+            {% elif expense.approval_status in ['Denied', 'Rejected'] %}
+                <span class="badge bg-danger">Denied</span>
+            {% else %}
+                <span class="badge bg-warning text-dark">Pending</span>
+            {% endif %}
+        </td>
+
+        <td>
+            {{ 'Yes' if expense.repayment_status else 'No' }}
+        </td>
+
+       <td>
+    {{ expense.treasurer_comment or '—' }}
+</td>
+
+<!-- Edit the selected reimbursement -->
+<td>
+    <!-- Edit reimbursement -->
+    <a href="{{ url_for('reimbursement_review_update',
+                        expense_id=expense.expense_id) }}"
+       class="btn btn-danger btn-sm">
+        Edit
+    </a>
+
+    <!-- Delete reimbursement -->
+    <form action="{{ url_for('reimbursement_delete',
+                             expense_id=expense.expense_id) }}"
+          method="POST"
+          class="d-inline"
+          onsubmit="return confirm('Are you sure you want to delete this reimbursement?');">
+
+        <button type="submit" class="btn btn-outline-danger btn-sm">
+            Delete
+        </button>
+
+    </form>
+</td>
+
+</tr>
+
+    {% else %}
+
+    <!-- Display when there are no reimbursement requests -->
+    <tr>
+        <td colspan="11" class="text-center py-4">
+            No reimbursement requests have been submitted yet.
+        </td>
     </tr>
 
-    <tr>
-        <td>E102</td>
-        <td>G-204</td>
-        <td>Chucky Cheese</td>
-        <td>@chuckycheese</td>
-        <td>Travel fuel expense</td>
-        <td><span class="text-danger">View receipt</span></td>
-        <td><strong>$50.00</strong></td>
-        <td>
-            <span class="badge bg-danger">Denied</span>
-        </td>
-        <td>No</td>
-        <td>Receipt does not show the purchase date.</td>
-    </tr>
+    {% endfor %}
 
 </tbody>
+
 
 
                         </table>

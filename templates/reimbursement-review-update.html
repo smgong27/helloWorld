@@ -44,8 +44,9 @@
 
                 <!-- Editable Form -->
                 <form id="review-form"
-                      action="/reimbursement-review-update"
-                      method="post">
+                    action="{{ url_for('reimbursement_review_update',
+                        expense_id=expense.expense_id) }}"
+                    method="post">
 
                     <div class="table-responsive">
 
@@ -66,120 +67,75 @@
                             </tr>
                             </thead>
 
-                            <tbody>
 
-                            <!-- Reimbursement 1 -->
-                            <tr>
-                                <td><strong>E104</strong></td>
-                                <td>G-204</td>
-                                <td>U-018 · Hokie Bird</td>
-                                <td>@hokiebird</td>
-                                <td>NCSA tournament registration</td>
+<tbody>
+    <tr>
+        <td><strong>E{{ expense.expense_id }}</strong></td>
 
-                                <td>
-                                    <span class="receipt-preview">View receipt</span>
-                                </td>
+        <td>{{ expense.game or '—' }}</td>
 
-                                <td><strong>$250.00</strong></td>
+        <td>
+            {{ expense.first_name }} {{ expense.last_name }}
+        </td>
 
-                                <td>
-                                    <select class="form-select" name="status_e104">
-                                        <option selected>Pending</option>
-                                        <option>Approved</option>
-                                        <option>Denied</option>
-                                    </select>
-                                </td>
+        <td>{{ expense.venmo }}</td>
 
-                                <td>
-                                    <select class="form-select" name="repaid_e104">
-                                        <option selected>No</option>
-                                        <option>Yes</option>
-                                    </select>
-                                </td>
+        <td>{{ expense.description }}</td>
 
-                                <td>
-                                    <textarea class="form-control"
-                                              name="comments_e104"
-                                              rows="2"
-                                              placeholder="Reason for denial"></textarea>
-                                </td>
-                            </tr>
+        <td>
+            <a href="{{ url_for('static',
+                       filename='uploads/' ~ expense.receipt_filename) }}"
+               target="_blank"
+               rel="noopener noreferrer"
+               class="receipt-preview">
+                View receipt
+            </a>
+        </td>
 
-                            <!-- Reimbursement 2 -->
-                            <tr>
-                                <td><strong>E103</strong></td>
-                                <td>G-201</td>
-                                <td>U-007 · Chucky Cheese</td>
-                                <td>@chuckycheese</td>
-                                <td>Umpire fees · Delaware</td>
+        <td>
+            <strong>${{ "%.2f"|format(expense.amount) }}</strong>
+        </td>
 
-                                <td>
-                                    <span class="receipt-preview">View receipt</span>
-                                </td>
+        <td>
+            <select class="form-select"
+                    name="approval_status"
+                    required>
+                {% for status in ['Pending', 'Approved', 'Denied'] %}
+                    <option value="{{ status }}"
+                        {% if expense.approval_status == status %}
+                            selected
+                        {% endif %}>
+                        {{ status }}
+                    </option>
+                {% endfor %}
+            </select>
+        </td>
 
-                                <td><strong>$500.00</strong></td>
+        <td>
+            <select class="form-select"
+                    name="repayment_status"
+                    required>
+                <option value="No"
+                    {% if not expense.repayment_status %}selected{% endif %}>
+                    No
+                </option>
 
-                                <td>
-                                    <select class="form-select" name="status_e103">
-                                        <option>Pending</option>
-                                        <option selected>Approved</option>
-                                        <option>Denied</option>
-                                    </select>
-                                </td>
+                <option value="Yes"
+                    {% if expense.repayment_status %}selected{% endif %}>
+                    Yes
+                </option>
+            </select>
+        </td>
 
-                                <td>
-                                    <select class="form-select" name="repaid_e103">
-                                        <option selected>No</option>
-                                        <option>Yes</option>
-                                    </select>
-                                </td>
+        <td>
+            <textarea class="form-control"
+                      name="treasurer_comment"
+                      rows="2"
+                      placeholder="Reason for denial">{{ expense.treasurer_comment or '' }}</textarea>
+        </td>
+    </tr>
+</tbody>
 
-                                <td>
-                                    <textarea class="form-control"
-                                              name="comments_e103"
-                                              rows="2"
-                                              placeholder="Reason for denial"></textarea>
-                                </td>
-                            </tr>
-
-                            <!-- Reimbursement 3 -->
-                            <tr>
-                                <td><strong>E102</strong></td>
-                                <td>—</td>
-                                <td>U-007 · Chucky Cheese</td>
-                                <td>@chuckycheese</td>
-                                <td>Travel fuel expense</td>
-
-                                <td>
-                                    <span class="receipt-preview">View receipt</span>
-                                </td>
-
-                                <td><strong>$50.00</strong></td>
-
-                                <td>
-                                    <select class="form-select" name="status_e102">
-                                        <option>Pending</option>
-                                        <option>Approved</option>
-                                        <option selected>Denied</option>
-                                    </select>
-                                </td>
-
-                                <td>
-                                    <select class="form-select" name="repaid_e102">
-                                        <option selected>No</option>
-                                        <option>Yes</option>
-                                    </select>
-                                </td>
-
-                                <td>
-                                    <textarea class="form-control"
-                                              name="comments_e102"
-                                              rows="2"
-                                              placeholder="Reason for denial">Receipt does not show the purchase date.</textarea>
-                                </td>
-                            </tr>
-
-                            </tbody>
 
                         </table>
 
