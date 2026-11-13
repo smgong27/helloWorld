@@ -37,27 +37,27 @@ with app.app_context():
         db.session.add(a_user)
         db.session.commit()
 
-    # Initial loading of ledger transactions
-    transactions = [
-        Transaction(
-            transaction_id="E102601", transaction_date=datetime(2026, 10, 8), account_id="SGA",
-            team_id="NCSA", transaction_type="Travel", amount=245.50, game_id="G201",
-            description="Van rental gas for Delaware away double-header", receipt_filename=None),
-        Transaction(
-            transaction_id="R102601", transaction_date=datetime(2026, 10, 15), account_id="SECU",
-            team_id="Active", transaction_type="Dues", amount=150.00, game_id=None,
-            description="Fall player dues payment", receipt_filename=None),
-        Transaction(
-            transaction_id="R092602", transaction_date=date(2026, 9, 15), game_id="G201",
-            account_id="RecWell", team_id="NCSA", description="Concessions revenue",
-            transaction_type="Revenue", location="College Park, MD", amount=Decimal("800.00"),
-            receipt_filename=None),
-        Transaction(
-            transaction_id="E092602", transaction_date=date(2026, 9, 2), game_id=None,
-            account_id="SGA", team_id="Active", description="Team jerseys & gear",
-            transaction_type="Expense", location="Baltimore, MD", amount=Decimal("680.00"),
-            receipt_filename=None)
-    ]
+        # Initial loading of ledger transactions
+        transactions = [
+            Transaction(
+                transaction_id="E102601", transaction_date=datetime(2026, 10, 8), account_id="SGA",
+                team_id="NCSA", transaction_type="Travel", amount=245.50, game_id="G201",
+                description="Van rental gas for Delaware away double-header", receipt_filename=None, status="Active"),
+            Transaction(
+                transaction_id="R102601", transaction_date=datetime(2026, 10, 15), account_id="SECU",
+                team_id="Active", transaction_type="Dues", amount=150.00, game_id=None,
+                description="Fall player dues payment", receipt_filename=None, status="Active"),
+            Transaction(
+                transaction_id="R092602", transaction_date=date(2026, 9, 15), game_id="G201",
+                account_id="RecWell", team_id="NCSA", description="Concessions revenue",
+                transaction_type="Revenue", location="College Park, MD", amount=Decimal("800.00"),
+                receipt_filename=None, status="Active"),
+            Transaction(
+                transaction_id="E092602", transaction_date=date(2026, 9, 2), game_id=None,
+                account_id="SGA", team_id="Active", description="Team jerseys & gear",
+                transaction_type="Expense", location="Baltimore, MD", amount=Decimal("680.00"),
+                receipt_filename=None, status="Active")
+        ]
 
     for each_trans in transactions:
         print(f'Transaction {each_trans.transaction_id} inserted into Transaction')
@@ -68,41 +68,48 @@ with app.app_context():
 
     teams = [
         Team(
-            teamName='NCSA Team',
+            teamName='NCSA',
             teamSemesterYear='Fall 2026',
-            teamDuesAmount=Decimal('100.00')
+            teamDuesAmount=Decimal('100.00'),
+            teamSemesterStatus='Current'
         ),
         Team(
-            teamName='Active Team',
+            teamName='Active',
             teamSemesterYear='Fall 2026',
-            teamDuesAmount=Decimal('100.00')
+            teamDuesAmount=Decimal('100.00'),
+            teamSemesterStatus='Current'
         ),
         Team(
-            teamName='NCSA Team',
+            teamName='NCSA',
             teamSemesterYear='Spring 2027',
-            teamDuesAmount=Decimal('100.00')
+            teamDuesAmount=Decimal('100.00'),
+            teamSemesterStatus='Upcoming'
         ),
         Team(
-            teamName='Active Team',
+            teamName='Active',
             teamSemesterYear='Spring 2027',
-            teamDuesAmount=Decimal('100.00')
+            teamDuesAmount=Decimal('100.00'),
+            teamSemesterStatus = 'Upcoming'
         ),
         Team(
-            teamName='NCSA Team',
+            teamName='NCSA',
             teamSemesterYear='Fall 2027',
-            teamDuesAmount=Decimal('100.00')
+            teamDuesAmount=Decimal('100.00'),
+            teamSemesterStatus = 'Upcoming'
         ),
         Team(
-            teamName='Active Team',
+            teamName='Active',
             teamSemesterYear='Fall 2027',
-            teamDuesAmount=Decimal('100.00')
+            teamDuesAmount=Decimal('100.00'),
+            teamSemesterStatus='Upcoming'
         )
     ]
 
     for each_team in teams:
         print(
             f'{each_team.teamName} - '
-            f'{each_team.teamSemesterYear} inserted into Team'
+            f'{each_team.teamSemesterYear} - '
+            f'{each_team.teamSemesterStatus} inserted into Team'
         )
         db.session.add(each_team)
 

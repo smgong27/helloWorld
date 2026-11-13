@@ -23,20 +23,21 @@
     <div class="toolbar-actions">
         <div class="filter-wrapper">
             <select id="filter_transactions" name="filter_transactions" class="filter-select">
-                <option value="all" selected>All transactions</option>
-                <option value="revenue">Revenue only</option>
-                <option value="expense">Expense only</option>
-                <option value="last_month">Last month</option>
-                <option value="last_3_months">Last 3 months</option>
+                <option value="all" selected>All Transactions</option>
+                <option value="live" >Only Live Transactions</option>
+                <option value="revenue">Revenue Only</option>
+                <option value="expense">Expense Only</option>
+                <option value="last_month">Last Month</option>
+                <option value="last_3_months">Last 3 Months</option>
                 <option value="last_year">Last Year</option>
-                <option value="ncsa">NCSA</option>
-                <option value="active">Active</option>
+                <option value="ncsa">NCSA Team</option>
+                <option value="active">Active Team</option>
             </select>
         </div>
 
         <a href="/financial-report" class="btn-action-reports">Financial Report</a>
-        <a href="/upload-transactions" class="btn-action-upload"><span>&uarr;</span> Upload</a>
-        <a href="/record-transaction" class="btn-action-create"><span>+</span>Create Transaction</a>
+        <a href="/upload-transactions" class="btn-action-upload"><span>&uarr;</span> Upload Excel File</a>
+        <a href="/record-transaction" class="btn-action-create"><span>+</span>Create New Transaction</a>
     </div>
 </div>
 
@@ -61,7 +62,7 @@
         <!-- Transaction rows populated from database such as uploaded transactions, created/new transactions -->
         <tbody>
             {% for trans in transactions %}
-            <tr>
+            <tr class="{% if trans.status == 'Voided' %}text-muted text-decoration-line-through{% endif %}">
                 <td><strong>{{ trans.transaction_id }}</strong></td>
                 <td>{{ trans.transaction_date.strftime('%m/%d/%Y') }}</td>
                 <td>{{ trans.game_id if trans.game_id else 'N/A' }}</td>
@@ -70,9 +71,15 @@
                 <td>{{ trans.description }}</td>
                 <td>{{ trans.transaction_type }}</td>
                 <td>{{ trans.location if trans.location else 'N/A' }}</td>
+                <!-- Show VOIDED badge if voided; otherwise format positive/negative dollar amount -->
                 <td class="{% if trans.transaction_type == 'Expense' %}amount-neg{% else %}amount-pos{% endif %}">
-                    {% if trans.transaction_type == 'Expense' %}-{% else %}+{% endif %}${{ "%.2f"|format(trans.amount) }}
+                    {% if trans.status == 'Voided' %}
+                        <span class="badge bg-secondary">VOIDED</span>
+                    {% else %}
+                        {% if trans.transaction_type == 'Expense' %}-{% else %}+{% endif %}${{ "%.2f"|format(trans.amount) }}
+                    {% endif %}
                 </td>
+                <!-- Receipt preview link (if uploaded) -->
                 <td>
                     {% if trans.receipt_filename %}
                         <a href="{{ url_for('static', filename='uploads/' + trans.receipt_filename) }}" target="_blank" class="btn-view-receipt">View</a>
@@ -80,8 +87,13 @@
                         N/A
                     {% endif %}
                 </td>
+                <!-- Disable editing once a transaction has been voided -->
                 <td>
-                    <a href="/financial-ledger-update/{{ trans.transaction_id }}" class="btn-edit-cell">Edit</a>
+                    {% if trans.status != 'Voided' %}
+                        <a href="/financial-ledger-update/{{ trans.transaction_id }}" class="btn-edit-cell">Edit</a>
+                    {% else %}
+                        <span class="text-muted small">N/A</span>
+                    {% endif %}
                 </td>
             </tr>
             {% else %}
@@ -92,4 +104,46 @@
         </tbody>
     </table>
 </div>
+
+<!-- Filter Functionality -->
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const filterSelect = document.getElementById('filter_transactions');
+    const rows = document.querySelectorAll('.ledger-table tbody tr');
+
+    function applyFilter() {
+        const selected = filterSelect.value;
+        // Normalize current date to midnight for accurate day-difference calculations
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+
+        rows.forEach(row => {
+            // Skip the "No transactions recorded yet" fallback row
+            if (row.cells.length < 11) return;
+            // Read values directly from existing table cells by column index
+            const dateText = row.cells[1].textContent.trim();           // MM/DD/YYYY
+            const team = row.cells[4].textContent.trim().toLowerCase(); // ncsa, active, or both
+            const type = row.cells[6].textContent.trim().toLowerCase(); // revenue or expense
+            const isVoided = row.cells[8].textContent.includes('VOIDED');
+            // Calculate elapsed days between the transaction date and today
+            const rowDate = new Date(dateText);
+            const diffDays = (today - rowDate) / (1000 * 60 * 60 * 24);
+
+            let show = true;
+            // Match row visibility against the active dropdown filter option
+            if (selected === 'live') {show = !isVoided;}
+            else if (selected === 'revenue') {show = (!isVoided && type === 'revenue');}
+            else if (selected === 'expense') {show = (!isVoided && type === 'expense');}
+            else if (selected === 'ncsa') {show = (team === 'ncsa' || team === 'both');}
+            else if (selected === 'active') {show = (team === 'active' || team === 'both');}
+            else if (selected === 'last_month') {show = (diffDays >= 0 && diffDays <= 30);}
+            else if (selected === 'last_3_months') {show = (diffDays >= 0 && diffDays <= 90);}
+            else if (selected === 'last_year') {show = (diffDays >= 0 && diffDays <= 365);}
+            row.style.display = show ? '' : 'none';
+        });
+    }
+    filterSelect.addEventListener('change', applyFilter);
+    applyFilter();
+});
+</script>
 {% endblock %}

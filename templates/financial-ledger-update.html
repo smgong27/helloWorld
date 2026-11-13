@@ -109,13 +109,13 @@
             </div>
 
             <div class="form-actions-toolbar">
-                <button type="submit" form="deleteForm" class="btn-delete-entry">Delete entry</button>
+                <button type="submit" form="voidForm" class="btn-delete-entry">Void Entry</button>
                 <a href="/financial-ledger" class="btn-return-overview">Cancel</a>
                 <button type="submit" class="btn-submit-upload">Save Changes</button>
             </div>
         </form>
 
-        <form id="deleteForm" action="/financial-ledger-delete/{{ transaction.transaction_id }}" method="POST" style="display: none;"></form>
+        <form id="voidForm" action="/financial-ledger-void/{{ transaction.transaction_id }}" method="POST" style="display: none;"></form>
     </div>
 </div>
 {% endblock %}

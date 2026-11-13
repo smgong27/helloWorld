@@ -35,7 +35,9 @@ class Team(db.Model):
     teamName = db.Column(db.String(100), nullable=False)
     teamSemesterYear = db.Column(db.String(50), nullable=False)
     teamDuesAmount = db.Column(db.Numeric(10, 2), nullable=False)
+    teamSemesterStatus = db.Column(db.String(20), nullable=False, default='Upcoming', server_default='Upcoming')
 
+    #Makes sure semester and team combinations are unique.
     __table_args__ = (
         UniqueConstraint(
             'teamName',
@@ -82,6 +84,7 @@ class Transaction(db.Model):
     location = db.Column(db.String(100), nullable=True)
     amount = db.Column(db.Numeric(10, 2), nullable=False)
     receipt_filename = db.Column(db.String(255), nullable=True)
+    status = db.Column(db.String(20), default='Active', nullable=False)
 
     def __repr__(self):
         return f"<Transaction {self.transaction_id}: {self.description} (${self.amount})>"

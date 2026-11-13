@@ -447,11 +447,14 @@ def upload_transactions():
     return render_template('upload-transactions.html')
 
 # DELETE: Delete Transaction
-@app.route('/financial-ledger-delete/<transaction_id>', methods=['POST'])
-def financial_ledger_delete(transaction_id):
+@app.route('/financial-ledger-void/<transaction_id>', methods=['POST'])
+#@login_required
+#@role_required(['TREASURER', 'ADVISOR'])
+def financial_ledger_void(transaction_id):
     transaction = Transaction.query.filter_by(transaction_id=transaction_id).first_or_404()
-    db.session.delete(transaction)
+    transaction.status = 'Voided'
     db.session.commit()
+    flash(f'Transaction {transaction_id} has been voided.', 'success')
     return redirect('/financial-ledger')
 
 # OTHER FINANCIAL ROUTES
@@ -613,9 +616,35 @@ def game_schedule_create():
 
     return render_template('game-schedule-create.html')
 
-@app.route('/game-schedule-update')
-def game_schedule_update():
-    return render_template('game-schedule-update.html')
+@app.route('/game-schedule-update/<int:game_id>', methods=['GET', 'POST'])
+def game_schedule_update(game_id):
+
+    game = db.get_or_404(Game, game_id)
+
+    if request.method == 'POST':
+
+        game.team_id = request.form['team_id']
+        game.opponent = request.form['opponent']
+        game.game_date = date.fromisoformat(request.form['game_date'])
+        game.game_times = request.form['game_times']
+        game.game_location = request.form['game_location']
+
+        db.session.commit()
+
+        flash('Game updated successfully!', 'success')
+
+        return redirect(url_for('game_schedule_after_login'))
+
+    return render_template('game-schedule-update.html', game=game)
+
+
+@app.route('/game-schedule-delete/<int:game_id>', methods=['POST'])
+def game_schedule_delete(game_id):
+    game = db.get_or_404(Game, game_id)
+    db.session.delete(game)
+    db.session.commit()
+    flash('Game deleted successfully!', 'success')
+    return redirect(url_for('game_schedule_after_login'))
 
 
 if __name__ == '__main__':
