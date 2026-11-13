@@ -234,15 +234,39 @@ def pay_dues():
 # TEAM ROSTER ROUTE
 
 @app.route('/team-roster')
+# @login_required
+# @role_required(['EXECUTIVE', 'TREASURER', 'ADVISOR'])
 def team_roster():
-    return render_template('team-roster.html')
+    # Fetch all users who are players (filtering out the Advisor)
+    roster = User.query.filter(User.user_persona != 'ADVISOR').all()
+    return render_template('team-roster.html', roster=roster)
+
 
 @app.route('/team-roster-update', methods=['GET', 'POST'])
+# @login_required
+# @role_required(['EXECUTIVE', 'TREASURER', 'ADVISOR'])
 def team_roster_update():
+    roster = User.query.filter(User.user_persona != 'ADVISOR').all()
+
     if request.method == 'POST':
-        # Add database save logic here later
-        return redirect('team_roster')
-    return render_template('team-roster-update.html')
+        # Loop through every player on the roster
+        for member in roster:
+            # Grab the specific dropdown values for this exact member using their unique ID
+            new_status = request.form.get(f'status_{member.member_id}')
+            new_team = request.form.get(f'team_{member.member_id}')
+
+            # Update the database object if data was submitted
+            if new_status:
+                # Convert the string "True"/"False" from HTML back into a Python Boolean
+                member.active_status = (new_status == 'True')
+            if new_team:
+                member.team = new_team
+
+        db.session.commit()
+        flash('Team roster has been successfully updated.', 'success')
+        return redirect('/team-roster')
+
+    return render_template('team-roster-update.html', roster=roster)
 
 # FINANCIAL LEDGER ROUTES
 UPLOAD_FOLDER = 'static/uploads'
@@ -251,6 +275,25 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
+# Function to generate the next sequential Transaction ID (e.g., R112501, E102510)
+def generate_next_transaction_id(resolved_category, t_date):
+    prefix = 'R' if resolved_category == 'Revenue' else 'E'
+    base_pattern = f"{prefix}{t_date.strftime('%m%y')}"
+
+    existing_matches = [
+        t.transaction_id for t in Transaction.query.filter(
+            Transaction.transaction_id.like(f"{base_pattern}%")
+        ).all()
+    ]
+    seq_numbers = []
+    for tid in existing_matches:
+        suffix = tid[len(base_pattern):]
+        if suffix.isdigit():
+            seq_numbers.append(int(suffix))
+
+    next_seq = max(seq_numbers) + 1 if seq_numbers else 1
+    return f"{base_pattern}{next_seq:02d}"
 
 # READ: Financial Ledger
 @app.route('/financial-ledger')
@@ -262,29 +305,89 @@ def financial_ledger():
 @app.route('/financial-ledger-update/<transaction_id>', methods=['GET', 'POST'])
 def financial_ledger_update(transaction_id):
     transaction = Transaction.query.filter_by(transaction_id=transaction_id).first_or_404()
+
+    # Block editing if the transaction has already been voided
+    if transaction.status == 'Voided':
+        flash(f'Transaction {transaction_id} is voided and cannot be modified.', 'danger')
+        return redirect('/financial-ledger')
+
     if request.method == 'POST':
-        transaction.transaction_date = date.fromisoformat(request.form.get('transactionDate'))
-        transaction.account_id = request.form.get('accountID')
+        # Store submitted values in new_* variables (do NOT overwrite transaction yet)
+        new_date = date.fromisoformat(request.form.get('transactionDate'))
+        new_account = request.form.get('accountID')
         teams = request.form.getlist('teamID')
-        transaction.team_id = "Both" if len(teams) > 1 else (teams[0] if teams else "NCSA")
+        new_team = "Both" if len(teams) > 1 else (teams[0] if teams else "NCSA")
 
         t_type = request.form.get('transactionType')
         revenue_types = {'Fundraising', 'Dues', 'Donation', 'Other Revenue'}
-        transaction.transaction_type = 'Revenue' if t_type in revenue_types else 'Expense'
+        new_category = 'Revenue' if t_type in revenue_types else 'Expense'
 
-        transaction.amount = Decimal(request.form.get('amount', '0.00'))
-        transaction.game_id = request.form.get('gameID') or None
-        transaction.location = request.form.get('location')
-        transaction.description = request.form.get('description')
+        raw_amount = request.form.get('amount', '0.00').strip()
+        new_amount = Decimal(raw_amount).quantize(Decimal('0.01')) if raw_amount else Decimal('0.00')
 
+        new_game_id = request.form.get('gameID', '').strip() or None
+        new_location = request.form.get('location', '').strip() or None
+        new_description = request.form.get('description', '').strip()
+
+        # Check if any core financial field was changed
+        existing_amount = Decimal(str(transaction.amount)).quantize(Decimal('0.01'))
+        financial_fields_changed = (
+            transaction.transaction_date != new_date or
+            transaction.account_id != new_account or
+            transaction.team_id != new_team or
+            transaction.transaction_type != new_category or
+            existing_amount != new_amount
+        )
         receipt = request.files.get('expenseReceipt')
-        if receipt and receipt.filename and allowed_file(receipt.filename):
-            receipt_name = secure_filename(f"{transaction_id}_{receipt.filename}")
-            os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
-            receipt.save(os.path.join(app.config['UPLOAD_FOLDER'], receipt_name))
-            transaction.receipt_filename = receipt_name
-        db.session.commit()
-        return redirect('/financial-ledger')
+
+        # PATH A: Only non-financial data changed -> Update existing row in place
+        if not financial_fields_changed:
+            transaction.game_id = new_game_id
+            transaction.location = new_location
+            transaction.description = new_description
+
+            if receipt and receipt.filename and allowed_file(receipt.filename):
+                receipt_name = secure_filename(f"{transaction_id}_{receipt.filename}")
+                os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
+                receipt.save(os.path.join(app.config['UPLOAD_FOLDER'], receipt_name))
+                transaction.receipt_filename = receipt_name
+
+            db.session.commit()
+            flash(f'Transaction {transaction_id} details updated.', 'success')
+            return redirect('/financial-ledger')
+
+        # PATH B: Financial field(s) changed -> Void original & create replacement transaction
+        else:
+            new_t_id = generate_next_transaction_id(new_category, new_date)
+
+            # Carry over existing receipt unless a replacement receipt was uploaded
+            final_receipt = transaction.receipt_filename
+            if receipt and receipt.filename and allowed_file(receipt.filename):
+                receipt_name = secure_filename(f"{new_t_id}_{receipt.filename}")
+                os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
+                receipt.save(os.path.join(app.config['UPLOAD_FOLDER'], receipt_name))
+                final_receipt = receipt_name
+
+            # Void the original transaction without altering its original financial numbers
+            transaction.status = 'Voided'
+            if f"Replaced by {new_t_id}" not in transaction.description:
+                transaction.description = f"{transaction.description} [Voided — Replaced by {new_t_id}]"
+
+            # Create the new replacement transaction with the updated financial numbers
+            replacement_desc = f"{new_description} [Replaces {transaction.transaction_id}]"
+            replacement_trans = Transaction(
+                transaction_id=new_t_id, transaction_date=new_date, game_id=new_game_id,
+                account_id=new_account, team_id=new_team, description=replacement_desc,
+                transaction_type=new_category, location=new_location, amount=new_amount,
+                receipt_filename=final_receipt, status='Active'
+            )
+            db.session.add(replacement_trans)
+            db.session.commit()
+            flash(
+                f'Financial change detected: Original entry {transaction.transaction_id} was voided '
+                f'and reissued as {new_t_id}.',
+                'success')
+            return redirect('/financial-ledger')
     return render_template('financial-ledger-update.html', transaction=transaction)
 
 # CREATE: Manual Entry
@@ -296,34 +399,13 @@ def record_transaction():
         # Transaction ID prefix R for Revenue or E for Expense
         revenue_types = {'Fundraising', 'Dues', 'Donation', 'Other Revenue'}
         resolved_category = 'Revenue' if t_type in revenue_types else 'Expense'
-        prefix = 'R' if resolved_category == 'Revenue' else 'E'
 
         # Transaction Date or default to user's current date
         raw_date = request.form.get('transactionDate')
         t_date = date.fromisoformat(raw_date) if raw_date else date.today()
 
-        # 3. Date format as month (MM) + year (YY) -> e.g., '1126' -> November 2026
-        month_str = t_date.strftime("%m")
-        year_str = t_date.strftime("%y")
-        base_pattern = f"{prefix}{month_str}{year_str}"
-
-        # Read previously created Transaction IDs to create new Transaction ID number (e.g., 'R1126%')
-        existing_matches = [
-            t.transaction_id for t in Transaction.query.filter(
-                Transaction.transaction_id.like(f"{base_pattern}%")
-            ).all()
-        ]
-
-        # Find the next available counter for  Transaction ID
-        seq_numbers = []
-        for tid in existing_matches:
-            suffix = tid[len(base_pattern):]
-            if suffix.isdigit():
-                seq_numbers.append(int(suffix))
-
-        next_seq = max(seq_numbers) + 1 if seq_numbers else 1
-        t_id = f"{base_pattern}{next_seq:02d}"  # 01, 02, 03...
-
+        # Generate sequential Transaction ID (e.g., R112501)
+        t_id = generate_next_transaction_id(resolved_category, t_date)
         acc_id = request.form.get('accountID')
 
         teams = request.form.getlist('teamID')
@@ -353,7 +435,7 @@ def record_transaction():
             transaction_id=t_id, transaction_date=t_date, game_id=game_id,
             account_id=acc_id, team_id=team_id, description=description,
             transaction_type=resolved_category, location=location, amount=amount,
-            receipt_filename=receipt_filename)
+            receipt_filename=receipt_filename, status='Active')
 
         db.session.add(new_trans)
         db.session.commit()
@@ -446,13 +528,16 @@ def upload_transactions():
 
     return render_template('upload-transactions.html')
 
-# DELETE: Delete Transaction
+# VOID: Void Transaction Without Replacement
 @app.route('/financial-ledger-void/<transaction_id>', methods=['POST'])
 #@login_required
 #@role_required(['TREASURER', 'ADVISOR'])
 def financial_ledger_void(transaction_id):
     transaction = Transaction.query.filter_by(transaction_id=transaction_id).first_or_404()
-    transaction.status = 'Voided'
+    if transaction.status != 'Voided':
+        transaction.status = 'Voided'
+        if "[Voided]" not in transaction.description and "[Voided —" not in transaction.description:
+            transaction.description = f"{transaction.description} [Voided]"
     db.session.commit()
     flash(f'Transaction {transaction_id} has been voided.', 'success')
     return redirect('/financial-ledger')
@@ -648,4 +733,4 @@ def game_schedule_delete(game_id):
 
 
 if __name__ == '__main__':
-    app.run(port=5001)
+    app.run(port=5001, debug=True)

@@ -19,6 +19,11 @@
         <h2 class="fs-5 fw-bold mb-2">Transaction Details</h2>
         <p class="text-muted small mb-4">Update existing revenue or expense record details in the club's central financial ledger.</p>
 
+        <!-- Audit Trail Control Notice -->
+        <div class="alert alert-secondary small py-2 px-3 mb-4" role=" note">
+            <strong>Financial Accountability Policy:</strong> Updating non-financial details (Game ID, Location, Description, or Receipt) modifies this record in place. Modifying core financial fields (<strong>Date, Bank Account, Team Allocation, Type, or Amount</strong>) will automatically <strong>void</strong> transaction <strong>{{ transaction.transaction_id }}</strong> and issue a new replacement transaction ID to preserve a complete audit trail.
+        </div>
+
         <form action="/financial-ledger-update/{{ transaction.transaction_id }}" method="POST" enctype="multipart/form-data" class="portal-form">
 
             <div class="form-grid">
@@ -109,7 +114,7 @@
             </div>
 
             <div class="form-actions-toolbar">
-                <button type="submit" form="voidForm" class="btn-delete-entry">Void Entry</button>
+                <button type="submit" form="voidForm" class="btn-delete-entry" onclick="return confirm('Are you sure you want to void transaction {{ transaction.transaction_id }}? This action cannot be undone.');">Void Entry</button>
                 <a href="/financial-ledger" class="btn-return-overview">Cancel</a>
                 <button type="submit" class="btn-submit-upload">Save Changes</button>
             </div>

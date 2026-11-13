@@ -113,7 +113,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
     function applyFilter() {
         const selected = filterSelect.value;
-        // Normalize current date to midnight for accurate day-difference calculations
         const today = new Date();
         today.setHours(0, 0, 0, 0);
 

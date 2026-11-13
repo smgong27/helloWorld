@@ -6,7 +6,7 @@ db = SQLAlchemy()
 class User(db.Model):
     __tablename__ = 'user'
 
-    user_id = db.Column(db.Integer, primary_key=True)
+    member_id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(50), unique=True, nullable=False)
     password = db.Column(db.String(255), nullable=False)
     first_name = db.Column(db.String(50), nullable=False)
@@ -14,9 +14,14 @@ class User(db.Model):
     email = db.Column(db.String(100), nullable=False)
     years_of_experience = db.Column(db.Integer)
     expected_graduation_date = db.Column(db.Date)
-    active_status = db.Column(db.Boolean)
-    dues_paid_status = db.Column(db.Boolean)
+    active_status = db.Column(db.Boolean, default=True)
+    dues_paid_status = db.Column(db.Boolean, default=False)
     user_persona = db.Column(db.String(30))
+    exp = db.Column(db.String(20), nullable=True, default="1 yr")
+    graduation = db.Column(db.String(20), nullable=True)
+    start_date = db.Column(db.String(20), nullable=True)
+    end_date = db.Column(db.String(20), nullable=True)
+    team = db.Column(db.String(20), default='Active')
 
 class Game(db.Model):
     __tablename__ = 'game'
