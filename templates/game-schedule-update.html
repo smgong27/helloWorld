@@ -7,7 +7,8 @@
 
 <div class="container-fluid pb-5">
 
-        <section class="financial-ledger-header">
+
+    <section class="financial-ledger-header">
         <p class="ledger-label">UMD CLUB SOFTBALL</p>
         <h1>EDIT GAME ENTRY</h1>
     </section>
@@ -15,34 +16,36 @@
     <div class="add-game-card">
 
         <h2>Update game details</h2>
-        <p>Enter the schedule information stored in the GAME table.</p>
+        <p>Update the schedule information stored in the GAME table.</p>
 
-        <form>
+        <form method="POST"
+              action="{{ url_for('game_schedule_update', game_id=game.game_id) }}">
 
             <div class="row">
 
                 <div class="col-md-6 mb-3">
                     <label for="team_id" class="form-label">Team ID</label>
                     <input type="text" class="form-control" id="team_id"
-                           name="team_id" value="NCSA" required>
+                           name="team_id" value="{{ game.team_id }}" required>
                 </div>
 
                 <div class="col-md-6 mb-3">
                     <label for="opponent" class="form-label">Game opponent</label>
                     <input type="text" class="form-control" id="opponent"
-                           name="opponent" value="University of Delaware" required>
+                           name="opponent" value="{{ game.opponent }}" required>
                 </div>
 
                 <div class="col-md-6 mb-3">
                     <label for="game_date" class="form-label">Game date</label>
                     <input type="date" class="form-control" id="game_date"
-                           name="game_date" value="2026-10-08" required>
+                           name="game_date"
+                           value="{{ game.game_date.strftime('%Y-%m-%d') }}" required>
                 </div>
 
                 <div class="col-md-6 mb-3">
                     <label for="game_times" class="form-label">Game times</label>
                     <input type="text" class="form-control" id="game_times"
-                           name="game_times" value="10am, 12pm" required>
+                           name="game_times" value="{{ game.game_times }}" required>
                 </div>
 
             </div>
@@ -51,9 +54,19 @@
                 <label for="game_location" class="form-label">Game location</label>
                 <select class="form-select" id="game_location"
                         name="game_location" required>
-                    <option value="">Select a location</option>
-                    <option value="Home" selected>Home</option>
-                    <option value="Away">Away</option>
+
+                    <option value="" disabled>Select game location</option>
+
+                    <option value="Home"
+                            {% if game.game_location == 'Home' %}selected{% endif %}>
+                        Home
+                    </option>
+
+                    <option value="Away"
+                            {% if game.game_location == 'Away' %}selected{% endif %}>
+                        Away
+                    </option>
+
                 </select>
             </div>
 
@@ -65,9 +78,9 @@
                     Cancel
                 </a>
 
-                <a href="/game-schedule-after-login" class="btn btn-danger">
-                    Save changes
-                </a>
+                <button type="submit" class="btn btn-danger">
+                    Save Changes
+                </button>
 
             </div>
 

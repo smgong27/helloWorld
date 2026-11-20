@@ -76,6 +76,13 @@ class Expense(db.Model):
 
     treasurer_comment = db.Column(db.Text)
 
+class BankAccount(db.Model):
+    __tablename__ = 'bank_account'
+
+    account_id = db.Column(db.String(30), primary_key=True)
+    account_name = db.Column(db.String(100), nullable=False)
+    account_description = db.Column(db.String(255), nullable=True)
+
 class Transaction(db.Model):
     __tablename__ = 'transaction'
 

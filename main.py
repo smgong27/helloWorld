@@ -1,11 +1,15 @@
+from flask_login import LoginManager, login_user, login_required, logout_user, current_user
+from werkzeug.security import check_password_hash
+from authorize import role_required
 from flask import Flask, render_template, request, redirect, url_for, flash
-from models import db, User, Game, Team, Expense, Transaction
-from datetime import date
+from models import db, User, Game, Team, Expense, Transaction, BankAccount
+from datetime import date, datetime
 from decimal import Decimal, InvalidOperation
 from werkzeug.utils import secure_filename
 import os
 import uuid
 import pandas as pd
+
 app = Flask(__name__)
 # Secret key for reimbursement flash messages
 app.config['SECRET_KEY'] = os.environ.get(
@@ -22,21 +26,74 @@ app.config['UPLOAD_FOLDER'] = os.path.join(
 os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
 db.init_app(app)
 
+
+# Flask-Login configuration
+login_manager = LoginManager()
+login_manager.login_view = 'log_in'
+login_manager.init_app(app)
+
+@login_manager.user_loader
+def load_user(user_id):
+    return User.query.get(int(user_id))
+
 with app.app_context():
     db.create_all()
 # GENERAL ROUTES
 
 @app.route('/')
 def home_page():
-    return render_template('home-page.html')
+    games = Game.query.order_by(Game.game_date).all()
+    return render_template('home-page.html', games=games)
+
 
 @app.route('/log-in', methods=['GET', 'POST'])
 def log_in():
-    if request.method =="POST":
-        email = request.form['umd_email']
-        password = request.form['password']
-        return redirect('/advisor-dashboard')
+
+    if request.method == 'POST':
+
+        email = request.form.get('umd_email')
+        password = request.form.get('password')
+
+        # TEMPORARY: Skip authentication during development
+        return redirect(url_for('member_page'))
+
+        # AUTHENTICATION CODE - Enable when ready
+
+        # user = User.query.filter_by(email=email).first()
+
+        # if user and check_password_hash(user.password, password):
+
+            # login_user(user)
+
+            # if current_user.user_persona == 'MEMBER':
+                # return redirect(url_for('member_page'))
+
+            # elif current_user.user_persona == 'EXECUTIVE':
+                # return redirect(url_for('executive_page'))
+
+            # elif current_user.user_persona == 'TREASURER':
+                # return redirect(url_for('treasurer_page'))
+
+            # elif current_user.user_persona == 'ADVISOR':
+                # return redirect(url_for('advisor_page'))
+
+        # flash('Your login information was not correct. Please try again.', 'error')
+
+        # return redirect(url_for('log_in'))
+
     return render_template('log-in.html')
+
+@app.errorhandler(404)
+def page_not_found(e):
+    flash(f'Sorry! You are trying to access a page that does not exist. Please contact support if this problem persists.', 'error')
+    return render_template('404.html'), 404
+
+@app.route('/logout')
+# @login_required
+def logout():
+    # logout_user()  # Enable when authentication is active
+    flash('You have been logged out.', 'success')
+    return redirect(url_for('home_page'))
 
 @app.route('/create-account', methods=['GET', 'POST'])
 def create_account():
@@ -48,25 +105,57 @@ def create_account():
 
 # PERSONA OVERVIEW ROUTES
 
+## Function to get and return next game
+def get_next_game():
+    today = date.today()
+
+    games = Game.query.order_by(Game.game_date.asc()).all()
+
+    for game in games:
+        game_date = game.game_date
+
+        #Using isinstance so each game can be stored seperately and the function can return the next game
+        if isinstance(game_date, datetime):
+            game_date = game_date.date()
+
+        if game_date >= today:
+            return game
+
+    return None
+
 @app.route('/member-dashboard')
+# @login_required
+# @role_required(['MEMBER'])
 def member_page():
     return render_template('member-dashboard.html')
 
 @app.route('/treasurer-dashboard')
+# @login_required
+# @role_required(['TREASURER'])
 def treasurer_page():
-    return render_template('treasurer-dashboard.html')
+    next_game = get_next_game()
+    return render_template('treasurer-dashboard.html', next_game=next_game)
+
 
 @app.route('/executive-dashboard')
+# @login_required
+# @role_required(['EXECUTIVE'])
 def executive_page():
-    return render_template('executive-dashboard.html')
+    next_game = get_next_game()
+    return render_template('executive-dashboard.html', next_game=next_game)
 
 @app.route('/advisor-dashboard')
+# @login_required
+# @role_required(['ADVISOR'])
 def advisor_page():
-    return render_template('advisor-dashboard.html')
+    next_game = get_next_game()
+    return render_template('advisor-dashboard.html', next_game=next_game)
 
 # REIMBURSEMENT ROUTES
 
 @app.route('/reimbursement-request', methods=['GET', 'POST'])
+# @login_required
+# @role_required(['EXECUTIVE', 'TREASURER', 'ADVISOR'])
 def reimbursement_request():
     if request.method == 'POST':
 
@@ -140,10 +229,11 @@ def reimbursement_request():
         except Exception:
             db.session.rollback()
             flash('Unable to save reimbursement.', 'danger')
-
     return render_template('reimbursement-request.html')
 
 @app.route('/reimbursement-review')
+# @login_required
+# @role_required(['EXECUTIVE', 'TREASURER', 'ADVISOR'])
 def reimbursement_review():
     # READ: Retrieve reimbursements from the database
     expenses = Expense.query.order_by(
@@ -155,6 +245,8 @@ def reimbursement_review():
 # Reimbursement Review Update
 @app.route('/reimbursement-review-update/<int:expense_id>',
            methods=['GET','POST'])
+# @login_required
+# @role_required(['TREASURER', 'ADVISOR'])
 def reimbursement_review_update(expense_id):
     # Find the reimbursement being edited
     expense = db.get_or_404(Expense, expense_id)
@@ -196,8 +288,6 @@ def reimbursement_review_update(expense_id):
 
         db.session.commit()
 
-        db.session.commit()
-
         flash('Reimbursement updated successfully!', 'success')
 
         return redirect(url_for('reimbursement_review'))
@@ -208,6 +298,8 @@ def reimbursement_review_update(expense_id):
              )
 # DELETE: Remove a reimbursement from the database
 @app.route('/reimbursement-delete/<int:expense_id>', methods=['POST'])
+# @login_required
+# @role_required(['TREASURER', 'ADVISOR'])
 def reimbursement_delete(expense_id):
 
     # Find the reimbursement
@@ -223,11 +315,44 @@ def reimbursement_delete(expense_id):
 
 # MY INFORMATION & DUES ROUTES
 
+# MY INFORMATION ROUTES
+
 @app.route('/my-information')
+# @login_required
 def my_information():
-    return render_template('my-information.html')
+    # Fetch the logged-in user (temporarily using ID 1 for testing)
+    user = User.query.get(1)
+    return render_template('my-information.html', user=user)
+
+
+@app.route('/my-information-update', methods=['GET', 'POST'])
+# @login_required
+def my_information_update():
+    # Fetch the logged-in user (temporarily using ID 1 for testing)
+    user = User.query.get(1)
+
+    if request.method == 'POST':
+        # Update only the personal fields (not role, team, or dues)
+        user.first_name = request.form.get('first_name')
+        user.last_name = request.form.get('last_name')
+        user.email = request.form.get('email')
+        user.exp = request.form.get('exp')
+
+        # If they submit a new expected graduation date, update it
+        grad_date = request.form.get('expected_graduation_date')
+        if grad_date:
+            from datetime import datetime
+            user.expected_graduation_date = datetime.strptime(grad_date, '%Y-%m-%d').date()
+
+        db.session.commit()
+        flash('Your information has been successfully updated.', 'success')
+        return redirect('/my-information')
+
+    return render_template('my-information-update.html', user=user)
 
 @app.route('/pay-dues')
+# @login_required
+# @role_required(['MEMBER', 'EXECUTIVE', 'TREASURER'])
 def pay_dues():
     return render_template('pay-dues.html')
 
@@ -297,12 +422,16 @@ def generate_next_transaction_id(resolved_category, t_date):
 
 # READ: Financial Ledger
 @app.route('/financial-ledger')
+# @login_required
+# @role_required(['EXECUTIVE', 'TREASURER', 'ADVISOR'])
 def financial_ledger():
     transactions = Transaction.query.order_by(Transaction.transaction_date.desc()).all()
     return render_template('financial-ledger.html', transactions=transactions)
 
 # UPDATE: Edit Existing Transaction
 @app.route('/financial-ledger-update/<transaction_id>', methods=['GET', 'POST'])
+# @login_required
+# @role_required(['TREASURER', 'ADVISOR'])
 def financial_ledger_update(transaction_id):
     transaction = Transaction.query.filter_by(transaction_id=transaction_id).first_or_404()
 
@@ -392,6 +521,8 @@ def financial_ledger_update(transaction_id):
 
 # CREATE: Manual Entry
 @app.route('/record-transaction', methods=['GET', 'POST'])
+# @login_required
+# @role_required(['TREASURER', 'ADVISOR'])
 def record_transaction():
     if request.method == 'POST':
         t_type = request.form.get('transactionType')
@@ -545,16 +676,48 @@ def financial_ledger_void(transaction_id):
 # OTHER FINANCIAL ROUTES
 
 @app.route('/financial-report')
+# @login_required
+# @role_required(['EXECUTIVE', 'TREASURER', 'ADVISOR'])
 def financial_report():
     return render_template('financial-report.html')
 
 @app.route('/bank-accounts')
+# @login_required
+# @role_required(['TREASURER', 'ADVISOR'])
 def bank_accounts():
-    return render_template('bank-accounts.html')
+    # Initialize all four account balances at zero
+    account_balances = {
+        'SGA': Decimal('0.00'),
+        'RecWell': Decimal('0.00'),
+        'Foundation': Decimal('0.00'),
+        'SECU': Decimal('0.00')
+    }
+
+    # Retrieve all active transactions associated with these accounts
+    transactions = Transaction.query.filter(
+        Transaction.status == 'Active',
+        Transaction.account_id.in_(account_balances.keys())
+    ).all()
+
+    # Calculate each account's balance
+    for transaction in transactions:
+
+        if transaction.transaction_type == 'Revenue':
+            account_balances[transaction.account_id] += transaction.amount
+
+        elif transaction.transaction_type == 'Expense':
+            account_balances[transaction.account_id] -= transaction.amount
+
+    return render_template(
+        'bank-accounts.html',
+        account_balances=account_balances
+    )
 
 # EDIT TEAM DUES ROUTE
 
 @app.route('/edit-team-dues', methods=['GET', 'POST'])
+# @login_required
+# @role_required(['TREASURER', 'ADVISOR'])
 def edit_team_dues():
     semesters = [
         semester[0]
@@ -656,27 +819,99 @@ def edit_team_dues():
         ncsa_dues=ncsa_team.teamDuesAmount if ncsa_team else '',
         active_dues=active_team.teamDuesAmount if active_team else ''
     )
-    return render_template('reimbursement-request.html')
 
 # USER PERMISSION ROUTES
-
+# Allowed permission values
+VALID_PERSONAS = {
+    "MEMBER",
+    "TREASURER",
+    "EXECUTIVE",
+    "ADVISOR"
+}
 @app.route('/user-permissions')
+# @login_required
+# @role_required(['ADVISOR'])
 def user_permissions():
-    return render_template('user-permissions.html')
+    # Retrieve users who have not been deleted
+    users = User.query.filter(
+        User.user_persona != "VOID"
+    ).order_by(User.last_name, User.first_name).all()
+
+    return render_template('user-permissions.html',
+                           users=users)
+@app.route('/update-user-permissions', methods=['POST'])
+def update_user_permissions():
+
+    try:
+        # Retrieve all active users
+        users = User.query.filter(
+            User.user_persona != "VOID"
+        ).all()
+
+        for user in users:
+
+            # Each dropdown has a unique name based on member_id
+            form_field = f"role_{user.member_id}"
+
+            if form_field in request.form:
+
+                new_persona = request.form.get(form_field)
+
+                # Validate submitted role
+                if new_persona not in VALID_PERSONAS:
+                    raise ValueError("Invalid permission selected.")
+
+                # Update only if the role changed
+                if user.user_persona != new_persona:
+                    user.user_persona = new_persona
+
+        db.session.commit()
+
+    except Exception:
+        db.session.rollback()
+        raise
+
+    return redirect(url_for('user_permissions'))
+
+
+@app.route('/delete-user/<int:member_id>', methods=['POST'])
+def delete_user(member_id):
+
+    user = db.session.get(User, member_id)
+
+    if user is None:
+        return "User not found.", 404
+
+    if user.user_persona == "VOID":
+        return "User is already inactive.", 400
+
+    # Soft delete: preserve the database record
+    user.user_persona = "VOID"
+    user.active_status = False
+
+    db.session.commit()
+
+    return redirect(url_for('user_permissions'))
 
 
 # GAME SCHEDULE ROUTES
 
 @app.route('/record-game')
+# @login_required
+# @role_required(['EXECUTIVE', 'TREASURER', 'ADVISOR'])
 def record_game():
     return render_template('record-game.html')
 
 @app.route('/game-schedule-after-login')
+# @login_required
+# @role_required(['EXECUTIVE', 'TREASURER', 'ADVISOR'])
 def game_schedule_after_login():
     games = Game.query.order_by(Game.game_date).all()
     return render_template('game-schedule-after-login.html', games=games)
 
 @app.route('/game-schedule-create', methods=['GET', 'POST'])
+# @login_required
+# @role_required(['EXECUTIVE', 'TREASURER', 'ADVISOR'])
 def game_schedule_create():
     if request.method == 'POST':
 
@@ -697,11 +932,15 @@ def game_schedule_create():
         db.session.add(new_game)
         db.session.commit()
 
+        flash('Game created successfully!', 'success')
+
         return redirect('/game-schedule-after-login')
 
     return render_template('game-schedule-create.html')
 
 @app.route('/game-schedule-update/<int:game_id>', methods=['GET', 'POST'])
+# @login_required
+# @role_required(['EXECUTIVE', 'TREASURER', 'ADVISOR'])
 def game_schedule_update(game_id):
 
     game = db.get_or_404(Game, game_id)
@@ -724,6 +963,8 @@ def game_schedule_update(game_id):
 
 
 @app.route('/game-schedule-delete/<int:game_id>', methods=['POST'])
+# @login_required
+# @role_required(['EXECUTIVE', 'TREASURER', 'ADVISOR'])
 def game_schedule_delete(game_id):
     game = db.get_or_404(Game, game_id)
     db.session.delete(game)

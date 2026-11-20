@@ -22,60 +22,7 @@
             <!-- Monthly Revenue and Expenses -->
             <div class="col-lg-7 mb-4">
 
-                <section class="financial-card">
-                    <h2>Monthly Revenue vs. Expenses</h2>
-                    <p>Financial activity throughout the semester</p>
-
-                    <div class="financial-chart">
-
-                        <div class="chart-month">
-                            <div class="chart-bars">
-                                <div class="revenue-bar revenue-aug"></div>
-                                <div class="expense-bar expense-aug"></div>
-                            </div>
-                            <span>Aug</span>
-                        </div>
-
-                        <div class="chart-month">
-                            <div class="chart-bars">
-                                <div class="revenue-bar revenue-sep"></div>
-                                <div class="expense-bar expense-sep"></div>
-                            </div>
-                            <span>Sep</span>
-                        </div>
-
-                        <div class="chart-month">
-                            <div class="chart-bars">
-                                <div class="revenue-bar revenue-oct"></div>
-                                <div class="expense-bar expense-oct"></div>
-                            </div>
-                            <span>Oct</span>
-                        </div>
-
-                        <div class="chart-month">
-                            <div class="chart-bars">
-                                <div class="revenue-bar revenue-nov"></div>
-                                <div class="expense-bar expense-nov"></div>
-                            </div>
-                            <span>Nov</span>
-                        </div>
-
-                        <div class="chart-month">
-                            <div class="chart-bars">
-                                <div class="revenue-bar revenue-dec"></div>
-                                <div class="expense-bar expense-dec"></div>
-                            </div>
-                            <span>Dec</span>
-                        </div>
-
-                    </div>
-
-                    <div class="chart-legend">
-                        <span class="legend-revenue">■ Revenue</span>
-                        <span class="legend-expense">■ Expenses</span>
-                    </div>
-
-                </section>
+                {% include 'partials/monthly_rev_exp_graph.html' %}
 
             </div>
 

@@ -12,13 +12,17 @@
     </div>
 
     <div class="edit-dues2-container">
+
+    <!-- MAIN WHITE CONTAINER -->
         <div class="edit-dues-container">
+
 <!-- Semester dues pricing heading -->
             <div class="semester-dues-header">
                 <h2>Semester dues pricing</h2>
                 <p>Set semester and change separate dues amounts for each team.</p>
             </div>
-            <div class="d-flex justify-content-end mb-3">
+        <!-- SEMESTER SELECTION AND MANAGEMENT -->
+            <div class="semester-controls">
                      <div class="semester-dropdown-container">
                           <form method="GET" action="{{ url_for('edit_team_dues') }}">
                             <label for="semester" class="form-label">Select Semester</label>
@@ -32,52 +36,527 @@
                             </select>
                           </form>
                      </div>
-            </div>
+            <!-- SELECTED SEMESTER STATUS --> <!--Displays status badge based on the semester selected pulled from flask-->
+                {% set semester_status = selected_semester_status %}
 
-            <!-- Added an ID to the form so the modal button can submit it -->
+                <span class="semester-status {% if semester_status == 'Upcoming' %}
+                        status-upcoming
+                    {% elif semester_status == 'Current' %}
+                        status-current
+                    {% else %}
+                        status-past
+                    {% endif %}">
+
+                    <span class="status-dot"></span>
+                    {{ semester_status }}
+
+                </span>
+
+
+                <!-- ADD SEMESTER BUTTON -->
+                <button type="button"
+                        class="semester-action-button"
+                        data-bs-toggle="modal"
+                        data-bs-target="#addSemesterModal">
+
+                    + Add Semester
+
+                </button>
+
+                <!-- MANAGE STATUS BUTTON -->
+                <button type="button"
+                        class="semester-action-button"
+                        data-bs-toggle="modal"
+                        data-bs-target="#manageStatusModal">
+
+                    Manage Status
+
+                </button>
+
+            </div>
+            <!-- The Dues Form-->
               <form method="POST" action="{{ url_for('edit_team_dues') }}"
                   id="editDuesForm">
                   <!-- Keep the selected semester when saving -->
                 <input type="hidden" name="semester"
                        value="{{ selected_semester or '' }}">
-                <div class="row">
-                    <div class="col-6">
+
+                  <!-- TEAM PRICING PANELS -->
+                <div class="row dues-pricing-row">
+                    <div class="col-md-6">
                         <div class="edit-dues-entry">
                             <div class="edit-dues">
                                 <label for="ncsa_dues" class="team-label">NCSA TEAM</label>
                                 <h3>Competitive Travel Team</h3>
-                                <div class="input-group mt-2">
+                                <div class="input-group dues-input-group">
+                                    <span class="input-group-text">$</span>
                                     <input type="number"
                                            step="0.01"
                                            min="0"
                                            class="form-control"
                                            id="ncsa_dues"
                                            name="ncsa_dues"
-                                           value="{{ '%.2f'|format(ncsa_dues|float) }}" required>
+                                           value="{{ '%.2f'|format(ncsa_dues|float) }}" required
+                                           {% if semester_status != 'Upcoming' %}
+                                                disabled
+                                           {%  endif %}>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="col-6">
+                    <div class="col-md-6">
                         <div class="edit-dues-entry">
                             <div class="edit-dues">
                             <label for="active_dues" class="team-label">ACTIVE TEAM</label>
                                 <h3>Non-Competitive Team</h3>
-                                <div class="input-group mt-2">
-                                    <input type="number" step="0.01" min="0" class="form-control" id="active_dues" name="active_dues" value="{{ '%.2f'|format(active_dues|float) }}" required>
+                                <div class="input-group dues-input-group">
+                                    <span class="input-group-text">$</span>
+                                    <input type="number" step="0.01" min="0" class="form-control" id="active_dues" name="active_dues" value="{{ '%.2f'|format(active_dues|float) }}" required
+                                    {% if semester_status != 'Upcoming' %}
+                                        disabled
+                                    {%  endif %}>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="d-flex justify-content-center align-items-center gap-3 mt-4">
-                    <button type="submit" class="edit-dues-button mb-0" data-bs-toggle="modal" data-bs-target="#confirmModal">
-                    Save Changes
-                    </button>
-                </div>
-              </form>
-            </div>
+
+
+            <!-- BOTTOM ACTION BAR -->
+    <div class="dues-action-footer">
+
+        <div class="dues-save-status" id="duesSaveStatus">
+
+            {% if semester_status == 'Upcoming' %}
+
+                <span class="status-dot"></span>
+                <span id="saveStatusText">
+                    All changes saved for {{ selected_semester }}.
+                </span>
+
+            {% else %}
+
+                <span>
+                    Dues are locked for this semester.
+                </span>
+
+            {% endif %}
+
         </div>
 
-</section>
+        <div class="dues-footer-buttons">
+
+            <!-- RESET -->
+            <button type="reset"
+                class="dues-reset-button"
+                id="resetDuesButton"
+                {% if semester_status != 'Upcoming' %}
+                    disabled
+                {% endif %}>
+                Reset
+            </button>
+
+        <!-- SAVE CHANGES --> <!--all changes on this page will be saved and if status does not equal upcoming the input boxes are disabled-->
+            <button type="submit"
+                class="edit-dues-button"
+                id="saveDuesButton"
+                {% if semester_status != 'Upcoming' %}
+                    disabled
+                {% endif %}>
+                Save Changes
+            </button>
+
+        </div>
+    </div>
+            </form>
+        </div>
+</div>
+</section> <!-- page-content -->
+  <!-- ADD SEMESTER MODAL-->
+
+<div class="modal fade"
+     id="addSemesterModal"
+     tabindex="-1"
+     aria-labelledby="addSemesterModalLabel"
+     aria-hidden="true"
+     role="dialog">
+
+    <div class="modal-dialog modal-dialog-centered">
+
+        <div class="modal-content semester-modal-content">
+
+            <div class="modal-header">
+
+                <h2 class="modal-title" id="addSemesterModalLabel">
+                    Add Semester
+                </h2>
+
+                <button type="button"
+                        class="btn-close"
+                        data-bs-dismiss="modal"
+                        aria-label="Close">
+                </button>
+
+            </div>
+
+
+<form method="POST"
+      action="{{ url_for('edit_team_dues') }}"
+      id="addSemesterForm">
+
+    <!-- Identify which action Flask should perform -->
+    <input type="hidden"
+           name="action"
+           value="create_semester">
+
+    <!-- Preserve the currently selected semester -->
+    <input type="hidden"
+           name="semester"
+           value="{{ selected_semester or '' }}">
+
+    <div class="modal-body">
+
+        <p class="modal-description">
+            Create a new semester to establish team dues.
+        </p>
+
+        <label for="newSemesterName" class="form-label">
+            Semester Name
+        </label>
+
+        <input type="text"
+               class="form-control semester-modal-input"
+               id="newSemesterName"
+               name="new_semester"
+               placeholder="Example: Spring 2028"
+               maxlength="50"
+               required>
+
+        <p class="modal-helper-text">
+            New semesters will automatically be assigned
+            the Upcoming status.
+        </p>
+
+    </div>
+
+    <div class="modal-footer">
+
+        <button type="button"
+                class="modal-cancel-button"
+                data-bs-dismiss="modal">
+            Cancel
+        </button>
+
+        <button type="submit"
+                class="semester-modal-primary"
+                id="addSemesterButton">
+            Add Semester
+        </button>
+
+    </div>
+
+</form>
+        </div>
+    </div>
+</div>
+
+<!-- MANAGE SEMESTER STATUS MODAL-->
+
+<div class="modal fade"
+     id="manageStatusModal"
+     tabindex="-1"
+     aria-labelledby="manageStatusModalLabel"
+     aria-hidden="true"
+     role="dialog">
+
+    <div class="modal-dialog modal-dialog-centered">
+
+        <div class="modal-content semester-modal-content">
+
+            <div class="modal-header">
+
+                <h2 class="modal-title" id="manageStatusModalLabel">
+                    Manage Semester Status
+                </h2>
+
+                <button type="button"
+                        class="btn-close"
+                        data-bs-dismiss="modal"
+                        aria-label="Close">
+                </button>
+
+            </div>
+
+            <div class="modal-body">
+
+                <p class="modal-description">
+                    Manage the status of the selected semester.
+                </p>
+
+                <div class="selected-semester-info">
+
+                    <span class="info-label">Selected Semester</span>
+
+                    <strong>{{ selected_semester }}</strong>
+
+                    <div class="current-status-display">
+
+                        <span class="info-label">Current Status</span>
+
+                        <span class="semester-status
+                            {% if semester_status == 'Upcoming' %}
+                                status-upcoming
+                            {% elif semester_status == 'Current' %}
+                                status-current
+                            {% else %}
+                                status-past
+                            {% endif %}">
+
+                            <span class="status-dot"></span>
+                            {{ semester_status }}
+
+                        </span>
+
+                    </div>
+
+                </div>
+
+                {% if semester_status == 'Upcoming' %}
+
+                    <div class="status-change-information">
+
+                        <h3>Set as Current</h3>
+
+                        <p>
+                            Making this semester current will:
+                        </p>
+
+                        <ul>
+                            <li>Lock both team dues amounts.</li>
+                            <li>Move the previous Current semester to Past.</li>
+                            <li>Prevent further dues modifications.</li>
+                        </ul>
+
+                    </div>
+
+                    <button type="button"
+                            class="semester-modal-primary status-change-button"
+                            id="setCurrentButton">
+
+                        Set as Current
+
+                    </button>
+
+                {% elif semester_status == 'Current' %}
+
+                    <p class="modal-helper-text">
+                        This is already the current semester.
+                        Its dues are locked.
+                    </p>
+
+                {% else %}
+
+                    <p class="modal-helper-text">
+                        This is a past semester. Historical semester
+                        statuses cannot be changed here.
+                    </p>
+
+                {% endif %}
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- CONFIRM STATUS CHANGE MODAL-->
+
+<div class="modal fade"
+     id="confirmStatusModal"
+     tabindex="-1"
+     aria-labelledby="confirmStatusModalLabel"
+     aria-hidden="true"
+     role="dialog">
+
+    <div class="modal-dialog modal-dialog-centered">
+
+        <div class="modal-content semester-modal-content">
+
+            <div class="modal-header">
+
+                <h2 class="modal-title" id="confirmStatusModalLabel">
+                    Confirm Status Change
+                </h2>
+
+                <button type="button"
+                        class="btn-close"
+                        data-bs-dismiss="modal"
+                        aria-label="Close">
+                </button>
+
+            </div>
+
+            <div class="modal-body">
+
+                <p class="modal-description">
+                    Are you sure you want to make
+                    <strong>{{ selected_semester }}</strong>
+                    the current semester?
+                </p>
+
+                <div class="status-confirmation-summary">
+
+                    <div class="confirmation-item">
+                        <span>{{ selected_semester }}</span>
+                        <span class="confirmation-new-status">
+                            Current
+                        </span>
+                    </div>
+
+                    <p>
+                        The previous current semester will automatically
+                        become Past.
+                    </p>
+
+                    <div class="confirmation-warning">
+                        Both team dues amounts will become locked
+                        and cannot be changed afterward.
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="modal-footer">
+
+                <button type="button"
+                        class="modal-cancel-button"
+                        data-bs-dismiss="modal">
+
+                    Cancel
+
+                </button>
+
+                <button type="button"
+                        class="semester-modal-primary"
+                        id="confirmStatusChangeButton">
+
+                    Confirm Change
+
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- PAGE JAVASCRIPT-->
+
+
+<script>
+//Script will handle disabling and enabling of save changes
+document.addEventListener("DOMContentLoaded", function () {
+
+    const duesForm = document.getElementById("editDuesForm");
+
+    const ncsaInput = document.getElementById("ncsa_dues");
+    const activeInput = document.getElementById("active_dues");
+
+    const resetButton = document.getElementById("resetDuesButton");
+    const saveButton = document.getElementById("saveDuesButton");
+
+    const saveStatusText = document.getElementById("saveStatusText");
+
+    // Check whether dues inputs are editable.
+    if (
+    duesForm &&
+    ncsaInput &&
+    activeInput &&
+    resetButton &&
+    saveButton &&
+    saveStatusText &&
+    !ncsaInput.disabled
+) {
+
+        const originalNcsa = ncsaInput.value;
+        const originalActive = activeInput.value;
+
+        function updateDuesStatus() {
+
+            const hasChanges =
+                ncsaInput.value !== originalNcsa ||
+                activeInput.value !== originalActive;
+
+            resetButton.disabled = !hasChanges;
+            saveButton.disabled = !hasChanges;
+
+            if (hasChanges) {
+                saveStatusText.textContent = "Unsaved changes.";
+            } else {
+                saveStatusText.textContent =
+                    "All changes saved for " +
+                    "{{ selected_semester|default('') }}.";
+            }
+        }
+
+        ncsaInput.addEventListener("input", updateDuesStatus);
+        activeInput.addEventListener("input", updateDuesStatus);
+
+        duesForm.addEventListener("reset", function () {
+
+            setTimeout(function () {
+                updateDuesStatus();
+            }, 0);
+
+        });
+
+    }
+
+    // Open the confirmation modal after clicking Set as Current.
+    const setCurrentButton = document.getElementById("setCurrentButton");
+
+    if (setCurrentButton) {
+
+        setCurrentButton.addEventListener("click", function () {
+
+            const manageModalElement =
+                document.getElementById("manageStatusModal");
+
+            const confirmModalElement =
+                document.getElementById("confirmStatusModal");
+
+            const manageModal =
+                bootstrap.Modal.getInstance(manageModalElement);
+
+            manageModal.hide();
+
+            manageModalElement.addEventListener("hidden.bs.modal",
+                function showConfirmation() {
+
+                    manageModalElement.removeEventListener(
+                        "hidden.bs.modal",
+                        showConfirmation
+                    );
+
+                    const confirmModal =
+                        new bootstrap.Modal(confirmModalElement);
+
+                    confirmModal.show();
+
+                },
+                { once: true }
+            );
+
+        });
+
+    }
+
+});
+
+</script>
 {% endblock %}

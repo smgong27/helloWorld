@@ -70,71 +70,10 @@
 
     </div>
   </div>
-<section class="financial-card w-100 card border rounded-4 p-4 shadow-sm my-4">
-    <h2>Monthly Revenue vs. Expenses</h2>
-    <p>Financial activity throughout the semester</p>
 
-    <div class="financial-chart d-flex justify-content-between align-items-end w-100 py-3" style="min-height: 200px;">
+{% include 'partials/monthly_rev_exp_graph.html' %}
 
-        <div class="chart-month flex-fill text-center px-2">
-            <div class="chart-bars d-flex justify-content-center align-items-end gap-1 mb-2" style="height: 150px;">
-                <div class="revenue-bar revenue-aug" style="width: 14px;"></div>
-                <div class="expense-bar expense-aug" style="width: 14px;"></div>
-            </div>
-            <span>Aug</span>
-        </div>
-
-        <div class="chart-month flex-fill text-center px-2">
-            <div class="chart-bars d-flex justify-content-center align-items-end gap-1 mb-2" style="height: 150px;">
-                <div class="revenue-bar revenue-sep" style="width: 14px;"></div>
-                <div class="expense-bar expense-sep" style="width: 14px;"></div>
-            </div>
-            <span>Sep</span>
-        </div
-
-        <div class="chart-month flex-fill text-center px-2">
-            <div class="chart-bars d-flex justify-content-center align-items-end gap-1 mb-2" style="height: 150px;">
-                <div class="revenue-bar revenue-oct" style="width: 14px;"></div>
-                <div class="expense-bar expense-oct" style="width: 14px;"></div>
-            </div>
-            <span>Oct</span>
-        </div>
-
-        <div class="chart-month flex-fill text-center px-2">
-            <div class="chart-bars d-flex justify-content-center align-items-end gap-1 mb-2" style="height: 150px;">
-                <div class="revenue-bar revenue-nov" style="width: 14px;"></div>
-                <div class="expense-bar expense-nov" style="width: 14px;"></div>
-            </div>
-            <span>Nov</span>
-        </div>
-
-        <div class="chart-month flex-fill text-center px-2">
-            <div class="chart-bars d-flex justify-content-center align-items-end gap-1 mb-2" style="height: 150px;">
-                <div class="revenue-bar revenue-dec" style="width: 14px;"></div>
-                <div class="expense-bar expense-dec" style="width: 14px;"></div>
-            </div>
-            <span>Dec</span>
-        </div>
-
-    </div>
-
-    <div class="chart-legend">
-        <span class="legend-revenue">■ Revenue</span>
-        <span class="legend-expense">■ Expenses</span>
-    </div>
-
-</section>
-
-<div class="card bg-danger text-white border-0 rounded-4 p-4 mb-4 shadow-sm">
-  <div class="d-flex justify-content-between align-items-start mb-3">
-    <span class="badge bg-white text-danger fw-bold text-uppercase px-2 py-1">Next Home Series</span>
-    <i class="bi bi-calendar-event fs-3 opacity-75"></i>
-  </div>
-  <div>
-    <h3 class="fw-bold mb-1">Terps vs. Delaware</h3>
-    <p class="mb-0 opacity-75"><i class="bi bi-geo-alt-fill me-1"></i>October 8 &middot; Engineering Fields</p>
-  </div>
-</div>
+{% include 'partials/next_game_card.html' %}
 
 <div class="row g-4 my-2">
   <!-- Card 1: My Information -->

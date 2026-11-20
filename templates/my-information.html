@@ -10,18 +10,17 @@
 </section>
 
 <div class="row g-4">
-
     <!-- Left Side Profile Card -->
     <div class="col-lg-4">
-    <div class="card h-100 border-0 p-4" style="background-color: #212121; color: white; border-radius: 16px;">
-        <h2 class="fw-black text-uppercase mb-0 mt-2" style="font-size: 1.4rem; font-weight: 900; letter-spacing: 0.5px;">Teddy Terrapin</h2>
-        <p class="mb-4" style="color: #a0a0a0; font-size: 0.85rem;">{{ user_role }}</p>
-        <hr style="border-color: #444; margin-bottom: 2rem;">
-        <p style="color: #a0a0a0; font-size: 0.85rem; line-height: 1.6;">
-            Your profile information is maintained by team leadership and used for roster and dues management.
-        </p>
+        <div class="card h-100 border-0 p-4" style="background-color: #212121; color: white; border-radius: 16px;">
+            <h2 class="fw-black text-uppercase mb-0 mt-2" style="font-size: 1.4rem; font-weight: 900; letter-spacing: 0.5px;">{{ user.first_name }} {{ user.last_name }}</h2>
+            <p class="mb-4" style="color: #a0a0a0; font-size: 0.85rem;">{{ user.user_persona }}</p>
+            <hr style="border-color: #444; margin-bottom: 2rem;">
+            <p style="color: #a0a0a0; font-size: 0.85rem; line-height: 1.6;">
+                Your profile information is maintained by team leadership and used for roster and dues management.
+            </p>
+        </div>
     </div>
-</div>
 
     <!-- Right Side Data Fields -->
     <div class="col-lg-8">
@@ -30,55 +29,55 @@
                 <div class="col-md-6">
                     <div class="p-3 rounded h-100" style="background-color: #f8f6f2;">
                         <small class="fw-bold" style="color: #888; letter-spacing: 1px; font-size: 0.7rem; text-transform: uppercase;">First Name</small>
-                        <div class="fs-6 fw-bold mt-1 text-dark">Teddy</div>
+                        <div class="fs-6 fw-bold mt-1 text-dark">{{ user.first_name }}</div>
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="p-3 rounded h-100" style="background-color: #f8f6f2;">
                         <small class="fw-bold" style="color: #888; letter-spacing: 1px; font-size: 0.7rem; text-transform: uppercase;">Last Name</small>
-                        <div class="fs-6 fw-bold mt-1 text-dark">Terrapin</div>
+                        <div class="fs-6 fw-bold mt-1 text-dark">{{ user.last_name }}</div>
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="p-3 rounded h-100" style="background-color: #f8f6f2;">
                         <small class="fw-bold" style="color: #888; letter-spacing: 1px; font-size: 0.7rem; text-transform: uppercase;">Email</small>
-                        <div class="fs-6 fw-bold mt-1 text-dark">teddy@terpmail.umd.edu</div>
+                        <div class="fs-6 fw-bold mt-1 text-dark">{{ user.email }}</div>
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="p-3 rounded h-100" style="background-color: #f8f6f2;">
-                        <small class="fw-bold" style="color: #888; letter-spacing: 1px; font-size: 0.7rem; text-transform: uppercase;">Years of Experience</small>
-                        <div class="fs-6 fw-bold mt-1 text-dark">12 years</div>
+                        <small class="fw-bold" style="color: #888; letter-spacing: 1px; font-size: 0.7rem; text-transform: uppercase;">Experience</small>
+                        <div class="fs-6 fw-bold mt-1 text-dark">{{ user.exp if user.exp else 'N/A' }}</div>
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="p-3 rounded h-100" style="background-color: #f8f6f2;">
                         <small class="fw-bold" style="color: #888; letter-spacing: 1px; font-size: 0.7rem; text-transform: uppercase;">Expected Graduation Date</small>
-                        <div class="fs-6 fw-bold mt-1 text-dark">Spring 2027</div>
+                        <div class="fs-6 fw-bold mt-1 text-dark">{{ user.expected_graduation_date.strftime('%B %Y') if user.expected_graduation_date else 'N/A' }}</div>
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="p-3 rounded h-100" style="background-color: #f8f6f2;">
                         <small class="fw-bold" style="color: #888; letter-spacing: 1px; font-size: 0.7rem; text-transform: uppercase;">Active Status</small>
-                        <div class="fs-6 fw-bold mt-1 text-dark">Active</div>
+                        <div class="fs-6 fw-bold mt-1 text-dark">{% if user.active_status %}Active{% else %}Inactive{% endif %}</div>
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="p-3 rounded h-100" style="background-color: #f8f6f2;">
                         <small class="fw-bold" style="color: #888; letter-spacing: 1px; font-size: 0.7rem; text-transform: uppercase;">Dues Paid Status</small>
-                        <div class="fs-6 fw-bold mt-1 text-dark">Paid</div>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="p-3 rounded h-100" style="background-color: #f8f6f2;">
-                        <small class="fw-bold" style="color: #888; letter-spacing: 1px; font-size: 0.7rem; text-transform: uppercase;">User Persona</small>
-                        <div class="fs-6 fw-bold mt-1 text-dark">Treasurer</div>
+                        <div class="fs-6 fw-bold mt-1 text-dark">
+                            {% if user.dues_paid_status %}
+                                <span class="badge text-bg-success">Paid</span>
+                            {% else %}
+                                <span class="badge text-bg-danger">Unpaid</span>
+                            {% endif %}
+                        </div>
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="p-3 rounded h-100" style="background-color: #f8f6f2;">
                         <small class="fw-bold" style="color: #888; letter-spacing: 1px; font-size: 0.7rem; text-transform: uppercase;">Team</small>
-                        <div class="fs-6 fw-bold mt-1 text-dark">NCSA</div>
+                        <div class="fs-6 fw-bold mt-1 text-dark">{{ user.team }}</div>
                     </div>
                 </div>
             </div>
@@ -87,10 +86,8 @@
 </div>
 
 <!-- Update Form Link -->
-<div class="mt-4 p-3 d-flex flex-wrap align-items-center gap-1" style="background-color: white; border-radius: 12px; border: 1px solid #eae5de; box-shadow: 0 4px 14px rgba(0,0,0,0.02);">
-    <span class="text-muted" style="font-size: 0.85rem;">Information doesn't look right?</span>
-    <a href="https://docs.google.com/forms/d/e/1FAIpQLSeSPElhJPf0X6KLNCIofGNgCCWsLOBSk1bTuuiDEAWSxw_EZg/viewform" target="_blank" rel="noopener noreferrer" class="text-danger fw-bold text-decoration-underline mx-1" style="font-size: 0.85rem;">Resubmit your Information Form</a>
-    <span class="text-muted" style="font-size: 0.85rem;">or contact</span>
-    <a href="mailto:president@umdclubsoftball.com" class="text-danger fw-bold text-decoration-underline" style="font-size: 0.85rem;">president@umdclubsoftball.com</a>.
+<div class="mt-4 p-3 d-flex flex-wrap align-items-center justify-content-between gap-1" style="background-color: white; border-radius: 12px; border: 1px solid #eae5de; box-shadow: 0 4px 14px rgba(0,0,0,0.02);">
+    <span class="text-muted" style="font-size: 0.85rem;">Need to update your personal details or contact information?</span>
+    <a href="/my-information-update" class="btn btn-danger btn-sm px-4 fw-bold shadow-sm">Edit My Information</a>
 </div>
 {% endblock %}

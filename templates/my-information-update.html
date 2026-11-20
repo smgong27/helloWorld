@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+
+{% block title %}Update My Information{% endblock %}
+
+{% block content %}
+<div class="record-transaction-page">
+    <div class="mb-3">
+        <a href="/my-information" class="back-link">&lsaquo; Back to My Information</a>
+    </div>
+
+    <section class="record-header">
+        <div class="record-label">UMD CLUB SOFTBALL</div>
+        <h1>EDIT MY INFORMATION</h1>
+    </section>
+
+    <div class="content-card record-card">
+        <h2 class="fs-5 fw-bold mb-2">Personal Details</h2>
+        <p class="text-muted small mb-4">Update your contact information and player profile.</p>
+
+        <form action="/my-information-update" method="POST" class="portal-form">
+            <div class="form-grid">
+                <!-- Editable Fields -->
+                <div class="col-md-6">
+                    <label for="first_name" class="form-label">First Name:</label>
+                    <input type="text" id="first_name" name="first_name" class="form-control" value="{{ user.first_name }}" required>
+                </div>
+                
+                <div class="col-md-6">
+                    <label for="last_name" class="form-label">Last Name:</label>
+                    <input type="text" id="last_name" name="last_name" class="form-control" value="{{ user.last_name }}" required>
+                </div>
+
+                <div class="col-md-6">
+                    <label for="email" class="form-label">Email Address:</label>
+                    <input type="email" id="email" name="email" class="form-control" value="{{ user.email }}" required>
+                </div>
+
+                <div class="col-md-6">
+                    <label for="exp" class="form-label">Experience (e.g., 2 yrs):</label>
+                    <input type="text" id="exp" name="exp" class="form-control" value="{{ user.exp if user.exp else '' }}">
+                </div>
+
+                <div class="col-md-6">
+                    <label for="expected_graduation_date" class="form-label">Expected Graduation Date:</label>
+                    <input type="date" id="expected_graduation_date" name="expected_graduation_date" class="form-control" value="{{ user.expected_graduation_date.isoformat() if user.expected_graduation_date else '' }}">
+                </div>
+
+                <!-- Read-Only Fields -->
+                <div class="col-12 mt-4">
+                    <h3 class="fs-6 fw-bold mb-3 border-bottom pb-2">Team Leadership Controlled</h3>
+                </div>
+
+                <div class="col-md-4">
+                    <label class="form-label">Team Assignment:</label>
+                    <input type="text" class="form-control form-control-readonly bg-light" value="{{ user.team }}" readonly tabindex="-1">
+                </div>
+                
+                <div class="col-md-4">
+                    <label class="form-label">Active Status:</label>
+                    <input type="text" class="form-control form-control-readonly bg-light" value="{% if user.active_status %}Active{% else %}Inactive{% endif %}" readonly tabindex="-1">
+                </div>
+
+                <div class="col-md-4">
+                    <label class="form-label">Dues Paid:</label>
+                    <input type="text" class="form-control form-control-readonly bg-light" value="{% if user.dues_paid_status %}Paid{% else %}Unpaid{% endif %}" readonly tabindex="-1">
+                </div>
+            </div>
+
+            <div class="form-actions-toolbar mt-5">
+                <a href="/my-information" class="btn-return-overview">Cancel</a>
+                <button type="submit" class="btn-submit-upload">Save Changes</button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

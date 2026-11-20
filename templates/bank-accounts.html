@@ -24,7 +24,9 @@
                     </div>
 
                     <h2>SGA ACCOUNT</h2>
-                    <span class="account-balance">$3,000</span>
+                    <span class="account-balance">
+                        ${{ "{:,.2f}".format(account_balances['SGA']) }}
+                    </span>
                     <p class="type">Umpires &amp; Equipment</p>
                 </div>
             </div>
@@ -36,7 +38,9 @@
                         <i class="bi bi-bank" aria-hidden="true"></i>
                     </div>
                     <h2>RECWELL ACCOUNT</h2>
-                    <span class="account-balance">$3,000</span>
+                    <span class="account-balance">
+                        ${{ "{:,.2f}".format(account_balances['RecWell']) }}
+                    </span>
                     <p class="type">Hotels &amp; Equipment</p>
                 </div>
             </div>
@@ -49,7 +53,9 @@
                     </div>
 
                     <h2>FOUNDATION ACCOUNT</h2>
-                    <span class="account-balance">$3,000</span>
+                    <span class="account-balance">
+                        ${{ "{:,.2f}".format(account_balances['Foundation']) }}
+                    </span>
                     <p class="type">Donations &amp; Grants</p>
                 </div>
             </div>
@@ -62,7 +68,9 @@
                     </div>
 
                     <h2>SECU ACCOUNT</h2>
-                    <span class="account-balance">$3,000</span>
+                    <span class="account-balance">
+                       ${{ "{:,.2f}".format(account_balances['SECU']) }}
+                    </span>
                     <p class="type">Food &amp; Transportation</p>
                 </div>
             </div>

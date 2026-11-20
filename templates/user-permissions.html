@@ -9,7 +9,6 @@
     <p class="ledger-label">UMD CLUB SOFTBALL</p>
     <h1>USER PERMISSIONS</h1>
 </section>
-
     <div class="permissions-main">
 
         <section class="permissions-card" aria-label="User permission management">
@@ -48,103 +47,69 @@
     </div>
 
     <!-- Save Changes button -->
-    <button type="button" class="permissions-save-button">
+    <button type="button" class="permissions-save-button" data-bs-toggle="modal" data-bs-target="#saveChangesModal">
         Save Changes
     </button>
 
 </div>
-
+            <!-- USER PERMISSION FORM -->
+        <form method="POST"
+              action="{{ url_for('update_user_permissions') }}"
+              id="permissionsForm">
             <!-- Member list container -->
             <div class="permissions-list" id="permissionsList">
+                {% for user in users %}
 
+                {% set role_labels = {
+                    'MEMBER': 'Member',
+                    'TREASURER': 'Treasurer',
+                    'EXECUTIVE': 'Executive Board',
+                    'ADVISOR': 'Faculty Advisor'
+                } %}
                 <!-- Teddy Terrapin -->
                 <div class="permission-row"
-                     data-name="Teddy Terrapin"
-                     data-email="teddy@terpmail.umd.edu">
+                     data-name="{{ user.first_name }} {{ user.last_name }}"
+                     data-email="{{ user.email }}"
+                     data-role="{{ user.user_persona }}">
 
                     <div class="member-info">
-                        <h2>Teddy Terrapin</h2>
-                        <p>teddy@terpmail.umd.edu</p>
+                        <h2>{{ user.first_name }} {{ user.last_name }}</h2>
+                        <p>{{ user.email }}</p>
                     </div>
 
                     <div class="role-actions">
-                        <label class="visually-hidden" for="role-teddy">
-                            Role for Teddy Terrapin
+                        <label class="visually-hidden" for="role-{{ user.member_id }}">
+                            Role for {{ user.first_name }} {{ user.last_name }}
                         </label>
 
-                        <select id="role-teddy" class="form-select member-role">
-                            <option selected>Member</option>
-                            <option>Treasurer</option>
-                            <option>Executive Board</option>
-                            <option>Faculty Advisor</option>
+                        <select id="role-{{ user.member_id }}" name="role_{{ user.member_id }}"  class="form-select member-role">
+                            {% for role, label in role_labels.items() %}
+
+                            <option value="{{ role }}"
+                                {% if user.user_persona == role %}selected{% endif %}>
+
+                                {{ label }}
+
+                            </option>
+
+                            {% endfor %}
                         </select>
 
-                        <button type="button" class="save-role-button">
-                            Delete role
+                        <button type="button" class="save-role-button" data-bs-toggle="modal"
+                                data-bs-target="#deleteUserModal"
+                                data-user-id="{{ user.member_id }}"
+                                data-user-name="{{ user.first_name }} {{ user.last_name }}">
+                            Deactivate
                         </button>
                     </div>
 
                 </div>
 
-                <!-- Chucky Cheese -->
-                <div class="permission-row"
-                     data-name="Chucky Cheese"
-                     data-email="chucky@terpmail.umd.edu">
-
-                    <div class="member-info">
-                        <h2>Chucky Cheese</h2>
-                        <p>chucky@terpmail.umd.edu</p>
-                    </div>
-
-                    <div class="role-actions">
-                        <label class="visually-hidden" for="role-chucky">
-                            Role for Chucky Cheese
-                        </label>
-
-                        <select id="role-chucky" class="form-select member-role">
-                            <option>Member</option>
-                            <option selected>Treasurer</option>
-                            <option>Executive Board</option>
-                            <option>Faculty Advisor</option>
-                        </select>
-
-                        <button type="button" class="save-role-button">
-                            Delete role
-                        </button>
-                    </div>
-
-                </div>
-
-                <!-- Annabelle Doll -->
-                <div class="permission-row"
-                     data-name="Annabelle Doll"
-                     data-email="annabelle@terpmail.umd.edu">
-
-                    <div class="member-info">
-                        <h2>Annabelle Doll</h2>
-                        <p>annabelle@terpmail.umd.edu</p>
-                    </div>
-
-                    <div class="role-actions">
-                        <label class="visually-hidden" for="role-annabelle">
-                            Role for Annabelle Doll
-                        </label>
-
-                        <select id="role-annabelle" class="form-select member-role">
-                            <option>Member</option>
-                            <option>Treasurer</option>
-                            <option selected>Executive Board</option>
-                            <option>Faculty Advisor</option>
-                        </select>
-
-                        <button type="button" class="save-role-button">
-                            Delete Role
-                        </button>
-                    </div>
-
-                </div>
+                {% endfor %}
 
             </div>
+
+        </form>
 
             <!-- No members message -->
             <p id="noMembersMessage" class="no-members-message" hidden>
@@ -154,5 +119,207 @@
         </section>
 
     </div>
+<!-- SAVE CHANGES CONFIRMATION MODAL -->
+<div class="modal fade"
+     id="saveChangesModal"
+     tabindex="-1"
+     aria-labelledby="saveChangesModalLabel"
+     aria-hidden="true">
+
+    <div class="modal-dialog modal-dialog-centered">
+
+        <div class="modal-content">
+
+            <div class="modal-header">
+
+                <h2 class="modal-title fs-5"
+                    id="saveChangesModalLabel">
+
+                    Confirm Permission Changes
+
+                </h2>
+
+                <button type="button"
+                        class="btn-close"
+                        data-bs-dismiss="modal"
+                        aria-label="Close"></button>
+
+            </div>
+<!--Asks user to confirm their actions-->
+            <div class="modal-body">
+
+                Are you sure you want to save the selected user
+                permission changes?
+
+            </div>
+
+            <div class="modal-footer">
+
+                <button type="button"
+                        class="btn btn-secondary"
+                        data-bs-dismiss="modal">
+
+                    Cancel
+
+                </button>
+
+                <button type="submit"
+                        form="permissionsForm"
+                        class="btn btn-danger">
+
+                    Confirm Changes
+
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- DELETE USER CONFIRMATION MODAL -->
+<div class="modal fade"
+     id="deleteUserModal"
+     tabindex="-1"
+     aria-labelledby="deleteUserModalLabel"
+     aria-hidden="true">
+
+    <div class="modal-dialog modal-dialog-centered">
+
+        <div class="modal-content">
+
+            <div class="modal-header">
+
+                <h2 class="modal-title fs-5"
+                    id="deleteUserModalLabel">
+
+                    Confirm User Deletion
+
+                </h2>
+
+                <button type="button"
+                        class="btn-close"
+                        data-bs-dismiss="modal"
+                        aria-label="Close"></button>
+
+            </div>
+<!--Asks user to confirm their actions-->
+            <div class="modal-body">
+
+                Are you sure you want to delete
+                <strong id="deleteUserName"></strong>?
+
+                <p class="mt-2 mb-0">
+                    This user will lose access to the system.
+                    Their historical records will be preserved.
+                </p>
+
+            </div>
+
+            <div class="modal-footer">
+
+                <button type="button"
+                        class="btn btn-secondary"
+                        data-bs-dismiss="modal">
+
+                    Cancel
+
+                </button>
+
+                <form id="deleteUserForm" method="POST">
+
+                    <button type="submit" class="btn btn-danger">
+
+                        Confirm Delete
+
+                    </button>
+
+                </form>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- SEARCH, FILTER, AND DELETE MODAL JAVASCRIPT -->
+<script>
+
+document.addEventListener('DOMContentLoaded', function () {
+
+    const searchInput = document.getElementById('memberSearch');
+    const roleFilter = document.getElementById('roleFilter');
+    const permissionRows = document.querySelectorAll('.permission-row');
+    const noMembersMessage = document.getElementById('noMembersMessage');
+
+    // Search and filter users
+    function filterMembers() {
+
+        const searchValue = searchInput.value.toLowerCase();
+        const selectedRole = roleFilter.value;
+
+        let visibleCount = 0;
+
+        permissionRows.forEach(function (row) {
+
+            const name = row.dataset.name.toLowerCase();
+            const email = row.dataset.email.toLowerCase();
+            const role = row.dataset.role;
+
+            const matchesSearch =
+                name.includes(searchValue) ||
+                email.includes(searchValue);
+
+            const matchesRole =
+                selectedRole === 'all' ||
+                role === selectedRole;
+
+            if (matchesSearch && matchesRole) {
+
+                row.hidden = false;
+                visibleCount++;
+
+            } else {
+
+                row.hidden = true;
+
+            }
+
+        });
+
+        noMembersMessage.hidden = visibleCount !== 0;
+
+    }
+
+    searchInput.addEventListener('input', filterMembers);
+    roleFilter.addEventListener('change', filterMembers);
+
+
+    // Set selected user in the delete confirmation modal
+    const deleteUserModal = document.getElementById('deleteUserModal');
+
+    deleteUserModal.addEventListener('show.bs.modal', function (event) {
+
+        const button = event.relatedTarget;
+
+        const userId = button.dataset.userId;
+        const userName = button.dataset.userName;
+
+        document.getElementById('deleteUserName').textContent = userName;
+
+        document.getElementById('deleteUserForm').action =
+            "{{ url_for('delete_user', member_id=0) }}".replace('/0', '/' + userId);
+
+    });
+
+});
+
+</script>
 
 {% endblock %}

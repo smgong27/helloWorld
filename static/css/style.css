@@ -861,17 +861,28 @@ transform: translateY(1px);}
 }
 
 .chart-month {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+    height: 190px;
     text-align: center;
     font-size: 12px;
     color: #777777;
 }
 
+.chart-month > span {
+    position: absolute;
+    bottom: -25px;
+}
 .chart-bars {
     display: flex;
     align-items: flex-end;
     gap: 6px;
     height: 190px;
-    margin-bottom: 10px;
+    margin-bottom: 0;
 }
 
 .revenue-bar {
@@ -884,6 +895,41 @@ transform: translateY(1px);}
     width: 22px;
     background-color: #f0bb55;
     border-radius: 5px 5px 0 0;
+}
+
+.chart-y-axis {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 190px;
+    color: #777777;
+    font-size: 11px;
+    text-align: right;
+}
+
+.chart-plot {
+    position: relative;
+    display: flex;
+    justify-content: space-around;
+    align-items: flex-end;
+    flex: 1;
+    height: 190px;
+    border-left: 1px solid #ded8d2;
+    border-bottom: 1px solid #ded8d2;
+}
+
+.chart-gridlines {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    pointer-events: none;
+}
+
+.chart-gridlines span {
+    width: 100%;
+    border-top: 1px solid #eae5de;
 }
 
 /* Sample Bar Heights */
@@ -908,6 +954,7 @@ transform: translateY(1px);}
 .chart-legend {
     display: flex;
     justify-content: center;
+    align-items: center;
     gap: 25px;
     margin-top: 20px;
     font-size: 12px;
@@ -2606,34 +2653,9 @@ select.form-select option {
     line-height: 1.5;
 }
 
-/* Dues amount input boxes */
-.edit-dues input[type="number"] {
-    display: block;
-    width: 100%;
-    min-width: 0;
-    height: 54px;
-    padding: 0 16px;
-    background-color: #ffffff;
-    border: 1px solid #ded9d3;
-    border-radius: 11px;
-    box-sizing: border-box;
-    color: #242021;
-    font-family: inherit;
-    font-size: 16px;
-    font-weight: 600;
-    outline: none;
-    transition: border-color 0.2s ease,
-                box-shadow 0.2s ease;
-}
-
-/* Input focus state */
-.edit-dues input[type="number"]:focus {
-    border-color: #e31837;
-    box-shadow: 0 0 0 3px rgba(227, 24, 55, 0.12);
-}
 
 /* Save changes button */
-.edit-dues-container button {
+.edit-dues-container .edit-dues-button {
     display: block;
     margin: 25px auto 0;
     padding: 15px 24px;
@@ -2694,10 +2716,6 @@ select.form-select option {
 
 .semester-dropdown {
     width: 100%;
-}
-.semester-dues-header {
-    position: relative;
-    top: 80px;
 }
 /* Outer Card Styling */
     .member-card {
@@ -3109,4 +3127,492 @@ select.form-select option {
 .custom-nav-link:hover {
     color: #ffffff !important;
     transform: translateY(-2px);
+}
+
+.btn-delete-cell {
+    color: #d91a3c;
+    border-color: #d91a3c;
+}
+
+.btn-delete-cell:hover {
+    background-color: #d91a3c;
+    border-color: #d91a3c;
+    color: white;
+}
+/* ========================================= */
+/* SEMESTER CONTROLS                         */
+/* ========================================= */
+
+.semester-controls {
+    display: flex;
+    align-items: flex-end;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 28px;
+}
+
+.semester-dropdown:focus {
+    border-color: #e31837;
+    box-shadow: 0 0 0 3px rgba(227, 24, 55, 0.12);
+}
+
+/* Semester status badges */
+.semester-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 6px 11px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.status-upcoming {
+    color: #087f5b;
+    background-color: #e8f8f1;
+    border: 1px solid #a7e8cf;
+}
+
+.status-current {
+    color: #087f5b;
+    background-color: #e8f8f1;
+    border: 1px solid #a7e8cf;
+}
+
+.status-past {
+    color: #77716e;
+    background-color: #f1efec;
+    border: 1px solid #ded9d3;
+}
+
+/* Add Semester and Manage Status buttons */
+.semester-action-button {
+    padding: 11px 17px;
+    background-color: #e31837;
+    border: 1px solid #e31837;
+    border-radius: 25px;
+    color: #ffffff;
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 600;
+    white-space: nowrap;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.semester-action-button:hover {
+    background-color: #c8102e;
+    border-color: #c8102e;
+}
+
+.semester-action-button:focus-visible {
+    outline: 3px solid rgba(227, 24, 55, 0.2);
+    outline-offset: 2px;
+}
+
+/* ========================================= */
+/* TEAM PRICING PANELS                       */
+/* ========================================= */
+
+.dues-pricing-row {
+    --bs-gutter-x: 20px;
+    row-gap: 20px;
+}
+
+/* Team descriptions */
+.edit-dues h3 {
+    margin: 0 0 12px;
+    color: #77716e;
+    font-size: 15px;
+    font-weight: 400;
+    line-height: 1.5;
+}
+
+/* ========================================= */
+/* DUES AMOUNT INPUTS                        */
+/* ========================================= */
+
+.dues-input-group {
+    width: 100%;
+    height: 50px;
+}
+
+.dues-input-group .input-group-text {
+    padding: 0 14px;
+    background-color: #ffffff;
+    border: 1px solid #ded9d3;
+    border-right: none;
+    border-radius: 11px 0 0 11px;
+    color: #77716e;
+    font-weight: 600;
+}
+
+.dues-input-group .form-control {
+    min-width: 0;
+    height: 50px;
+    padding: 0 12px;
+    background-color: #ffffff;
+    border: 1px solid #ded9d3;
+    border-left: none;
+    border-radius: 0 11px 11px 0;
+    color: #242021;
+    font-family: inherit;
+    font-size: 16px;
+    font-weight: 600;
+    box-shadow: none;
+}
+
+.dues-input-group .form-control:focus {
+    border-color: #e31837;
+    box-shadow: none;
+}
+
+.dues-input-group:focus-within .input-group-text {
+    border-color: #e31837;
+}
+
+.dues-input-group .form-control:disabled {
+    background-color: #eeece8;
+    color: #77716e;
+    opacity: 1;
+    cursor: not-allowed;
+}
+
+/* Description below each amount */
+.dues-description {
+    margin: 3px 0 0;
+    color: #77716e;
+    font-size: 12px;
+    line-height: 1.5;
+}
+
+/* ========================================= */
+/* BOTTOM ACTION BAR                         */
+/* ========================================= */
+
+.dues-action-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin: 30px -30px -30px;
+    padding: 20px 30px;
+    background-color: #faf9f7;
+    border-top: 1px solid #e6e0d9;
+}
+
+.dues-save-status {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    color: #77716e;
+    font-size: 13px;
+}
+
+.dues-save-status .status-dot {
+    background-color: #07966c;
+}
+
+.lock-icon {
+    font-size: 14px;
+}
+
+.dues-footer-buttons {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+/* Reset button */
+.dues-reset-button {
+    padding: 11px 19px;
+    background-color: #ffffff;
+    border: 1px solid #ded9d3;
+    border-radius: 11px;
+    color: #77716e;
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.dues-reset-button:hover:not(:disabled) {
+    background-color: #f3f0eb;
+}
+
+.dues-reset-button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* ========================================= */
+/* BOOTSTRAP MODALS                          */
+/* ========================================= */
+
+.semester-modal-content {
+    border: 1px solid #ded9d3;
+    border-radius: 16px;
+    overflow: hidden;
+}
+
+.semester-modal-content .modal-header {
+    padding: 22px 24px;
+    background-color: #ffffff;
+    border-bottom: 1px solid #e6e0d9;
+}
+
+.semester-modal-content .modal-title {
+    margin: 0;
+    color: #242021;
+    font-size: 20px;
+    font-weight: 700;
+}
+
+.semester-modal-content .modal-body {
+    padding: 24px;
+}
+
+.modal-description {
+    margin-bottom: 20px;
+    color: #77716e;
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+.semester-modal-content .form-label {
+    color: #242021;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.semester-modal-input {
+    min-height: 46px;
+    border: 1px solid #ded9d3;
+    border-radius: 10px;
+}
+
+.semester-modal-input:focus {
+    border-color: #e31837;
+    box-shadow: 0 0 0 3px rgba(227, 24, 55, 0.12);
+}
+
+.modal-helper-text {
+    margin-top: 12px;
+    margin-bottom: 0;
+    color: #77716e;
+    font-size: 12px;
+    line-height: 1.5;
+}
+
+/* Modal footer */
+.semester-modal-content .modal-footer {
+    padding: 16px 24px;
+    background-color: #faf9f7;
+    border-top: 1px solid #e6e0d9;
+}
+
+.modal-cancel-button {
+    padding: 10px 17px;
+    background-color: #ffffff;
+    border: 1px solid #ded9d3;
+    border-radius: 9px;
+    color: #77716e;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.modal-cancel-button:hover {
+    background-color: #f3f0eb;
+}
+
+.semester-modal-primary {
+    padding: 10px 18px;
+    background-color: #e31837;
+    border: 1px solid #e31837;
+    border-radius: 9px;
+    color: #ffffff;
+    font-size: 14px;
+    font-weight: 600;
+    transition: background-color 0.2s ease;
+}
+
+.semester-modal-primary:hover {
+    background-color: #c8102e;
+    border-color: #c8102e;
+}
+
+/* ========================================= */
+/* MANAGE STATUS MODAL                       */
+/* ========================================= */
+
+.selected-semester-info {
+    padding: 16px;
+    background-color: #f6f4f0;
+    border: 1px solid #e6e0d9;
+    border-radius: 12px;
+}
+
+.info-label {
+    display: block;
+    margin-bottom: 6px;
+    color: #77716e;
+    font-size: 12px;
+}
+
+.selected-semester-info strong {
+    display: block;
+    margin-bottom: 16px;
+    color: #242021;
+    font-size: 16px;
+}
+
+.current-status-display {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.current-status-display .info-label {
+    margin: 0;
+}
+
+.status-change-information {
+    margin-top: 22px;
+}
+
+.status-change-information h3 {
+    margin-bottom: 8px;
+    color: #242021;
+    font-size: 16px;
+    font-weight: 700;
+}
+
+.status-change-information p,
+.status-change-information li {
+    color: #77716e;
+    font-size: 13px;
+    line-height: 1.7;
+}
+
+.status-change-information ul {
+    padding-left: 20px;
+}
+
+.status-change-button {
+    width: 100%;
+    margin-top: 12px;
+}
+
+/* ========================================= */
+/* CONFIRMATION MODAL                        */
+/* ========================================= */
+
+.status-confirmation-summary {
+    padding: 16px;
+    background-color: #f6f4f0;
+    border: 1px solid #e6e0d9;
+    border-radius: 12px;
+}
+
+.confirmation-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    color: #242021;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.confirmation-new-status {
+    padding: 5px 10px;
+    background-color: #e8f8f1;
+    border-radius: 20px;
+    color: #087f5b;
+    font-size: 12px;
+}
+
+.status-confirmation-summary p {
+    margin: 15px 0;
+    color: #77716e;
+    font-size: 13px;
+}
+
+.confirmation-warning {
+    padding: 12px;
+    background-color: #fff4e5;
+    border-radius: 8px;
+    color: #8a5a14;
+    font-size: 12px;
+    line-height: 1.6;
+}
+
+/* GAME DELETE CONFIRMATION POPUP */
+
+.delete-popup-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.55);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.delete-popup-box {
+    background-color: white;
+    padding: 32px;
+    border-radius: 12px;
+    width: 90%;
+    max-width: 420px;
+    text-align: left;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+}
+
+.delete-popup-box h2 {
+    color: #111111;
+    font-size: 24px;
+    margin-bottom: 12px;
+}
+
+.delete-popup-box p {
+    color: #555555;
+    font-size: 15px;
+    margin-bottom: 24px;
+}
+
+.delete-popup-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+}
+
+.delete-popup-cancel,
+.delete-popup-confirm {
+    padding: 10px 18px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.delete-popup-cancel {
+    background-color: #eeeeee;
+    color: #111111;
+}
+
+.delete-popup-confirm {
+    background-color: #d91a3c;
+    color: white;
+}
+
+.delete-popup-confirm:hover {
+    background-color: #b31532;
 }

@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,38 +7,48 @@
     <link href="/static/css/style.css" rel="stylesheet">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
-<link rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
 </head>
 
 <body>
 <main class="homepage">
+
 <div class="nav">
     <nav class="navbar navbar-expand-lg custom-navbar w-100 py-3 shadow-sm" data-bs-theme="dark">
-      <div class="container-fluid px-4">
+        <div class="container-fluid px-4">
 
-        <!-- Added 'me-3' for spacing and 'shadow-sm' for a subtle pop -->
-        <img src="{{ url_for('static', filename='images/umdclubsoftballlogo.png') }}" alt="UMD Softball Logo" class="me-3 shadow-sm" style="width: 45px; height: auto; border-radius: 4px;">
+            <img src="{{ url_for('static', filename='images/umdclubsoftballlogo.png') }}"
+                 alt="UMD Softball Logo"
+                 class="me-3 shadow-sm"
+                 style="width: 45px; height: auto; border-radius: 4px;">
 
-        <!-- Added fw-bold and a custom tracking class for the Figma look -->
-        <a class="navbar-brand fw-bold tracking-wide" style="font-size: 1.25rem;" href="#about">UMD CLUB SOFTBALL</a>
+            <a class="navbar-brand fw-bold tracking-wide"
+               style="font-size: 1.25rem;"
+               href="#about">UMD CLUB SOFTBALL</a>
 
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
+            <button class="navbar-toggler"
+                    type="button"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#navbarNavAltMarkup"
+                    aria-controls="navbarNavAltMarkup"
+                    aria-expanded="false"
+                    aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
 
-        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-          <div class="navbar-nav ms-auto align-items-center gap-3">
-            <a class="nav-link fw-semibold custom-nav-link" href="#schedule">Game Schedule</a>
-            <a class="nav-link fw-semibold custom-nav-link" href="#about">About</a>
-            <a class="nav-link fw-semibold custom-nav-link" href="/log-in">Log In</a>
+            <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+                <div class="navbar-nav ms-auto align-items-center gap-3">
+                    <a class="nav-link fw-semibold custom-nav-link" href="#schedule">Game Schedule</a>
+                    <a class="nav-link fw-semibold custom-nav-link" href="#about">About</a>
+                    <a class="nav-link fw-semibold custom-nav-link" href="/log-in">Log In</a>
 
-            <!-- Turned Create Account into a distinct button to make it pop -->
-            <a class="btn btn-light text-danger fw-bold ms-3 px-4 rounded-pill shadow-sm" href="/create-account">CREATE ACCOUNT</a>
-          </div>
+                    <a class="btn btn-light text-danger fw-bold ms-3 px-4 rounded-pill shadow-sm"
+                       href="/create-account">CREATE ACCOUNT</a>
+                </div>
+            </div>
+
         </div>
-
-      </div>
     </nav>
 </div>
 
@@ -47,8 +58,9 @@
         <h1>RUN TOGETHER.</h1>
         <p>Home base for Maryland Club Softball--where our players connect,
             manage team business, and keep every season moving forward.</p>
-     </div>
+    </div>
 </section>
+
 <section class="home-purpose">
     <h2 class="white">EVERYTHING THE CLUB NEEDS</h2>
 
@@ -58,8 +70,7 @@
             <!-- Stay Connected -->
             <div class="col-md-4">
                 <div class="purpose-card">
-                    <i class="bi bi-person icon-red"
-                       aria-hidden="true"></i>
+                    <i class="bi bi-person icon-red" aria-hidden="true"></i>
                     <h3 class="white">Stay Connected</h3>
                     <p>Access your member profile, team assignment, and the latest roster information.</p>
                 </div>
@@ -68,8 +79,7 @@
             <!-- Handle Dues -->
             <div class="col-md-4">
                 <div class="purpose-card">
-                    <i class="bi bi-credit-card icon-red"
-                       aria-hidden="true"></i>
+                    <i class="bi bi-credit-card icon-red" aria-hidden="true"></i>
                     <h3 class="white">Handle Dues</h3>
                     <p>View assigned dues and complete payments through one, clear, secure workflow.</p>
                 </div>
@@ -78,8 +88,7 @@
             <!-- Keep Finances Moving -->
             <div class="col-md-4">
                 <div class="purpose-card">
-                    <i class="bi bi-graph-up-arrow icon-red"
-                       aria-hidden="true"></i>
+                    <i class="bi bi-graph-up-arrow icon-red" aria-hidden="true"></i>
                     <h3 class="white">Keep Finances Moving</h3>
                     <p>Submit reimbursements and give team leaders the tools to review club finances.</p>
                 </div>
@@ -88,6 +97,7 @@
         </div>
     </div>
 </section>
+
 <section class="home-about" id="about">
     <div class="container-fluid">
         <div class="row align-items-start">
@@ -132,9 +142,9 @@
     </div>
 </section>
 
+<!-- DYNAMIC GAME SCHEDULE -->
 <section class="schedule-section" id="schedule">
 
-    <!-- Heading and description -->
     <div class="schedule-heading">
         <div>
             <h1>GAME SCHEDULE</h1>
@@ -146,7 +156,6 @@
         </p>
     </div>
 
-    <!-- Game schedule table -->
     <div class="schedule-table-wrapper">
         <table class="schedule-table">
 
@@ -161,48 +170,36 @@
             </thead>
 
             <tbody>
+                {% for game in games %}
                 <tr>
-                    <td><span class="team-badge">NCSA</span></td>
-                    <td class="opponent">University of Delaware</td>
-                    <td>10/08/2026</td>
-                    <td>10am, 12pm</td>
-                    <td class="location">Home</td>
-                </tr>
+                    <td>
+                        <span class="team-badge">{{ game.team_id }}</span>
+                    </td>
 
-                <tr>
-                    <td><span class="team-badge">Active</span></td>
-                    <td class="opponent">Towson University</td>
-                    <td>10/15/2026</td>
-                    <td>12pm, 2pm</td>
-                    <td class="location">Away</td>
-                </tr>
+                    <td class="opponent">{{ game.opponent }}</td>
 
-                <tr>
-                    <td><span class="team-badge">NCSA</span></td>
-                    <td class="opponent">George Washington University</td>
-                    <td>10/22/2026</td>
-                    <td>10am, 12pm, 2pm</td>
-                    <td class="location">Away</td>
-                </tr>
+                    <td>{{ game.game_date.strftime('%m/%d/%Y') }}</td>
 
-                <tr>
-                    <td><span class="team-badge">Active</span></td>
-                    <td class="opponent">UMBC</td>
-                    <td>11/05/2026</td>
-                    <td>12pm</td>
-                    <td class="location">Home</td>
+                    <td>{{ game.game_times }}</td>
+
+                    <td class="location">{{ game.game_location }}</td>
                 </tr>
+                {% else %}
+                <tr>
+                    <td colspan="5">No games scheduled yet.</td>
+                </tr>
+                {% endfor %}
             </tbody>
 
         </table>
     </div>
 
 </section>
+
 <!-- Photo Gallery Section -->
 <section class="team-gallery-section" id="team-gallery">
     <div class="container-fluid px-4 px-lg-5">
 
-        <!-- Gallery Heading -->
         <div class="gallery-heading">
             <p class="gallery-eyebrow">MORE THAN A GAME</p>
             <h2>Life at Maryland Club Softball</h2>
@@ -211,7 +208,6 @@
             </p>
         </div>
 
-        <!-- Gallery Photos -->
         <div class="row g-3 g-lg-4 team-gallery">
 
             <div class="col-12 col-sm-6 col-lg">
@@ -267,30 +263,28 @@
             <h2>JOIN YOUR TEAM WORKSPACE.</h2>
         </div>
 
-        <!--added buttons-->
+        <div class="join-buttons">
+            <a href="/create-account" class="btn btn-warning">
+                Create an account
+            </a>
 
-<div class="join-buttons">
-    <a href="/create-account" class="btn btn-warning">
-        Create an account
-    </a>
-
-    <a href="/log-in" class="btn btn-outline-light">
-        Log in
-    </a>
-</div>
-
-
+            <a href="/log-in" class="btn btn-outline-light">
+                Log in
+            </a>
+        </div>
 
     </div>
 </section>
-    <!-- Website footer -->
+
+<!-- Website footer -->
 <footer class="site-footer">
     <p class="footer-brand">UNIVERSITY OF MARYLAND CLUB SOFTBALL</p>
 
     <p class="footer-tagline">
         Built for players, leaders, and advisors.
     </p>
-     <a href="https://www.instagram.com/umdclubsoftball/"
+
+    <a href="https://www.instagram.com/umdclubsoftball/"
        target="_blank"
        rel="noopener noreferrer"
        class="footer-instagram"
@@ -302,6 +296,10 @@
 </footer>
 
 </main>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+        crossorigin="anonymous"></script>
+
 </body>
 </html>
