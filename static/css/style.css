@@ -1821,6 +1821,153 @@ select.form-select option {
     background-color: #faf9f7;
 }
 
+/* Toolbar "Show Voided" Toggle Switch */
+.voided-toggle-wrapper {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background-color: #faf9f7;
+    border: 1px solid #ded8d2;
+    border-radius: 9px;
+    height: 38px;
+    padding: 0 14px;
+    box-sizing: border-box;
+    cursor: pointer;
+    user-select: none;
+    transition: all 0.15s ease;
+}
+
+.voided-toggle-wrapper:hover {
+    background-color: #ffffff;
+    border-color: #c4beb7;
+}
+
+.voided-toggle-input {
+    appearance: none;
+    -webkit-appearance: none;
+    width: 32px;
+    height: 18px;
+    background-color: #d5d0c7;
+    border-radius: 20px;
+    position: relative;
+    cursor: pointer;
+    outline: none;
+    transition: background-color 0.2s ease;
+    margin: 0;
+}
+
+.voided-toggle-input::after {
+    content: "";
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    width: 14px;
+    height: 14px;
+    background-color: #ffffff;
+    border-radius: 50%;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+    transition: transform 0.2s ease;
+}
+
+.voided-toggle-input:checked {
+    background-color: var(--brand-red, #d91a3c);
+}
+
+.voided-toggle-input:checked::after {
+    transform: translateX(14px);
+}
+
+.voided-toggle-label {
+    font-size: 13px;
+    font-weight: 600;
+    color: #242122;
+    margin: 0;
+    cursor: pointer;
+}
+
+/* Status Pill Badges (Active vs. Voided) */
+.ledger-status-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 0.4px;
+    text-transform: uppercase;
+}
+
+.ledger-status-active {
+    background-color: #e8f8f1;
+    color: #087f5b;
+    border: 1px solid #a7e8cf;
+}
+
+.ledger-status-voided {
+    background-color: #fdf2f2;
+    color: #b20d24;
+    border: 1px solid #f5c2c7;
+}
+
+/* Description & Audit Replacement Sub-Tag */
+.ledger-desc-cell {
+    white-space: normal !important;
+    min-width: 220px;
+    max-width: 320px;
+}
+
+.ledger-audit-tag {
+    display: inline-block;
+    margin-top: 5px;
+    padding: 2px 8px;
+    border-radius: 6px;
+    font-size: 11px;
+    font-weight: 700;
+    line-height: 1.4;
+}
+
+.ledger-audit-tag-voided {
+    background-color: #f1efec;
+    color: #5c5754;
+    border: 1px solid #ded9d3;
+}
+
+.ledger-audit-tag-replaces {
+    background-color: #fff8e6;
+    color: #8a5a14;
+    border: 1px solid #f3d999;
+}
+
+/* Voided Row Tinting, Left Accent Border & Lowered Opacity */
+.ledger-table tbody tr.ledger-row-voided {
+    background-color: #f8f7f5;
+    opacity: 0.78;
+    transition: opacity 0.15s ease, background-color 0.15s ease;
+}
+
+.ledger-table tbody tr.ledger-row-voided td:first-child {
+    border-left: 4px solid #adb5bd;
+}
+
+.ledger-table tbody tr.ledger-row-voided:hover {
+    background-color: #f2f0ec;
+    opacity: 0.95;
+}
+
+/* Keep Dollar Figure Visible but Struck Through in Muted Gray */
+.ledger-table tbody td.amount-voided {
+    color: #77716e !important;
+    font-weight: 600;
+    text-decoration: line-through;
+}
+
+.ledger-action-locked {
+    color: #8c8c8c;
+    font-size: 12px;
+    font-weight: 600;
+}
+
 /* Save / Delete Success Alert Banner */
 .ledger-toast-alert {
     background-color: #d1e7dd;

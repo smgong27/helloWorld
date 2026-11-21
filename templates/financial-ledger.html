@@ -9,11 +9,6 @@
     <h1>FINANCIAL LEDGER</h1>
 </section>
 
-<div id="saveNotification" class="ledger-toast-alert" role="alert" style="display: none;">
-    <span class="toast-icon">&check;</span>
-    <span id="saveNotificationText">Your transaction has been successfully saved!</span>
-</div>
-
 <div class="content-card ledger-card">
     <div class="ledger-toolbar-left">
         <h2 class="ledger-title">Financial ledger</h2>
@@ -21,10 +16,15 @@
     </div>
 
     <div class="toolbar-actions">
+        <!-- Interactive Show/Hide Voided Toggle -->
+        <label class="voided-toggle-wrapper" for="toggle_voided">
+            <input type="checkbox" id="toggle_voided" class="voided-toggle-input">
+            <span class="voided-toggle-label">Show Voided</span>
+        </label>
+
         <div class="filter-wrapper">
             <select id="filter_transactions" name="filter_transactions" class="filter-select">
-                <option value="all" selected>All Transactions</option>
-                <option value="live" >Only Live Transactions</option>
+                <option value="all" selected>All Categories</option>
                 <option value="revenue">Revenue Only</option>
                 <option value="expense">Expense Only</option>
                 <option value="last_month">Last Month</option>
@@ -47,6 +47,7 @@
         <thead>
             <tr>
                 <th>TRANSACTION ID</th>
+                <th>STATUS</th>
                 <th>DATE</th>
                 <th>GAME ID</th>
                 <th>ACCOUNT</th>
@@ -59,27 +60,52 @@
                 <th>ACTION</th>
             </tr>
         </thead>
-        <!-- Transaction rows populated from database such as uploaded transactions, created/new transactions -->
         <tbody>
             {% for trans in transactions %}
-            <tr class="{% if trans.status == 'Voided' %}text-muted text-decoration-line-through{% endif %}">
+            <tr class="{% if trans.status == 'Voided' %}ledger-row-voided{% endif %}">
                 <td><strong>{{ trans.transaction_id }}</strong></td>
+
+                <!-- Dedicated Status Pill Column -->
+                <td>
+                    {% if trans.status == 'Voided' %}
+                        <span class="ledger-status-badge ledger-status-voided">VOIDED</span>
+                    {% else %}
+                        <span class="ledger-status-badge ledger-status-active">ACTIVE</span>
+                    {% endif %}
+                </td>
+
                 <td>{{ trans.transaction_date.strftime('%m/%d/%Y') }}</td>
                 <td>{{ trans.game_id if trans.game_id else 'N/A' }}</td>
                 <td>{{ trans.account_id }}</td>
                 <td>{{ trans.team_id }}</td>
-                <td>{{ trans.description }}</td>
-                <td>{{ trans.transaction_type }}</td>
-                <td>{{ trans.location if trans.location else 'N/A' }}</td>
-                <!-- Show VOIDED badge if voided; otherwise format positive/negative dollar amount -->
-                <td class="{% if trans.transaction_type == 'Expense' %}amount-neg{% else %}amount-pos{% endif %}">
-                    {% if trans.status == 'Voided' %}
-                        <span class="badge bg-secondary">VOIDED</span>
+
+                <!-- Description with Split Audit Sub-Tag -->
+                <td class="ledger-desc-cell">
+                    {% if '[Voided — ' in trans.description %}
+                        {% set parts = trans.description.split('[Voided — ') %}
+                        <div>{{ parts[0].strip() }}</div>
+                        <span class="ledger-audit-tag ledger-audit-tag-voided">&↳ {{ parts[1].replace(']', '') }}</span>
+                    {% elif '[Replaces ' in trans.description %}
+                        {% set parts = trans.description.split('[Replaces ') %}
+                        <div>{{ parts[0].strip() }}</div>
+                        <span class="ledger-audit-tag ledger-audit-tag-replaces">&↳ Replaces {{ parts[1].replace(']', '') }}</span>
+                    {% elif '[Voided]' in trans.description %}
+                        <div>{{ trans.description.replace('[Voided]', '').strip() }}</div>
+                        <span class="ledger-audit-tag ledger-audit-tag-voided">&↳ Voided Manually</span>
                     {% else %}
-                        {% if trans.transaction_type == 'Expense' %}-{% else %}+{% endif %}${{ "%.2f"|format(trans.amount) }}
+                        {{ trans.description }}
                     {% endif %}
                 </td>
-                <!-- Receipt preview link (if uploaded) -->
+
+                <td>{{ trans.transaction_type }}</td>
+                <td>{{ trans.location if trans.location else 'N/A' }}</td>
+
+                <!-- Amount Column: Keep Dollar Figure Visible, Strike Through Only When Voided -->
+                <td class="{% if trans.status == 'Voided' %}amount-voided{% elif trans.transaction_type == 'Expense' %}amount-neg{% else %}amount-pos{% endif %}">
+                    {% if trans.transaction_type == 'Expense' %}-{% else %}+{% endif %}${{ "%.2f"|format(trans.amount) }}
+                </td>
+
+                <!-- Receipt Preview Link -->
                 <td>
                     {% if trans.receipt_filename %}
                         <a href="{{ url_for('static', filename='uploads/' + trans.receipt_filename) }}" target="_blank" class="btn-view-receipt">View</a>
@@ -87,61 +113,74 @@
                         N/A
                     {% endif %}
                 </td>
-                <!-- Disable editing once a transaction has been voided -->
+
+                <!-- Action Column -->
                 <td>
                     {% if trans.status != 'Voided' %}
                         <a href="/financial-ledger-update/{{ trans.transaction_id }}" class="btn-edit-cell">Edit</a>
                     {% else %}
-                        <span class="text-muted small">N/A</span>
+                        <span class="ledger-action-locked">Locked</span>
                     {% endif %}
                 </td>
             </tr>
             {% else %}
             <tr>
-                <td colspan="11" class="text-center py-4 text-muted">No transactions recorded yet.</td>
+                <td colspan="12" class="text-center py-4 text-muted">No transactions recorded yet.</td>
             </tr>
             {% endfor %}
         </tbody>
     </table>
 </div>
 
-<!-- Filter Functionality -->
+<!-- Filter & Voided Toggle Functionality -->
 <script>
 document.addEventListener('DOMContentLoaded', function () {
     const filterSelect = document.getElementById('filter_transactions');
+    const toggleVoided = document.getElementById('toggle_voided');
     const rows = document.querySelectorAll('.ledger-table tbody tr');
 
     function applyFilter() {
         const selected = filterSelect.value;
+        const showVoided = toggleVoided.checked;
         const today = new Date();
         today.setHours(0, 0, 0, 0);
 
         rows.forEach(row => {
-            // Skip the "No transactions recorded yet" fallback row
-            if (row.cells.length < 11) return;
-            // Read values directly from existing table cells by column index
-            const dateText = row.cells[1].textContent.trim();           // MM/DD/YYYY
-            const team = row.cells[4].textContent.trim().toLowerCase(); // ncsa, active, or both
-            const type = row.cells[6].textContent.trim().toLowerCase(); // revenue or expense
-            const isVoided = row.cells[8].textContent.includes('VOIDED');
-            // Calculate elapsed days between the transaction date and today
+            // Skip the empty-state fallback row
+            if (row.cells.length < 12) return;
+
+            // Column indices for the 12-column table
+            const statusText = row.cells[1].textContent.trim().toUpperCase(); // ACTIVE or VOIDED
+            const dateText = row.cells[2].textContent.trim();                // MM/DD/YYYY
+            const team = row.cells[5].textContent.trim().toLowerCase();      // ncsa, active, or both
+            const type = row.cells[7].textContent.trim().toLowerCase();      // revenue or expense
+
+            const isVoided = (statusText === 'VOIDED');
             const rowDate = new Date(dateText);
             const diffDays = (today - rowDate) / (1000 * 60 * 60 * 24);
 
+            // 1. Respect the "Show Voided" toggle switch first
+            if (isVoided && !showVoided) {
+                row.style.display = 'none';
+                return;
+            }
+
+            // 2. Apply the category / team / date dropdown filter
             let show = true;
-            // Match row visibility against the active dropdown filter option
-            if (selected === 'live') {show = !isVoided;}
-            else if (selected === 'revenue') {show = (!isVoided && type === 'revenue');}
-            else if (selected === 'expense') {show = (!isVoided && type === 'expense');}
-            else if (selected === 'ncsa') {show = (team === 'ncsa' || team === 'both');}
-            else if (selected === 'active') {show = (team === 'active' || team === 'both');}
-            else if (selected === 'last_month') {show = (diffDays >= 0 && diffDays <= 30);}
-            else if (selected === 'last_3_months') {show = (diffDays >= 0 && diffDays <= 90);}
-            else if (selected === 'last_year') {show = (diffDays >= 0 && diffDays <= 365);}
+            if (selected === 'revenue') { show = (type === 'revenue'); }
+            else if (selected === 'expense') { show = (type === 'expense'); }
+            else if (selected === 'ncsa') { show = (team === 'ncsa' || team === 'both'); }
+            else if (selected === 'active') { show = (team === 'active' || team === 'both'); }
+            else if (selected === 'last_month') { show = (diffDays >= 0 && diffDays <= 30); }
+            else if (selected === 'last_3_months') { show = (diffDays >= 0 && diffDays <= 90); }
+            else if (selected === 'last_year') { show = (diffDays >= 0 && diffDays <= 365); }
+
             row.style.display = show ? '' : 'none';
         });
     }
+
     filterSelect.addEventListener('change', applyFilter);
+    toggleVoided.addEventListener('change', applyFilter);
     applyFilter();
 });
 </script>
